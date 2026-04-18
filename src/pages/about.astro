@@ -1,0 +1,274 @@
+---
+/**
+ * About Page
+ *
+ * Personal introduction page with bio, skills, and social links.
+ * Features a clean, professional design with subtle animations.
+ *
+ * @see .trellis/spec/frontend/astro-routing.md - File-based routing
+ * @see .trellis/spec/frontend/design-system.md - Design principles
+ */
+
+import Layout from '../layouts/Layout.astro';
+import Container from '../components/ui/Container.astro';
+import Tag from '../components/ui/Tag.astro';
+import Button from '../components/ui/Button.astro';
+import SocialLinks from '../components/shared/SocialLinks.astro';
+
+// Skills and technologies
+const skills = {
+  frontend: ['React', 'TypeScript', 'Astro', 'Next.js', 'Vue', 'Tailwind CSS'],
+  backend: ['Node.js', 'Python', 'Go', 'PostgreSQL', 'MongoDB', 'Redis'],
+  tools: ['Git', 'Docker', 'AWS', 'Vercel', 'Figma', 'Linux'],
+};
+
+// Experience timeline
+const experience = [
+  {
+    role: 'Senior Frontend Engineer',
+    company: 'Tech Company',
+    period: '2022 - Present',
+    description: 'Leading frontend architecture and design system development for a SaaS platform.',
+  },
+  {
+    role: 'Full Stack Developer',
+    company: 'Startup Inc',
+    period: '2020 - 2022',
+    description: 'Built and maintained multiple web applications from scratch using React and Node.js.',
+  },
+  {
+    role: 'Frontend Developer',
+    company: 'Digital Agency',
+    period: '2018 - 2020',
+    description: 'Developed responsive websites and web applications for various clients.',
+  },
+];
+---
+
+<Layout title="About | Morph Blog">
+  <main id="main-content" class="pt-16 md:pt-20">
+    <!-- Hero Section -->
+    <section class="py-16 md:py-24 border-b border-border">
+      <Container>
+        <div class="grid md:grid-cols-[1fr_2fr] gap-8 md:gap-12 items-start">
+          <!-- Avatar -->
+          <div class="order-1 md:order-2 flex justify-center md:justify-end">
+            <div class="relative">
+              <!-- Glow effect -->
+              <div class="absolute inset-0 rounded-2xl bg-primary/10 blur-2xl scale-110"></div>
+              <!-- Avatar container -->
+              <div class="relative w-48 h-48 md:w-64 md:h-64 rounded-2xl overflow-hidden ring-4 ring-background shadow-2xl">
+                <img
+                  src="/avatar.jpg"
+                  alt="Profile photo"
+                  class="w-full h-full object-cover"
+                  loading="eager"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Bio -->
+          <div class="order-2 md:order-1 space-y-6">
+            <div>
+              <p class="text-primary font-medium mb-2">Hello, I'm</p>
+              <h1 class="text-4xl md:text-5xl font-bold text-foreground mb-4">
+                Alex Chen
+              </h1>
+              <p class="text-xl text-foreground-secondary">
+                Full-Stack Developer & Design Enthusiast
+              </p>
+            </div>
+
+            <div class="prose prose-lg text-foreground-secondary max-w-none">
+              <p>
+                I'm a developer passionate about building beautiful, performant web applications.
+                With over 6 years of experience in frontend and backend development, I love creating
+                elegant solutions that bridge the gap between design and technology.
+              </p>
+              <p>
+                When I'm not coding, you'll find me exploring new technologies, contributing to
+                open-source projects, or writing about my learnings on this blog. I believe in
+                continuous learning and sharing knowledge with the community.
+              </p>
+            </div>
+
+            <!-- Social Links -->
+            <div class="pt-4">
+              <SocialLinks size="lg" />
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="py-16 md:py-24 bg-background-secondary/30">
+      <Container>
+        <div class="max-w-3xl mx-auto">
+          <h2 class="text-3xl font-bold text-foreground mb-8 text-center">
+            Skills & Technologies
+          </h2>
+
+          <div class="space-y-8">
+            <div>
+              <h3 class="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="text-primary"
+                  aria-hidden="true"
+                >
+                  <rect width="18" height="18" x="3" y="3" rx="2" />
+                  <path d="M7 7h.01" />
+                  <path d="M17 7h.01" />
+                  <path d="M7 17h.01" />
+                  <path d="M17 17h.01" />
+                </svg>
+                Frontend
+              </h3>
+              <div class="flex flex-wrap gap-2">
+                {skills.frontend.map((skill) => (
+                  <Tag variant="default">{skill}</Tag>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="text-primary"
+                  aria-hidden="true"
+                >
+                  <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
+                  <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
+                  <line x1="6" x2="6.01" y1="6" y2="6" />
+                  <line x1="6" x2="6.01" y1="18" y2="18" />
+                </svg>
+                Backend
+              </h3>
+              <div class="flex flex-wrap gap-2">
+                {skills.backend.map((skill) => (
+                  <Tag variant="default">{skill}</Tag>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="text-primary"
+                  aria-hidden="true"
+                >
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                </svg>
+                Tools & Platforms
+              </h3>
+              <div class="flex flex-wrap gap-2">
+                {skills.tools.map((skill) => (
+                  <Tag variant="default">{skill}</Tag>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="py-16 md:py-24">
+      <Container>
+        <div class="max-w-3xl mx-auto">
+          <h2 class="text-3xl font-bold text-foreground mb-8 text-center">
+            Experience
+          </h2>
+
+          <div class="space-y-8">
+            {experience.map((exp) => (
+              <div class="relative pl-8 pb-8 border-l-2 border-border last:pb-0">
+                <!-- Timeline dot -->
+                <div class="absolute left-0 top-0 w-4 h-4 -translate-x-[9px] rounded-full bg-primary ring-4 ring-background"></div>
+
+                <!-- Content -->
+                <div class="space-y-2">
+                  <div class="flex flex-wrap items-baseline gap-2">
+                    <h3 class="text-lg font-semibold text-foreground">
+                      {exp.role}
+                    </h3>
+                    <span class="text-foreground-tertiary">at</span>
+                    <span class="text-primary font-medium">{exp.company}</span>
+                  </div>
+                  <p class="text-sm text-foreground-tertiary">{exp.period}</p>
+                  <p class="text-foreground-secondary">{exp.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 md:py-24 bg-background-secondary/30">
+      <Container size="md">
+        <div class="text-center space-y-6">
+          <h2 class="text-2xl md:text-3xl font-bold text-foreground">
+            Let's Work Together
+          </h2>
+          <p class="text-foreground-secondary max-w-xl mx-auto">
+            I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+          </p>
+          <div class="flex flex-wrap items-center justify-center gap-4">
+            <Button href="mailto:hello@morph-blog.dev" variant="primary" size="lg">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                slot="icon-left"
+                aria-hidden="true"
+              >
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+              Get in Touch
+            </Button>
+            <Button href="/projects" variant="outline" size="lg">
+              View Projects
+            </Button>
+          </div>
+        </div>
+      </Container>
+    </section>
+  </main>
+</Layout>
