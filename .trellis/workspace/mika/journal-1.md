@@ -157,3 +157,67 @@ Initialized Astro 6.x project with React 19, Tailwind CSS 4, and GSAP. Rewrote p
 ### Next Steps
 
 - None - task complete
+
+
+## Session 3: 集成前端开发 skills 到 trellis spec
+
+**Date**: 2026-04-18
+**Task**: 集成前端开发 skills 到 trellis spec
+**Branch**: `master`
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+## 集成的 Skills
+
+| Skill | 文档位置 | 示例文件数 |
+|-------|----------|------------|
+| GSAP | `gsap-animation.md` | 5 个 .template |
+| HeroUI React | `heroui-components.md` | 4 个 .template |
+| Impeccable | `design-system.md` | 3 个 .template |
+| TypeScript | `typescript.md` | 4 个 .template |
+
+## 更新内容
+
+**新增文档**:
+- `.trellis/spec/frontend/heroui-components.md` - HeroUI v3 组件指南
+- `.trellis/spec/frontend/design-system.md` - UI 设计系统原则
+- `.trellis/spec/frontend/examples/skills/` - 16 个代码示例模板
+
+**更新文档**:
+- `gsap-animation.md` - 添加 timeline, matchMedia, quickTo 等
+- `typescript.md` - 添加条件类型、映射类型、模板字面量类型等
+- `index.md`, `README.md` - 更新索引
+
+**安装依赖**:
+- `@heroui/react@3.0.2`
+- `@heroui/styles@3.0.2`
+- `tailwind-variants@3.2.2`
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `a77f5ad` | (see git log) |
+| `b689318` | (see git log) |
+| `93ed752` | (see git log) |
+| `327544c` | (see git log) |
+| `5570de8` | (see git log) |
+| `8269495` | (see git log) |
+| `df3379a` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
