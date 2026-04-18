@@ -1,0 +1,43 @@
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+
+/**
+ * Timeline-based hero animation
+ * Sequences multiple elements with precise timing
+ */
+export default function HeroAnimation() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        defaults: { duration: 0.6, ease: 'power2.out' },
+      });
+
+      tl.from('.hero-title', {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+      })
+        .from('.hero-subtitle', { y: 30, opacity: 0 }, '-=0.4')
+        .from('.hero-cta', { y: 20, opacity: 0, scale: 0.95 }, '-=0.3');
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <div ref={containerRef} className="text-center py-20">
+      <h1 className="hero-title text-5xl font-bold mb-4">Welcome</h1>
+      <p className="hero-subtitle text-xl text-muted mb-8">
+        Build amazing things
+      </p>
+      <button className="hero-cta px-6 py-3 bg-accent text-white rounded-lg">
+        Get Started
+      </button>
+    </div>
+  );
+}

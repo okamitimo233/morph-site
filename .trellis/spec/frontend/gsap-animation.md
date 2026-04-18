@@ -4,6 +4,49 @@
 
 ---
 
+## Core Tween Methods
+
+| Method                        | Purpose                                  |
+| ----------------------------- | ---------------------------------------- |
+| `gsap.to(targets, vars)`      | Animate from current state to `vars`     |
+| `gsap.from(targets, vars)`    | Animate from `vars` to current state     |
+| `gsap.fromTo(targets, from, to)` | Explicit start and end states         |
+| `gsap.set(targets, vars)`     | Apply immediately (duration: 0)          |
+
+Always use **camelCase** property names (e.g., `backgroundColor`, `rotationX`).
+
+---
+
+## Common vars Properties
+
+| Property          | Description                                                |
+| ----------------- | ---------------------------------------------------------- |
+| `duration`        | Seconds (default 0.5)                                      |
+| `delay`           | Seconds before start                                       |
+| `ease`            | Easing function (default `"power1.out"`)                   |
+| `stagger`         | Number `0.1` or object `{ amount: 0.3, from: "center" }`   |
+| `repeat`          | Number or `-1` for infinite                                |
+| `yoyo`            | Alternates direction with repeat                           |
+| `overwrite`       | `false` (default), `true`, or `"auto"`                     |
+| `immediateRender` | Default `true` for from()/fromTo()                         |
+| `onComplete`      | Callback when animation finishes                           |
+| `onStart`         | Callback when animation starts                             |
+| `onUpdate`        | Callback on each frame                                     |
+
+### Easing Options
+
+Built-in eases: `power1`–`power4`, `back`, `bounce`, `circ`, `elastic`, `expo`, `sine`. Each has `.in`, `.out`, `.inOut` variants.
+
+```typescript
+// Common easing patterns
+gsap.to(element, { ease: "power2.out" });      // Standard ease-out
+gsap.to(element, { ease: "back.out(1.7)" });   // Slight overshoot
+gsap.to(element, { ease: "elastic.out(1, 0.3)" }); // Elastic bounce
+gsap.to(element, { ease: "none" });            // Linear (for scrub)
+```
+
+---
+
 ## GSAP Setup
 
 ### Installation
@@ -209,6 +252,40 @@ function HoverButton({ children }: { children: React.ReactNode }) {
 
 ---
 
+## Transforms and CSS
+
+Prefer GSAP's **transform aliases** over raw `transform` string:
+
+| GSAP Property               | Equivalent              |
+| --------------------------- | ----------------------- |
+| `x`, `y`, `z`               | translateX/Y/Z (px)     |
+| `xPercent`, `yPercent`      | translateX/Y in %       |
+| `scale`, `scaleX`, `scaleY` | scale                   |
+| `rotation`                  | rotate (deg)            |
+| `rotationX`, `rotationY`    | 3D rotate               |
+| `skewX`, `skewY`            | skew                    |
+| `transformOrigin`           | transform-origin        |
+
+### Special Properties
+
+| Property        | Description                                             |
+| --------------- | ------------------------------------------------------- |
+| `autoAlpha`     | Prefer over `opacity`. At 0: also sets `visibility: hidden` |
+| CSS variables   | `"--hue": 180`                                          |
+| `clearProps`    | `"all"` or comma-separated; removes inline styles on complete |
+| Relative values | `"+=20"`, `"-=10"`, `"*=2"`                             |
+
+### Function-Based Values
+
+```typescript
+gsap.to(".item", {
+  x: (i, target, targets) => i * 50,
+  stagger: 0.1,
+});
+```
+
+---
+
 ## Timeline Animations
 
 Use timelines for sequenced animations:
@@ -253,6 +330,121 @@ function HeroAnimation() {
   );
 }
 ```
+
+### Position Parameter
+
+Third argument controls placement:
+
+| Syntax           | Meaning                                    |
+| ---------------- | ------------------------------------------ |
+| `1`              | Absolute: at 1s                            |
+| `"+=0.5"`        | Relative: 0.5s after end                   |
+| `"-=0.2"`        | Relative: 0.2s before end                  |
+| `"intro"`        | At label "intro"                           |
+| `"intro+=0.3"`   | 0.3s after label "intro"                   |
+| `"<"`            | Same start as previous                     |
+| `">"`            | After previous ends                        |
+| `"<0.2"`         | 0.2s after previous starts                 |
+
+```typescript
+const tl = gsap.timeline();
+tl.to(".a", { x: 100 }, 0);
+tl.to(".b", { y: 50 }, "<");    // same start as .a
+tl.to(".c", { opacity: 0 }, "<0.2"); // 0.2s after .b starts
+```
+
+### Labels
+
+```typescript
+const tl = gsap.timeline();
+tl.addLabel("intro", 0);
+tl.to(".a", { x: 100 }, "intro");
+tl.addLabel("outro", "+=0.5");
+tl.play("outro");              // Jump to label
+tl.tweenFromTo("intro", "outro"); // Play from intro to outro
+```
+
+### Timeline Options
+
+| Option      | Description                             |
+| ----------- | --------------------------------------- |
+| `paused`    | `true` to create paused; call `.play()` |
+| `repeat`    | Apply to whole timeline                 |
+| `yoyo`      | Alternates direction with repeat        |
+| `defaults`  | Vars merged into every child tween      |
+
+### Playback Control
+
+```typescript
+tl.play();           // Play
+tl.pause();          // Pause
+tl.reverse();        // Reverse
+tl.restart();        // Restart from beginning
+tl.time(2);          // Jump to 2 seconds
+tl.progress(0.5);    // Jump to 50%
+tl.kill();           // Destroy timeline
+```
+
+### Nesting Timelines
+
+```typescript
+const master = gsap.timeline();
+const child = gsap.timeline();
+child.to(".a", { x: 100 }).to(".b", { y: 50 });
+master.add(child, 0);
+```
+
+---
+
+## gsap.matchMedia() (Responsive + Accessibility)
+
+Runs setup only when a media query matches; auto-reverts when it stops matching.
+
+```typescript
+let mm = gsap.matchMedia();
+
+mm.add(
+  {
+    isDesktop: "(min-width: 800px)",
+    reduceMotion: "(prefers-reduced-motion: reduce)",
+  },
+  (context) => {
+    const { isDesktop, reduceMotion } = context.conditions;
+    gsap.to(".box", {
+      rotation: isDesktop ? 360 : 180,
+      duration: reduceMotion ? 0 : 2,
+    });
+  }
+);
+```
+
+### When to Use
+
+- Responsive animations (different behaviors for mobile/desktop)
+- Respecting `prefers-reduced-motion` for accessibility
+- Auto-cleanup when media query no longer matches
+
+---
+
+## gsap.quickTo() for Frequent Updates
+
+For high-frequency updates (mouse tracking, drag), use `quickTo` for better performance:
+
+```typescript
+let xTo = gsap.quickTo("#id", "x", { duration: 0.4, ease: "power3" });
+let yTo = gsap.quickTo("#id", "y", { duration: 0.4, ease: "power3" });
+
+container.addEventListener("mousemove", (e) => {
+  xTo(e.pageX);
+  yTo(e.pageY);
+});
+```
+
+### Benefits
+
+- Reuses the same tween instance
+- Much faster than creating new tweens on each event
+- Ideal for mouse-following, parallax, drag effects
 
 ---
 
@@ -432,6 +624,24 @@ function AnimatedComponent() {
 | ScrollTrigger           | `scrollTrigger: { trigger: el, start: 'top 80%' }` |
 | Cleanup                 | `gsap.context(() => {...}, ref); return ctx.revert` |
 | Pause/Play              | `tween.pause(); tween.play();`                    |
+| Position parameter      | `tl.to(el, { x: 100 }, "<")`                      |
+| Labels                  | `tl.addLabel("intro", 0); tl.to(el, {}, "intro")` |
+| Responsive              | `gsap.matchMedia().add({ isDesktop: "..." }, fn)` |
+| High-frequency          | `gsap.quickTo(el, "x", { duration: 0.4 })`        |
+
+---
+
+## Best Practices Summary
+
+| DO                                        | DON'T                                    |
+| ----------------------------------------- | ---------------------------------------- |
+| Use camelCase property names              | Use `transform` string directly          |
+| Prefer timelines over chaining with delay | Create tweens before DOM exists          |
+| Use `autoAlpha` over `opacity`            | Animate `width`/`height` when transforms suffice |
+| Add labels for readable sequencing        | Skip cleanup — always kill tweens        |
+| Pass defaults into timeline constructor   | Use both `svgOrigin` and `transformOrigin` |
+| Store tween/timeline for playback control | Overuse `will-change`                    |
+| Use `gsap.quickTo()` for frequent updates | Create new tweens on every mousemove     |
 
 ---
 

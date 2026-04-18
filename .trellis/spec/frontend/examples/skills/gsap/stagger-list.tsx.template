@@ -1,0 +1,40 @@
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+
+/**
+ * Staggered list animation
+ * Animates list items one after another
+ */
+interface AnimatedListProps {
+  items: string[];
+}
+
+export default function AnimatedList({ items }: AnimatedListProps) {
+  const listRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    if (!listRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from('li', {
+        y: 20,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.1, // Each item animates 0.1s after the previous
+        ease: 'power2.out',
+      });
+    }, listRef);
+
+    return () => ctx.revert();
+  }, [items]);
+
+  return (
+    <ul ref={listRef} className="space-y-2">
+      {items.map((item, i) => (
+        <li key={i} className="p-3 bg-surface rounded">
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
+}

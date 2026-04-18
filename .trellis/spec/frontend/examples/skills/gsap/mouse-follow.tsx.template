@@ -1,0 +1,54 @@
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+
+/**
+ * Mouse-following element using gsap.quickTo()
+ * High-performance for frequent updates
+ */
+export default function MouseFollower() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const followerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current || !followerRef.current) return;
+
+    // Create quickTo functions for performance
+    const xTo = gsap.quickTo(followerRef.current, 'x', {
+      duration: 0.4,
+      ease: 'power3',
+    });
+    const yTo = gsap.quickTo(followerRef.current, 'y', {
+      duration: 0.4,
+      ease: 'power3',
+    });
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = containerRef.current!.getBoundingClientRect();
+      xTo(e.clientX - rect.left - 25);
+      yTo(e.clientY - rect.top - 25);
+    };
+
+    const container = containerRef.current;
+    container.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      container.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative w-full h-64 bg-surface rounded-lg overflow-hidden"
+    >
+      <div
+        ref={followerRef}
+        className="absolute w-12 h-12 bg-accent rounded-full pointer-events-none"
+        style={{ left: 0, top: 0 }}
+      />
+      <p className="absolute inset-0 flex items-center justify-center text-muted">
+        Move your mouse here
+      </p>
+    </div>
+  );
+}
