@@ -1,0 +1,55 @@
+/**
+ * Type-Safe Event Emitter
+ * Uses mapped types for compile-time event validation
+ */
+
+type EventMap = {
+  "user:created": { id: string; name: string };
+  "user:updated": { id: string };
+  "user:deleted": { id: string };
+};
+
+class TypedEventEmitter<T extends Record<string, any>> {
+  private listeners: {
+    [K in keyof T]?: Array<(data: T[K]) => void>;
+  } = {};
+
+  on<K extends keyof T>(event: K, callback: (data: T[K]) => void): void {
+    if (!this.listeners[event]) {
+      this.listeners[event] = [];
+    }
+    this.listeners[event]!.push(callback);
+  }
+
+  off<K extends keyof T>(event: K, callback: (data: T[K]) => void): void {
+    const callbacks = this.listeners[event];
+    if (callbacks) {
+      this.listeners[event] = callbacks.filter((cb) => cb !== callback);
+    }
+  }
+
+  emit<K extends keyof T>(event: K, data: T[K]): void {
+    const callbacks = this.listeners[event];
+    if (callbacks) {
+      callbacks.forEach((callback) => callback(data));
+    }
+  }
+}
+
+// Usage
+const emitter = new TypedEventEmitter<EventMap>();
+
+// Type-safe event names and payloads
+emitter.on("user:created", (data) => {
+  console.log(data.id, data.name); // ✓ Type-safe!
+});
+
+emitter.emit("user:created", { id: "1", name: "John" }); // ✓
+
+// @ts-expect-error - wrong event name
+// emitter.emit("user:unknown", { id: "1" });
+
+// @ts-expect-error - missing property
+// emitter.emit("user:created", { id: "1" });
+
+export { TypedEventEmitter };

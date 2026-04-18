@@ -1,0 +1,79 @@
+/**
+ * Deep Type Utilities
+ * Recursively apply Readonly/Partial to nested types
+ */
+
+type DeepReadonly<T> = {
+  readonly [P in keyof T]: T[P] extends object
+    ? T[P] extends Function
+      ? T[P]
+      : DeepReadonly<T[P]>
+    : T[P];
+};
+
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object
+    ? T[P] extends Array<infer U>
+      ? Array<DeepPartial<U>>
+      : DeepPartial<T[P]>
+    : T[P];
+};
+
+type DeepRequired<T> = {
+  [P in keyof T]-?: T[P] extends object
+    ? T[P] extends Function
+      ? T[P]
+      : DeepRequired<T[P]>
+    : T[P];
+};
+
+// Example usage
+interface Config {
+  server: {
+    host: string;
+    port: number;
+    ssl: {
+      enabled: boolean;
+      cert: string;
+    };
+  };
+  database: {
+    url: string;
+    pool: {
+      min: number;
+      max: number;
+    };
+  };
+}
+
+type ReadonlyConfig = DeepReadonly<Config>;
+// All nested properties are readonly
+
+type PartialConfig = DeepPartial<Config>;
+// All nested properties are optional
+
+// Utility for deep merge
+function deepMerge<T extends object>(target: T, source: DeepPartial<T>): T {
+  const result = { ...target };
+
+  for (const key in source) {
+    if (source[key] !== undefined) {
+      if (
+        typeof source[key] === "object" &&
+        source[key] !== null &&
+        !Array.isArray(source[key])
+      ) {
+        result[key] = deepMerge(
+          result[key],
+          source[key] as DeepPartial<typeof result[typeof key]>
+        );
+      } else {
+        result[key] = source[key] as typeof result[typeof key];
+      }
+    }
+  }
+
+  return result;
+}
+
+export { DeepReadonly, DeepPartial, DeepRequired, deepMerge };
