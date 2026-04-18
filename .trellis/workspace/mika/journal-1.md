@@ -318,3 +318,55 @@ Astro 6.x + React 19 + Tailwind CSS 4 + GSAP + TypeScript
 ### Next Steps
 
 - None - task complete
+
+
+## Session 5: Brainstorm: Telegram 风格主题切换水波动画
+
+**Date**: 2026-04-19
+**Task**: Brainstorm: Telegram 风格主题切换水波动画
+**Branch**: `main`
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+## 任务
+重构 ThemeToggle 组件为 Telegram 风格水波扩散动画
+
+## 需求确认
+- **组件形态**: 简化为纯 Toggle 按钮，移除下拉菜单
+- **主题切换**: 点击直接切换 light ↔ dark
+- **默认行为**: 页面加载时默认使用 system 主题
+- **动画要求**: 500ms 圆形水波扩散 + SVG 图标变形
+
+## 技术方案
+| 功能 | 方案 |
+|------|------|
+| 水波扩散 | Canvas 2D + GSAP 动画 |
+| 图标变形 | GSAP MorphSVGPlugin（现已免费） |
+| 无障碍 | gsap.matchMedia() 处理 reduced motion |
+
+## 关键发现
+GSAP 于 2024 年被 Webflow 收购后，所有插件（包括 MorphSVG）现已 100% 免费开放！
+
+## 状态
+需求已确认，技术方案已选定，待实现
+
+
+### Git Commits
+
+(No commits - planning session)
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
