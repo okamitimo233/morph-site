@@ -1,1 +1,438 @@
+/**
+ * Global Styles
+ *
+ * Entry point for all CSS. Imports Tailwind CSS and design tokens,
+ * then defines base styles for the application.
+ */
+
+/* Import Tailwind CSS first */
 @import "tailwindcss";
+
+/* Import design tokens */
+@import "./tokens.css";
+
+/* =============================================================================
+ * BASE STYLES
+ * ============================================================================= */
+
+@layer base {
+  /* Root styles */
+  :root {
+    /* Smooth color scheme transition */
+    color-scheme: light;
+
+    /* Prevent horizontal scroll */
+    overflow-x: hidden;
+
+    /* Font smoothing */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Dark mode color scheme */
+  :where(:root:not([data-theme="light"])) {
+    @media (prefers-color-scheme: dark) {
+      color-scheme: dark;
+    }
+  }
+
+  [data-theme="dark"] {
+    color-scheme: dark;
+  }
+
+  /* HTML & Body */
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+
+    /* Respect user preference for reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    /* Use semantic background/foreground tokens */
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+
+    /* Smooth background transition for theme changes */
+    transition: background-color var(--duration-300) var(--ease-out),
+                color var(--duration-300) var(--ease-out);
+
+    /* Full height layout */
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile */
+
+    /* Line height for body text */
+    line-height: var(--leading-normal);
+  }
+
+  /* =============================================================================
+   * TYPOGRAPHY
+   * ============================================================================= */
+
+  /* Headings - use display font */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  /* Fluid heading sizes with clamp() */
+  h1 {
+    font-size: clamp(var(--text-3xl), 5vw + 1rem, var(--text-5xl));
+    letter-spacing: var(--tracking-tighter);
+  }
+
+  h2 {
+    font-size: clamp(var(--text-2xl), 4vw + 0.5rem, var(--text-4xl));
+  }
+
+  h3 {
+    font-size: clamp(var(--text-xl), 3vw + 0.25rem, var(--text-3xl));
+  }
+
+  h4 {
+    font-size: clamp(var(--text-lg), 2vw + 0.25rem, var(--text-2xl));
+  }
+
+  h5 {
+    font-size: var(--text-xl);
+  }
+
+  h6 {
+    font-size: var(--text-lg);
+  }
+
+  /* Paragraphs - constrain line length */
+  p {
+    max-width: 70ch;
+    line-height: var(--leading-relaxed);
+  }
+
+  /* Links */
+  a {
+    color: var(--color-link);
+    text-decoration-line: none;
+    text-underline-offset: 0.15em;
+    transition: color var(--duration-150) var(--ease-out);
+  }
+
+  a:hover {
+    color: var(--color-link-hover);
+  }
+
+  /* Focus styles for accessibility */
+  a:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Strong & emphasis */
+  strong {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  /* Small text */
+  small {
+    font-size: var(--text-sm);
+  }
+
+  /* Code */
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    padding: 0.15em 0.4em;
+    background-color: var(--color-background-tertiary);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Preformatted code blocks */
+  pre {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    padding: var(--spacing-4);
+    background-color: var(--color-background-tertiary);
+    border-radius: var(--radius-lg);
+    overflow-x: auto;
+    scrollbar-gutter: stable;
+  }
+
+  pre code {
+    padding: 0;
+    background-color: transparent;
+  }
+
+  /* Lists */
+  ul, ol {
+    padding-left: var(--spacing-6);
+    line-height: var(--leading-relaxed);
+  }
+
+  li {
+    margin-top: var(--spacing-1);
+  }
+
+  li::marker {
+    color: var(--color-foreground-tertiary);
+  }
+
+  /* Blockquote */
+  blockquote {
+    padding-left: var(--spacing-4);
+    border-left: 2px solid var(--color-primary);
+    color: var(--color-foreground-secondary);
+    font-style: italic;
+  }
+
+  /* Horizontal rule */
+  hr {
+    border: none;
+    height: 1px;
+    background-color: var(--color-border);
+    margin: var(--spacing-8) 0;
+  }
+
+  /* =============================================================================
+   * SELECTION
+   * ============================================================================= */
+
+  ::selection {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+
+  /* =============================================================================
+   * SCROLLBAR
+   * ============================================================================= */
+
+  /* WebKit browsers (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: var(--color-background-secondary);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-background-secondary);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-foreground-tertiary);
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) var(--color-background-secondary);
+  }
+
+  /* =============================================================================
+   * FOCUS STYLES
+   * ============================================================================= */
+
+  /* Remove default focus outline, use focus-visible instead */
+  :focus {
+    outline: none;
+  }
+
+  /* Focus visible for keyboard navigation */
+  :focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+
+  /* =============================================================================
+   * MISC
+   * ============================================================================= */
+
+  /* Images */
+  img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* SVG */
+  svg {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  /* Remove default button styles */
+  button {
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  /* Form inputs */
+  input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  /* Remove spinner from number inputs */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  /* Tables */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    text-align: left;
+    padding: var(--spacing-2) var(--spacing-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  th {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-foreground-secondary);
+  }
+}
+
+/* =============================================================================
+ * UTILITY LAYERS
+ * ============================================================================= */
+
+@layer utilities {
+  /* Container with max-width and centered */
+  .container {
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--spacing-4);
+    padding-right: var(--spacing-4);
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: var(--spacing-6);
+      padding-right: var(--spacing-6);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: var(--spacing-8);
+      padding-right: var(--spacing-8);
+    }
+  }
+
+  /* Text balance for headings */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Gradient text - use sparingly per design guidelines */
+  .gradient-text-primary {
+    background: linear-gradient(135deg, var(--color-primary-500), var(--color-secondary-500));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Glass effect - use sparingly */
+  .glass {
+    background-color: oklch(1 0 0 / 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  [data-theme="dark"] .glass {
+    background-color: oklch(0.18 0.008 270 / 0.8);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .glass {
+      background-color: oklch(0.18 0.008 270 / 0.8);
+    }
+  }
+}
+
+/* =============================================================================
+ * COMPONENTS
+ * ============================================================================= */
+
+@layer components {
+  /* Skip link for accessibility */
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: var(--spacing-4);
+    padding: var(--spacing-2) var(--spacing-4);
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+    border-radius: var(--radius-md);
+    z-index: var(--z-toast);
+    transition: top var(--duration-150) var(--ease-out);
+  }
+
+  .skip-link:focus {
+    top: var(--spacing-4);
+  }
+
+  /* Focus trap container */
+  .focus-trap {
+    outline: none;
+  }
+
+  /* Screen reader only */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: var(--animate-fade-in);
+  }
+
+  .animate-slide-up {
+    animation: var(--animate-slide-up);
+  }
+
+  .animate-scale-in {
+    animation: var(--animate-scale-in);
+  }
+}
