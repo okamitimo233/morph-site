@@ -1,0 +1,5 @@
+{"file": ".opencode/commands/trellis/finish-work.md", "reason": "Finish work checklist"}
+{"file": ".opencode/commands/trellis/check.md", "reason": "Code quality check spec"}
+{"file": ".trellis/spec/frontend/quality.md", "reason": "代码质量检查 - lint, typecheck规范"}
+{"file": ".trellis/spec/frontend/components.md", "reason": "组件设计 - 语义化HTML, scrollbar模式"}
+{"file": ".trellis/spec/frontend/css-design.md", "reason": "CSS设计 - @theme指令, BEM命名"}

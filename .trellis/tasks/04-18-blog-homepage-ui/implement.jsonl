@@ -1,0 +1,9 @@
+{"file": ".trellis/workflow.md", "reason": "Project workflow and conventions"}
+{"file": ".trellis/spec/frontend/index.md", "reason": "Frontend development guide"}
+{"file": ".trellis/spec/frontend/design-system.md", "reason": "设计系统原则 - OKLCH颜色, 模块化字体, 禁止项"}
+{"file": ".trellis/spec/frontend/directory-structure.md", "reason": "项目结构约定 - ui/, islands/, layouts/"}
+{"file": ".trellis/spec/frontend/tailwind-css.md", "reason": "Tailwind CSS 4 配置 - @theme指令, CSS-first"}
+{"file": ".trellis/spec/frontend/gsap-animation.md", "reason": "GSAP动画模式 - context清理, transform属性"}
+{"file": ".trellis/spec/frontend/islands-architecture.md", "reason": "Islands架构 - client:*指令选择策略"}
+{"file": ".trellis/spec/frontend/astro-integration.md", "reason": "Astro+React集成 - 水合指令, 服务端渲染"}
+{"file": ".trellis/spec/frontend/react-pitfalls.md", "reason": "React常见陷阱 - useState函数, useMemo依赖"}
