@@ -23,7 +23,9 @@
 | [astro-routing.md](./astro-routing.md)             | File-based routing, dynamic routes, endpoints   | **Must Read** |
 | [react-pitfalls.md](./react-pitfalls.md)           | Critical React patterns and common mistakes     | **Must Read** |
 | [tailwind-css.md](./tailwind-css.md)               | Tailwind CSS 4 configuration and patterns       | **Must Read** |
+| [design-system.md](./design-system.md)             | High-quality UI design principles               | Reference     |
 | [gsap-animation.md](./gsap-animation.md)           | GSAP integration and animation patterns         | Reference     |
+| [heroui-components.md](./heroui-components.md)     | HeroUI v3 component library patterns            | Reference     |
 | [state-management.md](./state-management.md)       | Context, state patterns, data fetching          | Reference     |
 | [components.md](./components.md)                   | Semantic HTML, empty states, scrollbar patterns | Reference     |
 | [hooks.md](./hooks.md)                             | Query and mutation hook patterns                | Reference     |

@@ -17,6 +17,8 @@ Astro + React + TypeScript frontend development patterns:
 - [Hooks](./frontend/hooks.md)
 - [Tailwind CSS](./frontend/tailwind-css.md)
 - [GSAP Animation](./frontend/gsap-animation.md)
+- [HeroUI Components](./frontend/heroui-components.md)
+- [Design System](./frontend/design-system.md)
 - [CSS Design](./frontend/css-design.md)
 - [Type Safety](./frontend/type-safety.md)
 - [React Pitfalls](./frontend/react-pitfalls.md)
