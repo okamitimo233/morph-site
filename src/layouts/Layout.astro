@@ -1,26 +1,144 @@
 ---
 import '@styles/global.css';
+import Navbar from '@components/ui/Navbar.astro';
+import Footer from '@components/ui/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Open Graph image URL */
+  image?: string;
+  /** Page type for Open Graph */
+  type?: 'website' | 'article';
+  /** Author name */
+  author?: string;
+  /** Keywords for SEO */
+  keywords?: string[];
+}
+
+const {
+  title = 'Morph Blog',
+  description = 'A modern personal blog built with Astro, React, and Tailwind CSS',
+  image = '/og-image.png',
+  type = 'website',
+  author = 'Morph',
+  keywords = ['blog', 'web development', 'programming', 'tech'],
+} = Astro.props;
+
+const siteUrl = Astro.site?.toString() ?? 'https://morph.blog';
+const fullTitle = title === 'Morph Blog' ? title : `${title} | Morph Blog`;
+const ogImage = image.startsWith('http') ? image : `${siteUrl}${image}`;
 ---
+
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary Meta Tags -->
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
+    <meta name="description" content={description} />
+    <meta name="author" content={author} />
+    <meta name="keywords" content={keywords.join(', ')} />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#5856d6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#7068dc" media="(prefers-color-scheme: dark)" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content="Morph Blog" />
+    <meta property="og:locale" content="zh_CN" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={siteUrl} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={siteUrl} />
+
+    <!-- RSS Feed (placeholder for future implementation) -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="Morph Blog" href="/rss.xml" /> -->
+
+    <!-- Fonts: Manrope + Noto Sans SC from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Clash Display - Self-host for production -->
+    <!-- TODO: Add self-hosted Clash Display font files -->
+    <style>
+      /* Clash Display font-face declarations would go here when self-hosting */
+      /* Using system display font as fallback until Clash Display is added */
+    </style>
+
+    <!-- Theme initialization script (prevents flash of wrong theme) -->
+    <script is:inline>
+      (function() {
+        const stored = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (stored === 'dark' || (stored === null && prefersDark)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else if (stored === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+        // If stored === 'system' or null, let CSS media query handle it
+      })();
+    </script>
+  </head>
+  <body class="bg-background text-foreground antialiased">
+    <!-- Skip link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Navigation -->
+    <Navbar currentPath={Astro.url.pathname} />
+
+    <!-- Main Content -->
+    <slot />
+
+    <!-- Footer -->
+    <Footer />
+  </body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+<style is:global>
+  /* Ensure smooth theme transitions */
+  html {
+    transition: background-color 0.3s ease-out, color 0.3s ease-out;
+  }
+
+  /* Prevent horizontal overflow */
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Ensure body takes full height */
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  /* Main content should grow */
+  main {
+    flex: 1;
+  }
 </style>
