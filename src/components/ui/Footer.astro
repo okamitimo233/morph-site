@@ -1,0 +1,148 @@
+---
+/**
+ * Footer Component
+ *
+ * Site-wide footer with navigation links, social links, and copyright.
+ * Appears on all pages at the bottom of the layout.
+ *
+ * @see .trellis/spec/frontend/components.md - Component design patterns
+ * @see .trellis/spec/frontend/tailwind-css.md - Tailwind CSS patterns
+ */
+
+import Container from './Container.astro';
+import SocialLinks from '../shared/SocialLinks.astro';
+
+interface Props {
+  /** Show navigation links in footer */
+  showNavigation?: boolean;
+  /** Additional CSS classes */
+  class?: string;
+}
+
+const { showNavigation = true, class: className }: Props = Astro.props;
+
+// Footer navigation links
+const footerLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/articles', label: 'Articles' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/about', label: 'About' },
+];
+
+// Legal/secondary links
+const secondaryLinks = [
+  { href: '/rss.xml', label: 'RSS', external: true },
+];
+
+// Current year for copyright
+const currentYear = new Date().getFullYear();
+---
+
+<footer
+  class:list={[
+    'mt-auto',
+    'border-t border-border',
+    'bg-background-secondary',
+    className,
+  ]}
+>
+  <Container>
+    <div class="py-8 md:py-12">
+      {/* Main Footer Content */}
+      <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
+        {/* Brand Section */}
+        <div class="space-y-4">
+          {/* Logo */}
+          <a
+            href="/"
+            class="inline-flex items-center gap-2 text-lg font-semibold font-display text-foreground hover:text-primary transition-colors"
+            aria-label="Morph Blog - Home"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-primary"
+              aria-hidden="true"
+            >
+              <path d="M12 2L2 7l10 5 10-5-10-5z" />
+              <path d="m2 17 10 5 10-5" />
+              <path d="m2 12 10 5 10-5" />
+            </svg>
+            <span>Morph</span>
+          </a>
+          <p class="text-sm text-foreground-tertiary max-w-xs">
+            A modern personal blog about web development, programming, and tech.
+          </p>
+          {/* Social Links */}
+          <SocialLinks size="sm" />
+        </div>
+
+        {/* Navigation Section */}
+        {showNavigation && (
+          <nav aria-label="Footer navigation">
+            <h2 class="text-sm font-semibold text-foreground mb-4">Navigation</h2>
+            <ul class="space-y-2">
+              {footerLinks.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    class="text-sm text-foreground-secondary hover:text-foreground transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+      </div>
+
+      {/* Bottom Section: Copyright + Secondary Links */}
+      <div class="mt-8 pt-6 border-t border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        {/* Copyright */}
+        <p class="text-xs text-foreground-muted">
+          &copy; {currentYear} Morph Blog. All rights reserved.
+        </p>
+
+        {/* Secondary Links */}
+        <div class="flex items-center gap-4">
+          {secondaryLinks.map((link) => (
+            <a
+              href={link.href}
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noopener noreferrer' : undefined}
+              class="text-xs text-foreground-muted hover:text-foreground-secondary transition-colors inline-flex items-center gap-1"
+            >
+              {link.label}
+              {link.external && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" x2="21" y1="14" y2="3" />
+                </svg>
+              )}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </Container>
+</footer>

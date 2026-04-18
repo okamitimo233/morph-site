@@ -1,0 +1,46 @@
+---
+/**
+ * Container Component
+ *
+ * A responsive container component that provides consistent max-width
+ * and padding across different viewport sizes.
+ *
+ * @see .trellis/spec/frontend/tailwind-css.md - Tailwind CSS patterns
+ * @see .trellis/spec/frontend/components.md - Component design patterns
+ */
+
+type Props = {
+  /** HTML element to render as */
+  as?: 'div' | 'section' | 'article' | 'main' | 'aside';
+  /** Container size variant */
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  /** Center the container horizontally */
+  centered?: boolean;
+  /** Additional CSS classes */
+  class?: string;
+};
+
+const {
+  as: Component = 'div',
+  size = 'lg',
+  centered = true,
+  class: className,
+}: Props = Astro.props;
+
+// Size variants map to max-width values
+const sizeClasses: Record<string, string> = {
+  sm: 'max-w-3xl',    // 768px - For narrow content like articles
+  md: 'max-w-5xl',    // 1024px - For medium content
+  lg: 'max-w-7xl',    // 1280px - Default, for most pages
+  xl: 'max-w-screen-2xl', // 1536px - For wide layouts
+  full: 'max-w-full', // Full width with padding only
+};
+
+const sizeClass = sizeClasses[size] ?? sizeClasses.lg;
+const centeredClass = centered ? 'mx-auto' : '';
+const combinedClass = [sizeClass, centeredClass, className].filter(Boolean).join(' ');
+---
+
+<Component class:list={['w-full px-4 sm:px-6 lg:px-8', combinedClass]}>
+  <slot />
+</Component>

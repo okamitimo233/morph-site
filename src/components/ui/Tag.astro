@@ -1,0 +1,55 @@
+---
+/**
+ * Tag Component
+ *
+ * A small label component for displaying categories, tech stack,
+ * and other metadata tags.
+ *
+ * @see .trellis/spec/frontend/components.md - Component design patterns
+ * @see .trellis/spec/frontend/tailwind-css.md - Tailwind CSS patterns
+ */
+
+interface Props {
+  /** Tag style variant */
+  variant?: 'default' | 'primary' | 'secondary' | 'outline';
+  /** Tag size */
+  size?: 'sm' | 'md';
+  /** Additional CSS classes */
+  class?: string;
+}
+
+const {
+  variant = 'default',
+  size = 'sm',
+  class: className,
+}: Props = Astro.props;
+
+// Variant styles
+const variantStyles: Record<string, string> = {
+  default: 'bg-background-tertiary text-foreground-secondary',
+  primary: 'bg-primary/10 text-primary',
+  secondary: 'bg-secondary text-secondary-foreground',
+  outline: 'bg-transparent text-foreground-tertiary border border-border',
+};
+
+// Size styles
+const sizeStyles: Record<string, string> = {
+  sm: 'px-2 py-0.5 text-xs',
+  md: 'px-2.5 py-1 text-sm',
+};
+
+const baseClasses = [
+  'inline-flex items-center',
+  'font-medium rounded-md',
+  'transition-colors duration-150',
+  variantStyles[variant],
+  sizeStyles[size],
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<span class:list={[baseClasses]}>
+  <slot />
+</span>

@@ -1,0 +1,61 @@
+---
+/**
+ * Card Component
+ *
+ * A versatile card component for displaying content in a contained format.
+ * Used for articles, projects, and other content types.
+ *
+ * @see .trellis/spec/frontend/components.md - Component design patterns
+ * @see .trellis/spec/frontend/tailwind-css.md - Tailwind CSS patterns
+ */
+
+interface Props {
+  /** HTML element to render as */
+  as?: 'article' | 'div' | 'section';
+  /** Additional CSS classes */
+  class?: string;
+  /** Whether to apply hover effects */
+  hoverable?: boolean;
+  /** Card variant style */
+  variant?: 'default' | 'elevated' | 'outlined';
+  /** Card padding size */
+  padding?: 'none' | 'sm' | 'md' | 'lg';
+}
+
+const {
+  as: Component = 'article',
+  class: className,
+  hoverable = true,
+  variant = 'default',
+  padding = 'md',
+}: Props = Astro.props;
+
+// Variant styles
+const variantStyles: Record<string, string> = {
+  default: 'bg-surface border border-border',
+  elevated: 'bg-surface shadow-md',
+  outlined: 'bg-transparent border-2 border-border',
+};
+
+// Padding styles
+const paddingStyles: Record<string, string> = {
+  none: '',
+  sm: 'p-3',
+  md: 'p-4 md:p-5',
+  lg: 'p-5 md:p-6',
+};
+
+const baseClasses = [
+  'rounded-xl overflow-hidden',
+  variantStyles[variant],
+  paddingStyles[padding],
+  hoverable && 'transition-all duration-300 hover:shadow-lg hover:-translate-y-1',
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<Component class:list={[baseClasses]}>
+  <slot />
+</Component>
