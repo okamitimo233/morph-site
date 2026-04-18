@@ -370,3 +370,59 @@ GSAP 于 2024 年被 Webflow 收购后，所有插件（包括 MorphSVG）现已
 ### Next Steps
 
 - None - task complete
+
+
+## Session 6: ThemeToggle 重构需求规划
+
+**Date**: 2026-04-19
+**Task**: ThemeToggle 重构需求规划
+**Branch**: `main`
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+## Brainstorm: ThemeToggle 重构
+
+**目标**: 重构主题切换组件为 Telegram 风格动画
+
+### 完成工作
+
+| 项目 | 说明 |
+|------|------|
+| 现状分析 | 分析现有 ThemeToggle.tsx 下拉菜单组件 |
+| 技术调研 | GSAP MorphSVGPlugin 现已免费（Webflow 赞助） |
+| 方案确认 | 简化为 toggle 按钮 + MorphSVG 图标变形 + CSS 渐变过渡 |
+
+### 技术决策
+
+- **移除下拉菜单**: 改为单按钮 toggle (light ↔ dark)
+- **图标动画**: GSAP MorphSVG 实现 sun ↔ moon 路径变形
+- **主题过渡**: 使用现有 CSS transition 渐变
+- **无障碍**: `gsap.matchMedia()` 处理 prefers-reduced-motion
+
+### 下一步
+
+实现 ThemeToggle.tsx 重构
+
+**Updated Files**:
+- `.trellis/tasks/04-19-theme-toggle-ripple-animation/prd.md`
+
+
+### Git Commits
+
+(No commits - planning session)
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
