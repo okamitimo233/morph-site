@@ -15,6 +15,7 @@ export default [
       'node_modules/',
       '*.config.js',
       '*.config.mjs',
+      '.agents/', // Agent skill scripts
     ],
   },
 
@@ -80,6 +81,11 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
+        parser: {
+          // Use TypeScript parser for frontmatter
+          ts: tseslint.parser,
+          js: tseslint.parser,
+        },
       },
       globals: {
         ...globals.browser,
