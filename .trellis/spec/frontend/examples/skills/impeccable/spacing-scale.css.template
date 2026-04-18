@@ -1,0 +1,64 @@
+/**
+ * 4pt Spacing Scale
+ * - Semantic token names
+ * - Scale: 4, 8, 12, 16, 24, 32, 48, 64, 96
+ */
+
+:root {
+  /* Spacing scale (4pt base) */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.5rem;    /* 24px */
+  --space-6: 2rem;      /* 32px */
+  --space-8: 3rem;      /* 48px */
+  --space-10: 4rem;     /* 64px */
+  --space-12: 6rem;     /* 96px */
+
+  /* Semantic tokens */
+  --space-xs: var(--space-1);
+  --space-sm: var(--space-2);
+  --space-md: var(--space-4);
+  --space-lg: var(--space-6);
+  --space-xl: var(--space-8);
+
+  /* Component-specific */
+  --space-inline: var(--space-2);
+  --space-stack: var(--space-4);
+  --section-gap: var(--space-8);
+
+  /* Container padding - fluid */
+  --container-padding: clamp(var(--space-4), 2vw, var(--space-6));
+}
+
+/* Usage patterns */
+
+/* Gap instead of margins for siblings */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Self-adjusting grid */
+.grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+/* Vary spacing for hierarchy */
+.section {
+  padding-block: var(--space-8);
+}
+
+.section + .section {
+  padding-block: var(--space-12);
+}

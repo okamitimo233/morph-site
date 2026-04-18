@@ -1,0 +1,57 @@
+/**
+ * OKLCH Color Tokens
+ * - Perceptually uniform color space
+ * - Tinted neutrals toward brand hue
+ * - 60-30-10 visual weight distribution
+ */
+
+:root {
+  /* Brand hue (adjust to your brand) */
+  --brand-hue: 250; /* Example: blue-ish */
+
+  /* Accent colors - OKLCH */
+  --accent: oklch(0.6 0.2 var(--brand-hue));
+  --accent-foreground: oklch(0.98 0 0);
+
+  /* Neutrals - tinted toward brand hue */
+  --neutral-50: oklch(0.98 0.005 var(--brand-hue));
+  --neutral-100: oklch(0.95 0.008 var(--brand-hue));
+  --neutral-200: oklch(0.90 0.01 var(--brand-hue));
+  --neutral-300: oklch(0.80 0.012 var(--brand-hue));
+  --neutral-400: oklch(0.65 0.015 var(--brand-hue));
+  --neutral-500: oklch(0.50 0.015 var(--brand-hue));
+  --neutral-600: oklch(0.35 0.012 var(--brand-hue));
+  --neutral-700: oklch(0.25 0.01 var(--brand-hue));
+  --neutral-800: oklch(0.15 0.008 var(--brand-hue));
+  --neutral-900: oklch(0.08 0.005 var(--brand-hue));
+
+  /* Semantic colors */
+  --success: oklch(0.65 0.18 145);
+  --warning: oklch(0.75 0.15 85);
+  --danger: oklch(0.60 0.20 25);
+
+  /* Theme surfaces */
+  --background: var(--neutral-50);
+  --foreground: var(--neutral-900);
+  --muted: var(--neutral-400);
+  --surface: var(--neutral-100);
+  --border: var(--neutral-200);
+}
+
+/* Dark theme */
+.dark {
+  --background: var(--neutral-900);
+  --foreground: var(--neutral-50);
+  --muted: var(--neutral-500);
+  --surface: var(--neutral-800);
+  --border: var(--neutral-700);
+
+  /* Reduce chroma at extreme lightness */
+  --accent: oklch(0.70 0.15 var(--brand-hue));
+}
+
+/* 60-30-10 Usage:
+ * 60% - background, surface (neutral)
+ * 30% - text, borders (muted, foreground)
+ * 10% - accent, highlights
+ */
