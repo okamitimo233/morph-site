@@ -1,0 +1,43 @@
+import { useState } from 'react';
+import { Modal, Button } from '@heroui/react';
+
+/**
+ * HeroUI v3 Modal pattern
+ * Use `onPress` for events, not `onClick`
+ */
+export default function ConfirmModal() {
+  const [open, setOpen] = useState(false);
+
+  const handleConfirm = () => {
+    // Perform action
+    console.log('Confirmed!');
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button variant="primary" onPress={() => setOpen(true)}>
+        Delete Item
+      </Button>
+
+      <Modal open={open} onOpenChange={setOpen}>
+        <Modal.Header>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Content>
+          <p>Are you sure you want to delete this item? This action cannot be undone.</p>
+        </Modal.Content>
+
+        <Modal.Footer>
+          <Button variant="tertiary" onPress={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button variant="danger" onPress={handleConfirm}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}

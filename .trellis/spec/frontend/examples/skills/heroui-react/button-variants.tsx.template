@@ -1,0 +1,41 @@
+import { Button } from '@heroui/react';
+
+/**
+ * HeroUI v3 Button variants
+ * Use semantic variants, not visual descriptions
+ */
+export default function ButtonVariants() {
+  return (
+    <div className="flex flex-wrap gap-3">
+      {/* Primary: Main action (1 per context) */}
+      <Button variant="primary" onPress={() => console.log('Primary')}>
+        Save Changes
+      </Button>
+
+      {/* Secondary: Alternative actions */}
+      <Button variant="secondary" onPress={() => console.log('Secondary')}>
+        View Details
+      </Button>
+
+      {/* Tertiary: Dismissive actions (cancel, skip) */}
+      <Button variant="tertiary" onPress={() => console.log('Tertiary')}>
+        Cancel
+      </Button>
+
+      {/* Danger: Destructive actions */}
+      <Button variant="danger" onPress={() => console.log('Danger')}>
+        Delete
+      </Button>
+
+      {/* Ghost: Low-emphasis actions */}
+      <Button variant="ghost" onPress={() => console.log('Ghost')}>
+        Learn More
+      </Button>
+
+      {/* Outline: Secondary with border */}
+      <Button variant="outline" onPress={() => console.log('Outline')}>
+        Edit
+      </Button>
+    </div>
+  );
+}
