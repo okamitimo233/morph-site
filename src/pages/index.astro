@@ -1,11 +1,28 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/home/Hero.astro';
+import FeaturedCarousel from '../components/home/FeaturedCarousel.astro';
+import ArticleList from '../components/home/ArticleList.astro';
+import { getFeaturedArticles, getRecentArticles } from '../data/mock';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const featuredArticles = getFeaturedArticles();
+const recentArticles = getRecentArticles(6);
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Morph Blog">
+  <main id="main-content">
+    <!-- Hero Section -->
+    <Hero
+      title="Building Digital Experiences"
+      subtitle="Full-stack developer passionate about creating elegant solutions that bridge design and technology. Welcome to my corner of the web."
+      avatarUrl="/avatar.jpg"
+      avatarAlt="Profile photo"
+    />
+
+    <!-- Featured Carousel Section -->
+    <FeaturedCarousel articles={featuredArticles} />
+
+    <!-- Recent Articles Section -->
+    <ArticleList articles={recentArticles} />
+  </main>
 </Layout>
