@@ -221,3 +221,100 @@ Initialized Astro 6.x project with React 19, Tailwind CSS 4, and GSAP. Rewrote p
 ### Next Steps
 
 - None - task complete
+
+
+## Session 4: 实现个人博客主页UI-UX设计系统
+
+**Date**: 2026-04-19
+**Task**: 实现个人博客主页UI-UX设计系统
+**Branch**: `main`
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+## 任务
+
+实现个人博客主页 UI-UX 设计系统，包含 8 个子任务。
+
+## 完成内容
+
+| 模块 | 文件 | 说明 |
+|------|------|------|
+| 设计系统 | `tokens.css`, `global.css` | OKLCH 颜色、模块化字体、4pt 间距 |
+| 工具函数 | `utils.ts`, `useTheme.ts` | cn 工具、主题管理 hook |
+| 模拟数据 | `mock.ts` | Article/Project 接口和示例数据 |
+| UI 组件 | `Button`, `Card`, `Container`, `Tag`, `Navbar`, `Footer` | 6 个基础组件 |
+| Islands | `AnimatedBackground`, `Carousel`, `ThemeToggle` | 3 个交互组件 |
+| 主页组件 | `Hero`, `FeaturedCarousel`, `ArticleList` | 3 个主页组件 |
+| 共享组件 | `SocialLinks` | 社交链接组件 |
+| 页面 | `index`, `articles`, `about`, `projects` | 4 个页面 |
+
+## 新增命令
+
+- `/trellis:commit` - 原子化提交命令
+
+## 更新规范
+
+- `.trellis/spec/shared/git-conventions.md` - 新增原子化提交策略
+
+## 技术栈
+
+Astro 6.x + React 19 + Tailwind CSS 4 + GSAP + TypeScript
+
+## 提交统计
+
+17 commits, 20+ files created
+
+**Updated Files**:
+- `src/styles/tokens.css` (new)
+- `src/styles/global.css` (modified)
+- `src/lib/utils.ts` (new)
+- `src/hooks/useTheme.ts` (new)
+- `src/data/mock.ts` (new)
+- `src/components/ui/*.astro` (6 files)
+- `src/components/islands/*.tsx` (3 files)
+- `src/components/home/*.astro` (3 files)
+- `src/components/shared/SocialLinks.astro` (new)
+- `src/layouts/Layout.astro` (modified)
+- `src/pages/*.astro` (4 files)
+- `.claude/commands/trellis/commit.md` (new)
+- `.cursor/commands/trellis-commit.md` (new)
+- `.trellis/spec/shared/git-conventions.md` (modified)
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `9c428c4` | (see git log) |
+| `d4b9af8` | (see git log) |
+| `7478db2` | (see git log) |
+| `4f08145` | (see git log) |
+| `bdd17eb` | (see git log) |
+| `0987eb1` | (see git log) |
+| `8f8a4f9` | (see git log) |
+| `3fca674` | (see git log) |
+| `fd13d25` | (see git log) |
+| `b064a0e` | (see git log) |
+| `142c41a` | (see git log) |
+| `1a98376` | (see git log) |
+| `73f46cf` | (see git log) |
+| `aca51fd` | (see git log) |
+| `63e58f9` | (see git log) |
+| `5811e39` | (see git log) |
+| `4b16471` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
