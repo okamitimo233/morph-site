@@ -1,0 +1,202 @@
+---
+/**
+ * Hero Section Component
+ *
+ * The main hero section for the blog homepage featuring:
+ * - Animated background (Canvas-based)
+ * - Large title and subtitle with GSAP entrance animations
+ * - Avatar image
+ * - Social links
+ *
+ * @see .trellis/spec/frontend/gsap-animation.md - GSAP animation guidelines
+ * @see .trellis/spec/frontend/islands-architecture.md - Hydration strategies
+ */
+
+import AnimatedBackground from '../islands/AnimatedBackground';
+
+interface Props {
+  /** Hero title */
+  title?: string;
+  /** Hero subtitle */
+  subtitle?: string;
+  /** Avatar image URL */
+  avatarUrl?: string;
+  /** Avatar alt text */
+  avatarAlt?: string;
+}
+
+const {
+  title = 'Building Digital Experiences',
+  subtitle = 'Full-stack developer passionate about creating elegant solutions that bridge design and technology. Welcome to my corner of the web.',
+  avatarUrl = '/avatar.jpg',
+  avatarAlt = 'Profile photo',
+} = Astro.props;
+---
+
+<section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+  <!-- Animated Background -->
+  <AnimatedBackground
+    client:load
+    className="z-0"
+    particleCount={60}
+    enableGradient={true}
+    enableParticles={true}
+  />
+
+  <!-- Content Container -->
+  <div class="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+    <div class="flex flex-col items-center text-center">
+      <!-- Avatar -->
+      <div class="hero-avatar mb-8 opacity-0">
+        <div class="relative">
+          <!-- Avatar glow effect -->
+          <div class="absolute inset-0 rounded-full bg-primary/20 blur-xl scale-110"></div>
+          <!-- Avatar container -->
+          <div class="relative w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden ring-4 ring-background shadow-xl">
+            <img
+              src={avatarUrl}
+              alt={avatarAlt}
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Title -->
+      <h1 class="hero-title text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 opacity-0 text-balance">
+        {title}
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="hero-subtitle text-lg md:text-xl text-foreground-secondary max-w-2xl mb-10 opacity-0 leading-relaxed">
+        {subtitle}
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="hero-cta flex flex-wrap items-center justify-center gap-4 opacity-0">
+        <a
+          href="/articles"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium transition-all duration-200 hover:bg-primary-hover hover:shadow-glow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+          </svg>
+          Browse Articles
+        </a>
+        <a
+          href="/about"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-secondary text-secondary-foreground rounded-lg font-medium transition-all duration-200 hover:bg-secondary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 16v-4" />
+            <path d="M12 8h.01" />
+          </svg>
+          About Me
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero-scroll absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0">
+    <div class="flex flex-col items-center gap-2 text-foreground-tertiary">
+      <span class="text-sm font-medium">Scroll</span>
+      <div class="w-6 h-10 rounded-full border-2 border-current flex items-start justify-center p-1">
+        <div class="w-1.5 h-2.5 bg-current rounded-full animate-bounce"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GSAP Entrance Animation Script -->
+<script>
+  import gsap from 'gsap';
+
+  // Check for reduced motion preference
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Animation timeline
+  const tl = gsap.timeline({
+    defaults: {
+      duration: prefersReducedMotion ? 0 : 0.8,
+      ease: 'power3.out',
+    },
+  });
+
+  // Staggered entrance animation
+  tl.fromTo(
+    '.hero-avatar',
+    { y: 30, opacity: 0 },
+    { y: 0, opacity: 1, duration: prefersReducedMotion ? 0 : 0.6 }
+  )
+    .fromTo(
+      '.hero-title',
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1 },
+      prefersReducedMotion ? 0 : '-=0.4'
+    )
+    .fromTo(
+      '.hero-subtitle',
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1 },
+      prefersReducedMotion ? 0 : '-=0.5'
+    )
+    .fromTo(
+      '.hero-cta',
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1 },
+      prefersReducedMotion ? 0 : '-=0.4'
+    )
+    .fromTo(
+      '.hero-scroll',
+      { y: 10, opacity: 0 },
+      { y: 0, opacity: 1, duration: prefersReducedMotion ? 0 : 0.5 },
+      prefersReducedMotion ? 0 : '-=0.2'
+    );
+</script>
+
+<style>
+  /* Hero section specific styles */
+  .hero-avatar img {
+    @apply object-cover;
+  }
+
+  /* Smooth scroll indicator animation */
+  @keyframes scroll-indicator-bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(4px);
+    }
+  }
+
+  .hero-scroll .animate-bounce {
+    animation: scroll-indicator-bounce 1.5s ease-in-out infinite;
+  }
+</style>
