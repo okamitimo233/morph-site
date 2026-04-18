@@ -124,6 +124,69 @@ Fixes #123"
 
 ---
 
+## Atomic Commit Strategy
+
+When implementing a large feature, organize commits by **logical unit**, not by time.
+
+### Commit Ordering Principle
+
+**Dependency order**: Foundation → Components → Integration
+
+```
+1. Design tokens / styles     (foundation)
+2. Utilities / hooks          (foundation)
+3. Data / types               (foundation)
+4. UI components              (building blocks)
+5. Feature components         (building blocks)
+6. Layout updates             (integration)
+7. Pages                      (integration)
+8. Config / dependencies      (infrastructure)
+```
+
+### Example: Blog Homepage Feature (14 commits)
+
+| Order | Commit | Type | Logical Unit |
+|-------|--------|------|--------------|
+| 1 | `feat(styles): add design tokens...` | feat | Foundation - tokens |
+| 2 | `feat(styles): add global styles...` | feat | Foundation - styles |
+| 3 | `feat(lib): add utility functions...` | feat | Foundation - utils |
+| 4 | `feat(data): add mock data...` | feat | Foundation - data |
+| 5 | `feat(ui): add base UI components` | feat | Building blocks - UI |
+| 6 | `feat(islands): add interactive...` | feat | Building blocks - islands |
+| 7 | `feat(home): add homepage components` | feat | Building blocks - home |
+| 8 | `feat(shared): add SocialLinks...` | feat | Building blocks - shared |
+| 9 | `feat(layout): update Layout...` | feat | Integration - layout |
+| 10 | `feat(pages): implement homepage...` | feat | Integration - pages |
+| 11 | `feat(pages): add articles/about/projects` | feat | Integration - pages |
+| 12-14 | `chore(deps/lint/task)...` | chore | Infrastructure |
+
+### Atomic Commit Rules
+
+1. **One logical change per commit**
+   - Each commit should be independently reviewable
+   - Each commit should leave the code in a working state
+
+2. **Group related files**
+   - `feat(ui): add base UI components` - all UI components together
+   - `feat(islands): add interactive components` - all islands together
+
+3. **Separate concerns**
+   - Styles → Utils → Components → Pages
+   - Don't mix style changes with feature logic
+
+4. **Infrastructure last**
+   - `chore(deps)`, `chore(lint)`, `chore(task)` at the end
+   - These don't affect functionality
+
+### Benefits
+
+- **Easy code review**: Each commit tells a clear story
+- **Easy rollback**: Can revert specific logical units
+- **Clear history**: `git log` shows feature evolution
+- **Bisect-friendly**: Easier to find when bugs were introduced
+
+---
+
 ## Pre-Commit Checklist
 
 Before committing:
