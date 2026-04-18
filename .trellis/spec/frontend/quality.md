@@ -29,7 +29,7 @@ Run these checks before committing:
 # 1. Type check
 pnpm exec tsc --noEmit
 
-# 2. Lint (Biome)
+# 2. Lint (ESLint)
 pnpm lint
 
 # 3. Build

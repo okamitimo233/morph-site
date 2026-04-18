@@ -191,9 +191,9 @@ When implementing a large feature, organize commits by **logical unit**, not by 
 
 Before committing:
 
-- [ ] Code compiles (`npm run typecheck`)
-- [ ] Linting passes (`npm run lint`)
-- [ ] Tests pass (`npm test`)
+- [ ] Code compiles (`pnpm typecheck`)
+- [ ] Linting passes (`pnpm lint`)
+- [ ] Tests pass (`pnpm test`)
 - [ ] Commit message follows format
 - [ ] Changes are atomic
 

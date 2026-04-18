@@ -1,6 +1,6 @@
 # Code Quality Guidelines
 
-> Mandatory code quality rules for all Electron applications.
+> Mandatory code quality rules for all web applications.
 
 ---
 
@@ -55,11 +55,11 @@ function parseJSON(input: string): unknown {
 
 ```bash
 # MUST pass before every commit
-npm run lint
-npm run typecheck
+pnpm lint
+pnpm typecheck
 
 # Or combined
-npm run lint && npm run typecheck
+pnpm lint && pnpm typecheck
 ```
 
 ---

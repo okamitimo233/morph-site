@@ -57,7 +57,7 @@ Common issues and solutions:
 - **Styling**: Tailwind CSS 4.x
 - **Animation**: GSAP 3.x
 - **Build**: Vite (via Astro)
-- **Linter**: Biome
+- **Linter**: ESLint + typescript-eslint
 
 ## Usage
 
