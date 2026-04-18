@@ -82,3 +82,78 @@ Initialized Astro 6.x project with React 19, Tailwind CSS 4, and GSAP. Rewrote p
 ### Next Steps
 
 - None - task complete
+
+
+## Session 2: Brainstorm: 个人博客主页 UI-UX 设计
+
+**Date**: 2026-04-18
+**Task**: Brainstorm: 个人博客主页 UI-UX 设计
+**Branch**: `master`
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+## 需求发现
+
+完成了个人博客主页 UI-UX 设计的需求发现工作：
+
+| 项目 | 决策 |
+|------|------|
+| **品牌个性** | 现代化 · 精致 · 个性化 |
+| **视觉风格** | 圆角、高级模糊、微妙渐变、动态背景 |
+| **主题** | 深色/浅色/跟随系统 |
+| **字体** | Clash Display + Manrope + 思源黑体 |
+| **背景技术** | Canvas/WebGL 动态效果 |
+
+## MVP 模块
+
+- Navbar（导航 + 主题切换）
+- Hero（大标题 + 副标题 + 头像 + Canvas 背景）
+- FeaturedCarousel（精选轮播，全交互）
+- ArticleList（文章卡片网格）
+- SocialLinks（GitHub/Twitter/Email）
+- Footer（版权信息）
+- PlaceholderPages（占位页面）
+
+## 子任务拆分
+
+| Task | 内容 |
+|------|------|
+| 1 | 设计系统基础（tokens、主题、字体） |
+| 2 | 布局框架 |
+| 3 | 导航与主题切换 |
+| 4 | Hero 区域（Canvas/WebGL） |
+| 5 | 轮播组件 |
+| 6 | 文章列表 |
+| 7 | 页脚与社交 |
+| 8 | 占位页面与收尾 |
+
+## 新增文件
+
+- `.impeccable.md` — 设计上下文
+- `.trellis/tasks/04-18-blog-homepage-ui/prd.md` — 详细需求文档
+
+## 参考
+
+- 前端开发规范已整合到 PRD
+- Impeccable skill teach 模式已执行
+
+
+### Git Commits
+
+(No commits - planning session)
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
