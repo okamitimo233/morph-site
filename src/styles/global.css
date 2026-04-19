@@ -435,4 +435,39 @@
   .animate-scale-in {
     animation: var(--animate-scale-in);
   }
+
+  /* Theme toggle icon initial visibility - controlled by data-theme attribute */
+  /* This ensures icons are visible before React hydration */
+  .theme-icon-sun {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  .theme-icon-moon {
+    opacity: 0;
+    transform: scale(0.5) rotate(-90deg);
+  }
+
+  [data-theme="dark"] .theme-icon-sun {
+    opacity: 0;
+    transform: scale(0.5) rotate(90deg);
+  }
+
+  [data-theme="dark"] .theme-icon-moon {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  /* Handle system preference when no data-theme is set */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-icon-sun {
+      opacity: 0;
+      transform: scale(0.5) rotate(90deg);
+    }
+
+    :root:not([data-theme="light"]) .theme-icon-moon {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
 }
