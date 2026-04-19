@@ -561,3 +561,36 @@ Fixed icon overlap issue in ThemeToggle component by setting initial opacity: 0 
 ### Next Steps
 
 - None - task complete
+
+
+## Session 11: Fix theme icon delayed loading
+
+**Date**: 2026-04-19
+**Task**: Fix theme icon delayed loading
+**Branch**: `main`
+
+### Summary
+
+Fixed theme toggle icon loading after navbar icons by using CSS-based initial visibility instead of JS-dependent inline styles.
+
+### Main Changes
+
+(Add details)
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `b1d987c` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
