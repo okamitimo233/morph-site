@@ -494,6 +494,54 @@ gsap.to('.typing-text', {
 });
 ```
 
+### MorphSVGPlugin
+
+```tsx
+import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
+
+gsap.registerPlugin(MorphSVGPlugin);
+
+// Path morphing animation
+gsap.to('#shape-path', {
+  morphSVG: 'M10 10 L90 10 L90 90 L10 90 Z', // Target path
+  duration: 0.5,
+  ease: 'power2.inOut',
+});
+```
+
+#### MorphSVG Caveats
+
+**Path Structure Must Match**: MorphSVG works best when source and target paths have similar structure.
+
+| Scenario | Works? | Alternative |
+|----------|--------|-------------|
+| Single path → Single path | ✅ Yes | - |
+| Multi-segment → Multi-segment (same count) | ✅ Yes | - |
+| Multi-segment → Single path | ❌ No | Use two separate elements with opacity/crossfade |
+| Circle/Rect → Path | ✅ Yes | MorphSVG auto-converts shapes |
+
+**Best Practice for Icon Switching**:
+```tsx
+// AVOID: Morphing multi-segment sun to single-segment moon
+const SUN_PATH = 'M12 2v2 M12 20v2 ...'; // Multiple segments
+const MOON_PATH = 'M12 3a6 6 0 0 0 9 9...'; // Single segment
+gsap.to('#icon', { morphSVG: MOON_PATH }); // Won't work correctly
+
+// PREFER: Two separate icons with rotation/scale animation
+function ThemeToggle() {
+  const sunRef = useRef<HTMLSpanElement>(null);
+  const moonRef = useRef<HTMLSpanElement>(null);
+
+  const handleToggle = () => {
+    gsap.to(sunRef.current, { opacity: 0, scale: 0.5, rotation: 90 });
+    gsap.fromTo(moonRef.current,
+      { opacity: 0, scale: 0.5, rotation: -90 },
+      { opacity: 1, scale: 1, rotation: 0, delay: 0.15 }
+    );
+  };
+}
+```
+
 ---
 
 ## Performance Best Practices
@@ -595,6 +643,68 @@ function AnimatedComponent() {
   return <div ref={ref}>Content</div>;
 }
 ```
+
+---
+
+## Canvas Animation with Theme Transitions
+
+Canvas elements don't inherit CSS transitions. For smooth theme transitions on Canvas:
+
+### Problem: Instant Color Switch
+
+```tsx
+// WRONG: Canvas instantly switches on theme change
+const draw = () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  ctx.fillStyle = isDark ? '#1a1a1f' : '#fafafa'; // Instant switch!
+};
+```
+
+### Solution: Animate Color Values with GSAP
+
+```tsx
+// Color state with numeric values for interpolation
+interface ColorState {
+  bgR: number; bgG: number; bgB: number;  // Background RGB
+  g1L: number; g1C: number; g1H: number;  // Gradient OKLCH
+  particleL: number;                       // Particle lightness
+}
+
+const LIGHT_STATE: ColorState = { bgR: 250, bgG: 250, bgB: 250, ... };
+const DARK_STATE: ColorState = { bgR: 26, bgG: 26, bgB: 31, ... };
+
+// Store animated state
+const colorStateRef = useRef<ColorState>({ ...LIGHT_STATE });
+
+// Draw using animated values
+const draw = () => {
+  const state = colorStateRef.current;
+  ctx.fillStyle = `rgb(${Math.round(state.bgR)}, ${Math.round(state.bgG)}, ${Math.round(state.bgB)})`;
+};
+
+// Animate on theme change
+useEffect(() => {
+  const observer = new MutationObserver(() => {
+    const target = isDarkTheme() ? DARK_STATE : LIGHT_STATE;
+    gsap.to(colorStateRef.current, {
+      bgR: target.bgR,
+      bgG: target.bgG,
+      bgB: target.bgB,
+      duration: 0.3,
+      ease: 'power2.out',
+    });
+  });
+  observer.observe(document.documentElement, { attributeFilter: ['data-theme'] });
+}, []);
+```
+
+### Key Points
+
+| Issue | Solution |
+|-------|----------|
+| Canvas has no CSS transition | Use GSAP to animate numeric color values |
+| CSS variables are strings | Store numeric values separately |
+| Need to redraw continuously | Animation loop reads interpolated values |
 
 ---
 
