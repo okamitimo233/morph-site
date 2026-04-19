@@ -1,0 +1,5 @@
+{"file": ".trellis/workflow.md", "reason": "Project workflow and conventions"}
+{"file": ".trellis/spec/frontend/index.md", "reason": "Frontend development guide"}
+{"file": ".trellis/spec/frontend/gsap-animation.md", "reason": "GSAP MorphSVG animation patterns"}
+{"file": ".trellis/spec/frontend/react-pitfalls.md", "reason": "React patterns and common mistakes"}
+{"file": ".trellis/spec/frontend/islands-architecture.md", "reason": "Islands architecture hydration"}
