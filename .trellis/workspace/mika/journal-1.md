@@ -527,3 +527,37 @@ Replace all <img> with Astro <Image> component for performance. Add noop-image-s
 ### Next Steps
 
 - None - task complete
+
+
+## Session 10: Fix theme toggle icon overlap on initial load
+
+**Date**: 2026-04-19
+**Task**: Fix theme toggle icon overlap on initial load
+**Branch**: `main`
+
+### Summary
+
+Fixed icon overlap issue in ThemeToggle component by setting initial opacity: 0 on both icons, letting GSAP control visibility. Also disabled false positive ESLint warnings in Welcome.astro and Hero.astro.
+
+### Main Changes
+
+(Add details)
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `42b0450` | (see git log) |
+| `9a62bb4` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
