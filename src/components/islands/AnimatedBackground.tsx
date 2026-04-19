@@ -9,6 +9,7 @@
  */
 
 import { type ReactElement, useCallback, useEffect, useRef } from 'react';
+import gsap from 'gsap';
 
 interface Particle {
   x: number;
@@ -31,30 +32,76 @@ interface AnimatedBackgroundProps {
   enableParticles?: boolean;
 }
 
-/**
- * Get theme-aware colors from CSS variables.
- */
-function getThemeColors(): {
-  primaryHue: number;
-  secondaryHue: number;
-  background: string;
-} {
-  if (typeof window === 'undefined') {
-    return { primaryHue: 265, secondaryHue: 295, background: '#fafafa' };
-  }
+// OKLCH color parameters for smooth interpolation
+interface ColorState {
+  // Background RGB (0-255)
+  bgR: number;
+  bgG: number;
+  bgB: number;
+  // Gradient 1: OKLCH (L, C, H, Alpha)
+  g1L: number;
+  g1C: number;
+  g1H: number;
+  g1A: number;
+  // Gradient 2: OKLCH (L, C, H, Alpha)
+  g2L: number;
+  g2C: number;
+  g2H: number;
+  g2A: number;
+  // Particle lightness
+  particleL: number;
+}
 
-  const isDark =
+// Light theme color values
+const LIGHT_STATE: ColorState = {
+  bgR: 250,
+  bgG: 250,
+  bgB: 250,
+  g1L: 0.85,
+  g1C: 0.04,
+  g1H: 265,
+  g1A: 0.2,
+  g2L: 0.90,
+  g2C: 0.03,
+  g2H: 295,
+  g2A: 0.15,
+  particleL: 0.4,
+};
+
+// Dark theme color values
+const DARK_STATE: ColorState = {
+  bgR: 26,
+  bgG: 26,
+  bgB: 31,
+  g1L: 0.35,
+  g1C: 0.03,
+  g1H: 265,
+  g1A: 0.15,
+  g2L: 0.30,
+  g2C: 0.04,
+  g2H: 295,
+  g2A: 0.12,
+  particleL: 0.7,
+};
+
+/**
+ * Get current theme (light or dark)
+ */
+function isDarkTheme(): boolean {
+  if (typeof window === 'undefined') return false;
+
+  return (
     document.documentElement.getAttribute('data-theme') === 'dark' ||
     (document.documentElement.getAttribute('data-theme') !== 'light' &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches);
+      window.matchMedia('(prefers-color-scheme: dark)').matches)
+  );
+}
 
-  // Extract hue from primary color (OKLCH format)
-  // Primary hue: 265, Secondary hue: 295
-  return {
-    primaryHue: 265,
-    secondaryHue: 295,
-    background: isDark ? '#1a1a1f' : '#fafafa',
-  };
+/**
+ * Create OKLCH color string from parameters
+ */
+function oklch(l: number, c: number, h: number, a: number): string {
+  return `oklch(${l.toFixed(2)} ${c.toFixed(2)} ${h.toFixed(0)} / ${a.toFixed(2)})`;
 }
 
 /**
@@ -79,6 +126,11 @@ export default function AnimatedBackground({
   const mouseRef = useRef({ x: 0, y: 0 });
   const gradientOffsetRef = useRef(0);
 
+  // Animated color state for smooth theme transitions
+  const colorStateRef = useRef<ColorState>(
+    isDarkTheme() ? { ...DARK_STATE } : { ...LIGHT_STATE }
+  );
+
   // Check for reduced motion preference
   const prefersReducedMotion =
     typeof window !== 'undefined' &&
@@ -88,7 +140,6 @@ export default function AnimatedBackground({
   const initParticles = useCallback(
     (width: number, height: number): void => {
       const particles: Particle[] = [];
-      const colors = getThemeColors();
 
       for (let i = 0; i < particleCount; i++) {
         particles.push({
@@ -98,7 +149,7 @@ export default function AnimatedBackground({
           speedX: (Math.random() - 0.5) * 0.3,
           speedY: (Math.random() - 0.5) * 0.3,
           opacity: Math.random() * 0.3 + 0.1,
-          hue: Math.random() > 0.5 ? colors.primaryHue : colors.secondaryHue,
+          hue: Math.random() > 0.5 ? 265 : 295,
         });
       }
 
@@ -107,11 +158,11 @@ export default function AnimatedBackground({
     [particleCount]
   );
 
-  // Draw gradient background
+  // Draw gradient background with animated colors
   const drawGradient = useCallback(
     (ctx: CanvasRenderingContext2D, width: number, height: number): void => {
-      const colors = getThemeColors();
       const offset = gradientOffsetRef.current;
+      const state = colorStateRef.current;
 
       // Create flowing gradient blobs
       const gradient1 = ctx.createRadialGradient(
@@ -132,29 +183,19 @@ export default function AnimatedBackground({
         width * 0.5
       );
 
-      // Theme-aware gradient colors (very subtle)
-      const isDark =
-        document.documentElement.getAttribute('data-theme') === 'dark' ||
-        (document.documentElement.getAttribute('data-theme') !== 'light' &&
-          window.matchMedia('(prefers-color-scheme: dark)').matches);
+      // Use animated color values
+      gradient1.addColorStop(0, oklch(state.g1L, state.g1C, state.g1H, state.g1A));
+      gradient1.addColorStop(1, 'transparent');
 
-      if (isDark) {
-        gradient1.addColorStop(0, 'oklch(0.35 0.03 265 / 0.15)');
-        gradient1.addColorStop(1, 'transparent');
-
-        gradient2.addColorStop(0, 'oklch(0.30 0.04 295 / 0.12)');
-        gradient2.addColorStop(1, 'transparent');
-      } else {
-        gradient1.addColorStop(0, 'oklch(0.85 0.04 265 / 0.2)');
-        gradient1.addColorStop(1, 'transparent');
-
-        gradient2.addColorStop(0, 'oklch(0.90 0.03 295 / 0.15)');
-        gradient2.addColorStop(1, 'transparent');
-      }
+      gradient2.addColorStop(0, oklch(state.g2L, state.g2C, state.g2H, state.g2A));
+      gradient2.addColorStop(1, 'transparent');
 
       // Clear and draw
       ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = colors.background;
+
+      // Animated background color
+      const bgColor = `rgb(${Math.round(state.bgR)}, ${Math.round(state.bgG)}, ${Math.round(state.bgB)})`;
+      ctx.fillStyle = bgColor;
       ctx.fillRect(0, 0, width, height);
 
       ctx.fillStyle = gradient1;
@@ -166,12 +207,13 @@ export default function AnimatedBackground({
     []
   );
 
-  // Draw particles
+  // Draw particles with animated lightness
   const drawParticles = useCallback(
     (ctx: CanvasRenderingContext2D, width: number, height: number): void => {
       const particles = particlesRef.current;
       const mouseX = mouseRef.current.x;
       const mouseY = mouseRef.current.y;
+      const lightness = colorStateRef.current.particleL;
 
       particles.forEach((particle) => {
         // Update position
@@ -195,18 +237,10 @@ export default function AnimatedBackground({
         if (particle.y < 0) particle.y = height;
         if (particle.y > height) particle.y = 0;
 
-        // Draw particle
-        const isDark =
-          document.documentElement.getAttribute('data-theme') === 'dark' ||
-          (document.documentElement.getAttribute('data-theme') !== 'light' &&
-            window.matchMedia('(prefers-color-scheme: dark)').matches);
-
+        // Draw particle with animated lightness
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-
-        // Use OKLCH color format
-        const lightness = isDark ? 0.7 : 0.4;
-        ctx.fillStyle = `oklch(${lightness} 0.1 ${particle.hue} / ${particle.opacity})`;
+        ctx.fillStyle = `oklch(${lightness.toFixed(2)} 0.1 ${particle.hue} / ${particle.opacity})`;
         ctx.fill();
       });
     },
@@ -266,7 +300,7 @@ export default function AnimatedBackground({
     initParticles(width, height);
   }, [initParticles]);
 
-  // Handle mouse move with gsap.quickTo for smooth updates
+  // Handle mouse move
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (prefersReducedMotion) return;
 
@@ -318,20 +352,35 @@ export default function AnimatedBackground({
     };
   }, [handleResize, handleMouseMove, animate, prefersReducedMotion, drawGradient]);
 
-  // Handle theme changes
+  // Handle theme changes with smooth color transition
   useEffect(() => {
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion) {
+      // For reduced motion, set colors directly without animation
+      const targetState = isDarkTheme() ? DARK_STATE : LIGHT_STATE;
+      Object.assign(colorStateRef.current, targetState);
+      return;
+    }
 
     const observer = new MutationObserver(() => {
-      // Redraw on theme change
-      const canvas = canvasRef.current;
-      const ctx = canvas?.getContext('2d');
-      const container = containerRef.current;
+      const targetState = isDarkTheme() ? DARK_STATE : LIGHT_STATE;
 
-      if (canvas && ctx && container) {
-        const { width, height } = container.getBoundingClientRect();
-        drawGradient(ctx, width, height);
-      }
+      // Animate all color values to target
+      gsap.to(colorStateRef.current, {
+        bgR: targetState.bgR,
+        bgG: targetState.bgG,
+        bgB: targetState.bgB,
+        g1L: targetState.g1L,
+        g1C: targetState.g1C,
+        g1H: targetState.g1H,
+        g1A: targetState.g1A,
+        g2L: targetState.g2L,
+        g2C: targetState.g2C,
+        g2H: targetState.g2H,
+        g2A: targetState.g2A,
+        particleL: targetState.particleL,
+        duration: 0.3,
+        ease: 'power2.out',
+      });
     });
 
     observer.observe(document.documentElement, {
@@ -340,7 +389,7 @@ export default function AnimatedBackground({
     });
 
     return () => observer.disconnect();
-  }, [prefersReducedMotion, drawGradient]);
+  }, [prefersReducedMotion]);
 
   return (
     <div

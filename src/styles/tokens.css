@@ -8,6 +8,23 @@
  */
 
 /* =============================================================================
+ * CSS CUSTOM PROPERTIES FOR ANIMATION
+ * ============================================================================= */
+
+/* Register color properties for smooth theme transitions */
+@property --color-background {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: white;
+}
+
+@property --color-foreground {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: black;
+}
+
+/* =============================================================================
  * DESIGN TOKENS
  * ============================================================================= */
 
