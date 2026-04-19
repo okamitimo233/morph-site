@@ -1,0 +1,5 @@
+{"file": ".claude/commands/trellis/finish-work.md", "reason": "FinishWorkChecklist"}
+{"file": ".claude/commands/trellis/check.md", "reason": "CodeQualitySpec"}
+{"file": ".trellis/spec/shared/code-quality.md", "reason": "CodeQualityCheck"}
+{"file": ".trellis/spec/frontend/quality.md", "reason": "FrontendQualityCheck"}
+{"file": ".trellis/spec/shared/git-conventions.md", "reason": "GitConventionsCheck"}
