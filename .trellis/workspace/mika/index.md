@@ -7,9 +7,8 @@
 ## Current Status
 
 <!-- @@@auto:current-status -->
-
 - **Active File**: `journal-1.md`
-- **Total Sessions**: 11
+- **Total Sessions**: 12
 - **Last Active**: 2026-04-19
 <!-- @@@/auto:current-status -->
 
@@ -18,11 +17,9 @@
 ## Active Documents
 
 <!-- @@@auto:active-documents -->
-
-| File           | Lines | Status |
-| -------------- | ----- | ------ |
-| `journal-1.md` | ~596  | Active |
-
+| File | Lines | Status |
+|------|-------|--------|
+| `journal-1.md` | ~629 | Active |
 <!-- @@@/auto:active-documents -->
 
 ---
@@ -31,8 +28,9 @@
 
 <!-- @@@auto:session-history -->
 
-| #   | Date       | Title                                         | Commits                                                                                                                                                                                   | Branch   |
-| --- | ---------- | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| # | Date | Title | Commits | Branch |
+|---|------|-------|---------|--------|
+| 12 | 2026-04-19 | 项目配置现代化和清理 | `63c19c4` | `main` |
 | 11  | 2026-04-19 | Fix theme icon delayed loading                | `b1d987c`                                                                                                                                                                                 | `main`   |
 | 10  | 2026-04-19 | Fix theme toggle icon overlap on initial load | `42b0450`, `9a62bb4`                                                                                                                                                                      | `main`   |
 | 9   | 2026-04-19 | Optimize images with Astro Image component    | `e9edcdd`, `9022781`                                                                                                                                                                      | `main`   |
