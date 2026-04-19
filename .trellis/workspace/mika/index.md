@@ -8,7 +8,7 @@
 
 <!-- @@@auto:current-status -->
 - **Active File**: `journal-1.md`
-- **Total Sessions**: 8
+- **Total Sessions**: 9
 - **Last Active**: 2026-04-19
 <!-- @@@/auto:current-status -->
 
@@ -19,7 +19,7 @@
 <!-- @@@auto:active-documents -->
 | File | Lines | Status |
 |------|-------|--------|
-| `journal-1.md` | ~495 | Active |
+| `journal-1.md` | ~529 | Active |
 <!-- @@@/auto:active-documents -->
 
 ---
@@ -29,6 +29,7 @@
 <!-- @@@auto:session-history -->
 | # | Date | Title | Commits | Branch |
 |---|------|-------|---------|--------|
+| 9 | 2026-04-19 | Optimize images with Astro Image component | `e9edcdd`, `9022781` | `main` |
 | 8 | 2026-04-19 | Optimize spec documentation structure | `d0154b8` | `main` |
 | 7 | 2026-04-19 | Theme Toggle GSAP Animation | `38be1cb`, `ce71a04` | `main` |
 | 6 | 2026-04-19 | ThemeToggle 重构需求规划 | - | `main` |

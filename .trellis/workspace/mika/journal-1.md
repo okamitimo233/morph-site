@@ -493,3 +493,37 @@ Analyzed and refactored spec documentation to remove redundancy and clarify laye
 ### Next Steps
 
 - None - task complete
+
+
+## Session 9: Optimize images with Astro Image component
+
+**Date**: 2026-04-19
+**Task**: Optimize images with Astro Image component
+**Branch**: `main`
+
+### Summary
+
+Replace all <img> with Astro <Image> component for performance. Add noop-image-service for Termux compatibility. Configure remote image domains.
+
+### Main Changes
+
+(Add details)
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `e9edcdd` | (see git log) |
+| `9022781` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
