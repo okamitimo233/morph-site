@@ -460,3 +460,36 @@ Refactor ThemeToggle to single button with GSAP rotation/scale animation. Add sm
 ### Next Steps
 
 - None - task complete
+
+
+## Session 8: Optimize spec documentation structure
+
+**Date**: 2026-04-19
+**Task**: Optimize spec documentation structure
+**Branch**: `main`
+
+### Summary
+
+Analyzed and refactored spec documentation to remove redundancy and clarify layer responsibilities based on Trellis design principles.
+
+### Main Changes
+
+(Add details)
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `d0154b8` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
