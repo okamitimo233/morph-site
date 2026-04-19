@@ -196,14 +196,14 @@ export default function ThemeToggle({ className }: ThemeToggleProps): ReactEleme
       <span
         ref={sunIconRef}
         className="absolute"
-        style={{ transformOrigin: 'center' }}
+        style={{ transformOrigin: 'center', opacity: 0 }}
       >
         <SunIcon />
       </span>
       <span
         ref={moonIconRef}
         className="absolute"
-        style={{ transformOrigin: 'center' }}
+        style={{ transformOrigin: 'center', opacity: 0 }}
       >
         <MoonIcon />
       </span>
