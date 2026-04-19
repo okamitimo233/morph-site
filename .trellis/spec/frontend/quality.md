@@ -1,6 +1,8 @@
-# Code Quality Guidelines
+# Frontend Code Quality Guidelines
 
-> Performance and code quality standards.
+> Performance and code quality standards for Astro + React applications.
+>
+> **Cross-layer quality standards** (no `!` assertions, no `any`, lint before commit) are defined in [shared/code-quality.md](../shared/code-quality.md).
 
 ---
 
@@ -49,35 +51,6 @@ pnpm build
 
 ---
 
-## Forbidden Patterns
-
-| Pattern                             | Reason             | Fix                                 |
-| ----------------------------------- | ------------------ | ----------------------------------- |
-| Non-null assertions (`!`)           | Type unsafe        | Use local variable after null check |
-| `any` type                          | Loses type safety  | Use proper types or `unknown`       |
-| Unused imports/variables            | Dead code          | Remove or prefix with `_`           |
-| Lexical declarations in bare `case` | Lint error         | Wrap case body in `{}`              |
-| Duplicate constant definitions      | Maintenance burden | Use shared constants                |
-
----
-
-## Non-null Assertion Fix
-
-```typescript
-// Bad - non-null assertion
-if (result.success && result.data) {
-  doSomething(result.data!);
-}
-
-// Good - use local variable
-if (result.success && result.data) {
-  const data = result.data; // TypeScript knows this is defined
-  doSomething(data);
-}
-```
-
----
-
 ## Switch Case with Lexical Declarations
 
 When declaring variables (with `const`/`let`) inside a `case` block, you MUST wrap the block in braces `{}`:
@@ -123,35 +96,6 @@ function getIcon(status: Status) {
     }
   }
 }
-```
-
----
-
-## Clean Up Unused Imports
-
-After refactoring, always check for and remove unused imports:
-
-```typescript
-// Bad - unused imports
-import { useState, useEffect, useCallback } from 'react';
-// ... code that only uses useState
-
-// Good - only import what you use
-import { useState } from 'react';
-```
-
-**Tip**: Run `pnpm lint` before committing to catch unused imports.
-
----
-
-## Avoid Duplicate Definitions
-
-Before defining constants, mappings, or configuration values, **search the codebase first**:
-
-```bash
-# Search for existing definitions
-grep -r "ALLOWED_TYPES\|allowedTypes" src/
-grep -r "extension.*mime" src/
 ```
 
 ---
@@ -301,14 +245,22 @@ try {
 
 | Rule                                    | Why                         |
 | --------------------------------------- | --------------------------- |
-| No `!` (non-null assertion)             | Hides potential null issues |
-| No `any`                                | Loses type safety           |
+| Use `pnpm`                              | Consistent package manager  |
 | Wrap `case` with `const`/`let` in `{}`  | Linter requirement          |
 | Use `_` prefix for intentionally unused | Linter won't complain       |
-| Search before defining constants        | Avoid duplication           |
 | Max 300 lines per component             | Maintainability             |
 | Run lint + build before commit          | Catch issues early          |
 | Minimize client-side hydration          | Performance                 |
+
+---
+
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [shared/code-quality.md](../shared/code-quality.md) | Cross-layer quality standards (authoritative) |
+| [shared/typescript.md](../shared/typescript.md) | TypeScript best practices |
+| [guides/bug-root-cause-thinking-guide.md](../guides/bug-root-cause-thinking-guide.md) | Bug analysis methodology |
 
 ---
 

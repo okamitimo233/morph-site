@@ -184,4 +184,14 @@ if (size > CONFIG.MAX_SIZE) {
 
 ---
 
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [code-reuse-thinking-guide.md](./code-reuse-thinking-guide.md) | Code reuse patterns and abstractions |
+| [bug-root-cause-thinking-guide.md](./bug-root-cause-thinking-guide.md) | Bug analysis methodology |
+| [semantic-change-checklist.md](./semantic-change-checklist.md) | Changing data semantics safely |
+
+---
+
 **Core Principle**: 5 minutes of checklist thinking saves 50 minutes of refactoring.

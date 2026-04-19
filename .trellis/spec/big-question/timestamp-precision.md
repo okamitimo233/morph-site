@@ -1,8 +1,12 @@
-# Timestamp Precision: Seconds vs Milliseconds
+# Investigation: Timestamp Precision Mismatch
 
+> **Category**: Deep-dive Technical Investigation
 > **Severity**: P1 - Data sync fails, validation errors
+> **Discovered**: During API integration
 
-## Problem
+---
+
+## Problem Statement
 
 API requests fail with authentication or validation errors. Server logs show timestamps being parsed as dates from 1970:
 
@@ -14,12 +18,7 @@ Expected: 2025-06-12T10:43:49.000Z  // Correct
 
 The timestamp `1749710629` is in **seconds**, but `new Date()` expects **milliseconds**.
 
-## Symptoms
-
-- API calls fail with `forbidden` or validation errors
-- Timestamps appear as dates in 1970
-- Data syncs fail silently
-- Works in development, fails in production (or vice versa)
+---
 
 ## Root Cause: Drizzle ORM Timestamp Modes
 
@@ -42,25 +41,7 @@ The default behavior and JavaScript's expectations don't match:
 | JavaScript `Date.now()`  | Milliseconds             |
 | JavaScript `new Date(n)` | Expects milliseconds     |
 
-## The Mismatch
-
-```typescript
-// Schema uses seconds mode
-createdAt: integer('createdAt', { mode: 'timestamp' });
-
-// Writing to DB
-const now = new Date(); // 2025-06-12T10:43:49.123Z
-db.insert(table).values({ createdAt: now });
-// Stored as: 1749710629 (seconds)
-
-// Reading from DB
-const row = db.select().from(table).get();
-// row.createdAt = Date object, but milliseconds are lost (.000Z)
-
-// If raw value is used:
-new Date(1749710629); // 1970-01-21 - WRONG!
-new Date(1749710629 * 1000); // 2025-06-12 - Correct
-```
+---
 
 ## Solution
 
@@ -111,6 +92,8 @@ WHERE updatedAt IS NOT NULL AND updatedAt < 10000000000;
 }
 ```
 
+---
+
 ## Why the Condition `< 10000000000`?
 
 ```
@@ -122,6 +105,8 @@ If value >= 10000000000, it might already be milliseconds
 ```
 
 This makes the migration **idempotent** - running it twice won't corrupt data.
+
+---
 
 ## Key Insights
 
@@ -138,24 +123,14 @@ The documentation doesn't prominently warn about this difference. Always check:
 } // Milliseconds - matches JavaScript
 ```
 
-### 2. Full-Stack Timestamp Convention
-
-Establish a convention early:
-
-| Layer    | Format                                    |
-| -------- | ----------------------------------------- |
-| Database | Milliseconds (INTEGER)                    |
-| API      | ISO 8601 string or milliseconds           |
-| Frontend | JavaScript Date (milliseconds internally) |
-
-### 3. Drizzle Won't Auto-Generate Mode Migrations
+### 2. Drizzle Won't Auto-Generate Mode Migrations
 
 Because the SQLite column type doesn't change (`INTEGER` in both cases), Drizzle kit doesn't detect the change. You must:
 
 1. Manually create migration SQL
 2. Manually update the journal
 
-### 4. Test Timestamp Round-Trips
+### 3. Test Timestamp Round-Trips
 
 ```typescript
 // Test helper
@@ -174,6 +149,8 @@ function testTimestamp(table: string) {
 }
 ```
 
+---
+
 ## Prevention
 
 When defining new schemas with timestamps:
@@ -182,3 +159,16 @@ When defining new schemas with timestamps:
 - [ ] Document the precision in schema comments
 - [ ] Add tests for timestamp round-trips
 - [ ] Verify API contracts match (ISO string vs milliseconds)
+
+---
+
+## Related Specifications
+
+| Document | Purpose |
+|----------|---------|
+| [shared/timestamp.md](../shared/timestamp.md) | Timestamp format specification (authoritative) |
+| [guides/semantic-change-checklist.md](../guides/semantic-change-checklist.md) | Changing data semantics safely |
+
+---
+
+**Language**: All documentation must be written in **English**.

@@ -219,6 +219,16 @@ it('should create a project', async () => {
 
 ---
 
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [frontend/quality.md](../frontend/quality.md) | Frontend-specific quality guidelines |
+| [shared/typescript.md](./typescript.md) | TypeScript best practices |
+| [guides/bug-root-cause-thinking-guide.md](../guides/bug-root-cause-thinking-guide.md) | Bug analysis methodology |
+
+---
+
 ## Summary
 
 | Rule                    | Reason              |

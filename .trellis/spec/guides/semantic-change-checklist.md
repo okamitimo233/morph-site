@@ -285,4 +285,14 @@ After Change:
 
 ---
 
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [pre-implementation-checklist.md](./pre-implementation-checklist.md) | Pre-coding checklist |
+| [shared/timestamp.md](../shared/timestamp.md) | Timestamp format specification |
+| [big-question/timestamp-precision.md](../big-question/timestamp-precision.md) | Timestamp precision investigation |
+
+---
+
 **Core Principle**: Semantic changes are high-risk because they're invisible. The code looks the same, but means something different. Explicit is better than implicit.

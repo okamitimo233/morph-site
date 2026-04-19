@@ -1,6 +1,8 @@
 # Type Safety Guidelines
 
-> Type safety, import paths, and module constants for Astro + React projects.
+> Type safety and module constants for Astro + React projects.
+>
+> **TypeScript best practices** (explicit return types, `import type`, generics, etc.) are defined in [shared/typescript.md](../shared/typescript.md).
 
 ---
 
@@ -248,61 +250,6 @@ const { Content } = await render(post);
 
 ---
 
-## Type Annotations Best Practices
-
-### Explicit Return Types
-
-```typescript
-// Good - explicit return type
-export function formatDate(date: Date): string {
-  return date.toLocaleDateString('en-US');
-}
-
-// Bad - inferred return type
-export function formatDate(date: Date) {
-  return date.toLocaleDateString('en-US');
-}
-```
-
-### Avoid Non-null Assertions
-
-```typescript
-// Bad - non-null assertion
-const name = user!.name;
-
-// Good - explicit null check
-if (user) {
-  const name = user.name;
-}
-
-// Also good - optional chaining with fallback
-const name = user?.name ?? 'Unknown';
-```
-
-### Type Guards
-
-```typescript
-// Good - type guard for runtime checks
-function isUser(data: unknown): data is User {
-  return (
-    typeof data === 'object' &&
-    data !== null &&
-    'id' in data &&
-    'name' in data
-  );
-}
-
-// Usage
-const response = await fetch('/api/user');
-const data = await response.json();
-
-if (isUser(data)) {
-  console.log(data.name); // TypeScript knows this is User
-}
-```
-
----
-
 ## Generic Type Patterns
 
 ### Hook with Generic Return Type
@@ -355,7 +302,17 @@ const { data: users, isLoading } = useFetch<User[]>('/api/users');
 | How to import with aliases?   | `import type { X } from '@lib/types/x'`          |
 | How to type Astro props?      | `interface Props { ... }` in frontmatter         |
 | How to type content?          | Use Zod schema in `content/config.ts`            |
-| How to avoid `!` assertions?  | Use null checks or optional chaining             |
+| How to avoid `!` assertions?  | See [shared/code-quality.md](../shared/code-quality.md) |
+
+---
+
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [shared/typescript.md](../shared/typescript.md) | TypeScript best practices (authoritative) |
+| [shared/code-quality.md](../shared/code-quality.md) | Code quality standards |
+| [shared/timestamp.md](../shared/timestamp.md) | Timestamp format specification |
 
 ---
 

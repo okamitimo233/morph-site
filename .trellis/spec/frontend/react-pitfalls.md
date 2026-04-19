@@ -19,33 +19,7 @@ setCallback(myFunction); // myFunction(prevState) is called!
 setCallback(() => myFunction); // myFunction is stored, not called
 ```
 
-**Why this happens:**
-
-React's `setState` has two signatures:
-
-1. `setState(newValue)` - Direct value
-2. `setState(prevState => newState)` - Updater function
-
-When you pass a function, React assumes it's an updater and calls it with the previous state.
-
-**Real-world example:**
-
-```tsx
-// NavigationContext.tsx
-const [backHandler, setBackHandlerState] = useState<(() => void) | null>(null);
-
-// Bug: backHandler() gets called immediately, resetting app state
-setBackHandlerState(handler);
-
-// Fix: Store the handler as a value
-setBackHandlerState(() => handler);
-```
-
-**Symptoms of this bug:**
-
-- State unexpectedly resets after setting
-- UI "flickers" - shows new state briefly then reverts
-- Functions execute at wrong times
+> **Deep dive**: See [big-question/react-usestate-function.md](../big-question/react-usestate-function.md) for root cause analysis, symptoms, and complete solutions.
 
 ---
 
@@ -70,21 +44,6 @@ const { dateFrom, dateTo } = useMemo(
 
 useMyData({ dateFrom, dateTo }); // Stable references, no infinite loop
 ```
-
-**Why this happens:**
-
-1. `getDateRangeFromOption()` returns `{ dateFrom: new Date(...), dateTo: new Date(...) }`
-2. Each render creates NEW Date objects with different references
-3. Hook sees different dependency values -> triggers effect/fetch
-4. Fetch completes -> state updates -> component re-renders
-5. Go to step 1 -> **infinite loop**
-
-**Symptoms of this bug:**
-
-- Console shows repeated API calls (same request fired many times per second)
-- UI "flickers" or feels unresponsive
-- High CPU usage, app becomes slow
-- Network tab shows endless requests
 
 **When to use useMemo for hook dependencies:**
 
@@ -138,7 +97,7 @@ function MyPage() {
 }
 ```
 
-**State Lifecycle Decision Matrix**:
+**State Lifecycle Decision Matrix:**
 
 | Lifecycle           | When to use                                  | How to implement                    |
 | ------------------- | -------------------------------------------- | ----------------------------------- |
@@ -146,39 +105,11 @@ function MyPage() {
 | **Page-level**      | Expand/collapse, scroll position, selections | Lift to parent that doesn't unmount |
 | **Session-level**   | User preferences, last viewed item           | `localStorage` or Electron store    |
 
-**Key Questions Before Creating State**:
-
-1. **Will this component unmount during normal user flow?**
-   - Conditional rendering (`{editing ? <A/> : <B/>}`)
-   - Route changes
-   - Key prop changes
-
-2. **Should the state survive the unmount?**
-   - User expectations: "I expanded this folder, I expect it to stay expanded"
-   - UX: No jarring state resets
-
-3. **Where should the state live?**
-   - Find the nearest ancestor that won't unmount during the relevant user flows
-
 ---
 
 ## Loading State Patterns (Avoiding Flash of Loading)
 
 **Problem**: Showing loading skeleton on every data fetch causes UI flicker, especially on refetch after user actions.
-
-**Bad pattern**:
-
-```tsx
-// Bad - Shows skeleton on every fetch, including refetch
-const fetchData = async () => {
-  setIsLoading(true); // Always shows skeleton!
-  const data = await api.getData();
-  setData(data);
-  setIsLoading(false);
-};
-
-// User deletes item -> refetch -> flash of skeleton -> jarring UX
-```
 
 **Good pattern**: Distinguish initial load vs background refresh:
 
@@ -205,14 +136,9 @@ const fetchData = async (isRefetch = false) => {
 
 // Expose separate refetch function
 const refetch = () => fetchData(true);
-
-// Initial load
-useEffect(() => {
-  void fetchData(false);
-}, []);
 ```
 
-**When to show loading skeleton**:
+**When to show loading skeleton:**
 
 | Scenario                      | Show skeleton? | Why                                         |
 | ----------------------------- | -------------- | ------------------------------------------- |
@@ -221,15 +147,6 @@ useEffect(() => {
 | Refetch after navigation back | No             | User expects to see what they left          |
 | Pull-to-refresh (mobile)      | Spinner only   | Show refresh indicator, not full skeleton   |
 | Pagination / load more        | Partial        | Only show loading for new items             |
-
-**Optional: Show subtle refetch indicator**:
-
-```tsx
-// Show a subtle indicator without replacing content
-{
-  isRefetching && <div className="absolute top-2 right-2 text-xs text-muted">Updating...</div>;
-}
-```
 
 ---
 
@@ -275,18 +192,6 @@ useEffect(() => {
 }, [currentChat?.id, setMessages]);
 ```
 
-**Why this happens:**
-
-1. `useChat({ id })` uses `id` to namespace its internal state
-2. When `id` changes, the hook treats it as a "new chat" and resets
-3. Any `setMessages` call made before the reset takes effect gets overwritten
-
-**Symptoms of this bug:**
-
-- Chat history loads (can see in console) but UI shows empty/welcome state
-- Messages appear briefly then disappear
-- Only happens when switching between existing chats, not when sending new messages
-
 **General rule for hooks with ID props:**
 When a hook uses an `id` to manage state, assume the state resets on `id` change. Use refs + effects to apply state after the reset.
 
@@ -301,6 +206,16 @@ When a hook uses an `id` to manage state, assume the state resets on `id` change
 | State in unmounting component | State lost on navigation                      | Lift state to parent           |
 | Loading on every fetch        | UI flickers                                   | Distinguish initial vs refetch |
 | Hook ID change                | State cleared, race conditions                | Use ref + useEffect            |
+
+---
+
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [big-question/react-usestate-function.md](../big-question/react-usestate-function.md) | Deep dive: useState function storage issue |
+| [guides/bug-root-cause-thinking-guide.md](../guides/bug-root-cause-thinking-guide.md) | Bug analysis methodology |
+| [shared/code-quality.md](../shared/code-quality.md) | Code quality standards |
 
 ---
 

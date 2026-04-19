@@ -586,3 +586,13 @@ type ExpectError<T extends never> = T;
 | Forgetting readonly modifiers    | Add readonly to prevent mutations  |
 | Circular type references         | Restructure or use interfaces      |
 | Not handling edge cases          | Consider null, undefined, empty    |
+
+---
+
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [frontend/type-safety.md](../frontend/type-safety.md) | Astro/React-specific type patterns |
+| [shared/code-quality.md](./code-quality.md) | Code quality standards |
+| [shared/timestamp.md](./timestamp.md) | Timestamp type specifications |

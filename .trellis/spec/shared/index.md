@@ -57,4 +57,16 @@
 
 ---
 
+## Relationship to Other Layers
+
+| Layer | Purpose | Relationship |
+|-------|---------|--------------|
+| `frontend/` | Frontend-specific guidelines | **References** shared/ for base standards |
+| `big-question/` | Deep-dive investigations | May **reference** shared/ as the "correct" way |
+| `guides/` | Thinking guides | May **inform** new thinking patterns |
+
+**Key principle**: Shared specs are **authoritative** for cross-layer concerns. Other layers should reference, not duplicate, these standards.
+
+---
+
 **Language**: All documentation must be written in **English**.

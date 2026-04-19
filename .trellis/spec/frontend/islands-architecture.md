@@ -1,6 +1,8 @@
 # Islands Architecture
 
 > Understanding Astro's Islands architecture and hydration patterns.
+>
+> **Client directives reference**: See [astro-integration.md](./astro-integration.md) for complete `client:*` directive documentation.
 
 ---
 
@@ -79,83 +81,7 @@ import Counter from '../components/Counter.tsx';
 <Counter client:visible />
 ```
 
----
-
-## Island Hydration Strategies
-
-### 1. client:load
-
-Hydrate immediately when page loads.
-
-```astro
-<Navigation client:load />
-```
-
-**When to use:**
-- Above-fold interactive content
-- Critical UI that users expect to work immediately
-- Navigation, search forms, authentication
-
-**Trade-off:** Increases initial bundle size
-
-### 2. client:idle
-
-Hydrate when browser is idle (using `requestIdleCallback`).
-
-```astro
-<NewsletterSignup client:idle />
-```
-
-**When to use:**
-- Below-fold content
-- Low-priority features
-- Analytics, chat widgets
-
-**Trade-off:** May delay interactivity on slower devices
-
-### 3. client:visible
-
-Hydrate when element enters viewport.
-
-```astro
-<ImageCarousel client:visible />
-```
-
-**When to use:**
-- Below-fold interactive content
-- Carousels, galleries
-- Lazy-loaded features
-
-**Trade-off:** Requires IntersectionObserver
-
-### 4. client:media
-
-Hydrate when media query matches.
-
-```astro
-<MobileMenu client:media="(max-width: 768px)" />
-```
-
-**When to use:**
-- Mobile-only features
-- Responsive interactivity
-
-**Trade-off:** Requires MediaQueryList API
-
-### 5. client:only
-
-Skip server rendering entirely, only hydrate on client.
-
-```astro
-<HeavyChart client:only="react" />
-```
-
-**When to use:**
-- Heavy JS libraries
-- Components that can't be SSR'd
-- No SEO benefit needed
-
-**Trade-off:** No server-side rendering, SEO impact
+> **For complete `client:*` directive reference**, see [astro-integration.md](./astro-integration.md).
 
 ---
 
@@ -368,6 +294,18 @@ function Comments({ postId }: { postId: string }) {
 | `client:media`   | Media query match            | Conditional JS load      |
 | `client:only`    | No SSR, immediate hydration  | No server rendering      |
 | (no directive)   | Never                        | Zero JS                  |
+
+> **Complete directive documentation**: [astro-integration.md](./astro-integration.md)
+
+---
+
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [astro-integration.md](./astro-integration.md) | Client directives reference, React integration |
+| [state-management.md](./state-management.md) | State patterns in Astro + React |
+| [quality.md](./quality.md) | Performance guidelines |
 
 ---
 

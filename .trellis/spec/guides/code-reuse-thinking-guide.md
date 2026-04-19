@@ -365,4 +365,14 @@ When fixing a bug in domain-specific code:
 
 ---
 
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [pre-implementation-checklist.md](./pre-implementation-checklist.md) | Pre-coding checklist |
+| [bug-root-cause-thinking-guide.md](./bug-root-cause-thinking-guide.md) | Bug analysis methodology |
+| [shared/code-quality.md](../shared/code-quality.md) | Code quality standards |
+
+---
+
 **Core Principle**: If you're about to copy-paste, stop and think about extraction.

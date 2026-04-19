@@ -180,6 +180,16 @@ Using milliseconds prevents this class of bugs.
 
 ---
 
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [big-question/timestamp-precision.md](../big-question/timestamp-precision.md) | Deep dive: timestamp precision mismatch investigation |
+| [guides/semantic-change-checklist.md](../guides/semantic-change-checklist.md) | Changing data semantics safely |
+| [shared/typescript.md](./typescript.md) | TypeScript best practices |
+
+---
+
 ## Summary
 
 | Layer   | Format     | Method                 |

@@ -234,6 +234,15 @@ Brief description of changes.
 
 ---
 
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [shared/code-quality.md](./code-quality.md) | Code quality standards |
+| [guides/semantic-change-checklist.md](../guides/semantic-change-checklist.md) | Changing data semantics safely |
+
+---
+
 ## Summary
 
 | Convention     | Format                     | Example                       |

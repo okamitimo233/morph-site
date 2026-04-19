@@ -122,4 +122,16 @@
 
 ---
 
+## Relationship to Other Layers
+
+| Layer | Purpose | Relationship |
+|-------|---------|--------------|
+| `shared/` | Cross-layer standards | Frontend specs **reference** these for base standards |
+| `big-question/` | Deep-dive investigations | May reference frontend patterns or inform new ones |
+| `guides/` | Thinking guides | Apply thinking patterns when implementing frontend |
+
+**Key principle**: Frontend specs extend shared standards with frontend-specific content. Always check `shared/` for base standards first.
+
+---
+
 **Language**: All documentation is written in **English**.

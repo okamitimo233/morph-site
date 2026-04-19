@@ -385,4 +385,14 @@ After analyzing a bug, add lessons to the appropriate guide:
 | React State Timing        | Yes          | Use refs for cross-render data, understand async updates |
 | Third-Party Hook Fallback | Yes          | Check fallback behavior when params are undefined        |
 
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| [pre-implementation-checklist.md](./pre-implementation-checklist.md) | Pre-coding checklist |
+| [code-reuse-thinking-guide.md](./code-reuse-thinking-guide.md) | Code reuse patterns |
+| [shared/code-quality.md](../shared/code-quality.md) | Code quality standards |
+
+---
+
 **Core Principle**: Most preventable bugs come from **implicit assumptions**. Make assumptions explicit.

@@ -136,4 +136,16 @@ Found a new "didn't think of that" moment? Add it:
 
 ---
 
+## Relationship to Other Layers
+
+| Layer | Purpose | Relationship |
+|-------|---------|--------------|
+| `shared/` | Cross-layer standards | Guides help you **apply** these standards correctly |
+| `frontend/` | Frontend-specific guidelines | Guides inform **how** to implement frontend patterns |
+| `big-question/` | Deep-dive investigations | May **inform** new thinking guides |
+
+**Key principle**: Guides are **thinking tools**, not specifications. They help you ask the right questions, but the answers come from the spec documents.
+
+---
+
 **Language**: All documentation should be written in **English**.

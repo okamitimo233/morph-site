@@ -1,8 +1,12 @@
-# Visual vs Mathematical Centering in Flex Layouts
+# Investigation: Visual vs Mathematical Centering in Flex Layouts
 
+> **Category**: Deep-dive Technical Investigation
 > **Severity**: P2 - UI appears misaligned
+> **Discovered**: During empty state implementation
 
-## Problem
+---
+
+## Problem Statement
 
 In a page with a header, content that should be "centered" appears too low:
 
@@ -21,6 +25,8 @@ In a page with a header, content that should be "centered" appears too low:
 
 The content is mathematically centered in the available space, but users perceive it as off-center.
 
+---
+
 ## Typical Layout
 
 ```tsx
@@ -32,7 +38,9 @@ The content is mathematically centered in the available space, but users perceiv
 </div>
 ```
 
-## The Math vs Visual Problem
+---
+
+## Root Cause: Math vs Visual
 
 ```
 Viewport height: 800px
@@ -50,6 +58,8 @@ Difference: Content appears 32px too low
 
 With more header elements (page title, buttons, etc.), this offset grows.
 
+---
+
 ## Initial Attempts (Failed)
 
 ### Attempt 1: min-height Calculations
@@ -59,6 +69,8 @@ With more header elements (page title, buttons, etc.), this offset grows.
 ```
 
 **Why it fails**: Hard to calculate exact offsets. Different pages have different headers. Increasing min-height actually pushes center point LOWER.
+
+---
 
 ## Solution: Negative Margin Offset
 
@@ -80,12 +92,16 @@ Apply a negative margin to shift centered content upward:
 | Header + subtitle | `-mt-24` | Medium visual weight      |
 | Header + actions  | `-mt-32` | Large visual weight       |
 
+---
+
 ## Why This Works
 
 1. **Keeps flex centering intact** - Container still centers normally
 2. **Applies visual correction** - Negative margin shifts content up
 3. **Simple and predictable** - Easy to tune per page
 4. **No complex calculations** - Works across different viewport sizes
+
+---
 
 ## Complete Example
 
@@ -114,6 +130,8 @@ function EmptyPage() {
 }
 ```
 
+---
+
 ## Key Insight
 
 **Visual centering is what users expect, not mathematical centering.**
@@ -125,6 +143,8 @@ When a header takes up space at the top:
 - Users perceive mathematical centering as "too low"
 
 **The fix isn't about calculating heights** - it's about applying a visual offset to already-centered content.
+
+---
 
 ## Alternative Approaches
 
@@ -145,19 +165,10 @@ When a header takes up space at the top:
   <div className="transform -translate-y-12">
     <EmptyState />
   </div>
-</div>
+</main>
 ```
 
-### Custom Centering
-
-```css
-.visual-center {
-  position: absolute;
-  top: 45%; /* Slightly above true center */
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-```
+---
 
 ## When to Apply
 
@@ -166,11 +177,14 @@ When a header takes up space at the top:
 - Centered modals/dialogs
 - Any content that should "feel" centered to users
 
-## Testing
+---
 
-Visual centering is subjective. Test by:
+## Related Specifications
 
-1. Taking a screenshot
-2. Drawing horizontal line at viewport center
-3. Content should be close to or slightly above this line
-4. Get feedback from non-developers
+| Document | Purpose |
+|----------|---------|
+| [frontend/components.md](../frontend/components.md) | Component patterns including empty states |
+
+---
+
+**Language**: All documentation must be written in **English**.

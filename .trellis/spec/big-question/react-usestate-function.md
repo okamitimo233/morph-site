@@ -1,8 +1,12 @@
-# React useState: Function Values Executed as Updaters
+# Investigation: React useState Function Value Execution
 
+> **Category**: Deep-dive Technical Investigation
 > **Severity**: P2 - Unexpected behavior, state resets
+> **Discovered**: During NavigationContext implementation
 
-## Problem
+---
+
+## Problem Statement
 
 When storing a function in React state, the function gets immediately executed instead of being stored:
 
@@ -12,6 +16,8 @@ const [callback, setCallback] = useState<(() => void) | null>(null);
 // This EXECUTES myFunction instead of storing it!
 setCallback(myFunction);
 ```
+
+---
 
 ## Symptoms
 
@@ -27,7 +33,9 @@ Example console output:
 [Component] Handler executed!  <-- Immediately called!
 ```
 
-## Root Cause
+---
+
+## Root Cause Analysis
 
 React's `useState` setter has two modes:
 
@@ -50,26 +58,21 @@ setCallback((prevState) => myFunction(prevState));
 // myFunction(null) gets called immediately!
 ```
 
-## Demonstration
+### Why TypeScript Doesn't Catch This
+
+Both usages have the same type signature:
 
 ```typescript
-function BadExample() {
-  const [handler, setHandler] = useState<(() => void) | null>(null);
+// setState<T>(value: T | ((prev: T) => T)): void
 
-  const handleClick = () => {
-    console.log('Click handler executed');
-    setCount((c) => c + 1);
-  };
+// When T = (() => void) | null:
+setCallback(myFunction); // T = () => void (valid)
+setCallback((prev) => myFunction); // (prev: T) => T (valid)
 
-  useEffect(() => {
-    // BUG: handleClick() is called immediately!
-    setHandler(handleClick);
-  }, []);
-
-  // Result: 'Click handler executed' logs on mount
-  // handler is set to undefined (return value of handleClick)
-}
+// TypeScript can't distinguish intent
 ```
+
+---
 
 ## Solution
 
@@ -106,19 +109,7 @@ function CorrectExample() {
 }
 ```
 
-## Why TypeScript Doesn't Catch This
-
-Both usages have the same type signature:
-
-```typescript
-// setState<T>(value: T | ((prev: T) => T)): void
-
-// When T = (() => void) | null:
-setCallback(myFunction); // T = () => void (valid)
-setCallback((prev) => myFunction); // (prev: T) => T (valid)
-
-// TypeScript can't distinguish intent
-```
+---
 
 ## Common Scenarios
 
@@ -167,25 +158,9 @@ setClickHandler(handleSpecialClick);
 setClickHandler(() => handleSpecialClick);
 ```
 
-## Key Insight
+---
 
-This is a subtle React gotcha because:
-
-1. **TypeScript doesn't warn** - both usages are type-valid
-2. **Symptom is indirect** - you see "state reset", not "function called"
-3. **Easy to miss in review** - the code looks correct
-
-**Rule of thumb**: When calling `setState` with a function value, always ask "Am I storing this function or computing a new state?"
-
-## Prevention Checklist
-
-When storing functions in state:
-
-- [ ] Is `setState(fn)` wrapped in `setState(() => fn)`?
-- [ ] If the function takes parameters, does wrapping preserve them?
-- [ ] Are context providers that store callbacks handling this correctly?
-
-## Related Patterns
+## Alternative Patterns
 
 ### useRef Alternative
 
@@ -204,3 +179,36 @@ callbackRef.current = myFunction;
 const stableCallback = useCallback(myFunction, [dependencies]);
 // Then use stableCallback where needed
 ```
+
+---
+
+## Key Insights
+
+1. **TypeScript doesn't warn** - both usages are type-valid
+2. **Symptom is indirect** - you see "state reset", not "function called"
+3. **Easy to miss in review** - the code looks correct
+
+**Rule of thumb**: When calling `setState` with a function value, always ask "Am I storing this function or computing a new state?"
+
+---
+
+## Prevention Checklist
+
+When storing functions in state:
+
+- [ ] Is `setState(fn)` wrapped in `setState(() => fn)`?
+- [ ] If the function takes parameters, does wrapping preserve them?
+- [ ] Are context providers that store callbacks handling this correctly?
+
+---
+
+## Related Specifications
+
+| Document | Purpose |
+|----------|---------|
+| [frontend/react-pitfalls.md](../frontend/react-pitfalls.md) | Quick reference for React pitfalls |
+| [guides/bug-root-cause-thinking-guide.md](../guides/bug-root-cause-thinking-guide.md) | Bug analysis methodology |
+
+---
+
+**Language**: All documentation must be written in **English**.
