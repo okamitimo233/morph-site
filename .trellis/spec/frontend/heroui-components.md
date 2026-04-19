@@ -8,34 +8,32 @@
 
 **This guide is for HeroUI v3 ONLY.** Do NOT apply v2 patterns:
 
-| Feature       | v2 (DO NOT USE)                   | v3 (USE THIS)                               |
-| ------------- | --------------------------------- | ------------------------------------------- |
-| Provider      | `<HeroUIProvider>` required       | **No Provider needed**                      |
-| Animations    | `framer-motion` package           | CSS-based, no extra deps                    |
-| Component API | Flat props: `<Card title="x">`    | Compound: `<Card><Card.Header>`             |
-| Styling       | Tailwind v3 + `@heroui/theme`     | Tailwind v4 + `@heroui/styles`              |
-| Packages      | `@heroui/system`, `@heroui/theme` | `@heroui/react`, `@heroui/styles`           |
+| Feature       | v2 (DO NOT USE)                   | v3 (USE THIS)                     |
+| ------------- | --------------------------------- | --------------------------------- |
+| Provider      | `<HeroUIProvider>` required       | **No Provider needed**            |
+| Animations    | `framer-motion` package           | CSS-based, no extra deps          |
+| Component API | Flat props: `<Card title="x">`    | Compound: `<Card><Card.Header>`   |
+| Styling       | Tailwind v3 + `@heroui/theme`     | Tailwind v4 + `@heroui/styles`    |
+| Packages      | `@heroui/system`, `@heroui/theme` | `@heroui/react`, `@heroui/styles` |
 
 ```tsx
 // DO NOT DO THIS - v2 pattern
-import { HeroUIProvider } from "@heroui/react";
-import { motion } from "framer-motion";
-
-<HeroUIProvider>
+import { HeroUIProvider } from '@heroui/react'
+import { motion } from 'framer-motion'
+;<HeroUIProvider>
   <Card title="Product" description="A great product" />
-</HeroUIProvider>;
+</HeroUIProvider>
 ```
 
 ```tsx
 // DO THIS - v3 pattern (no provider, compound components)
-import { Card } from "@heroui/react";
-
-<Card>
+import { Card } from '@heroui/react'
+;<Card>
   <Card.Header>
     <Card.Title>Product</Card.Title>
     <Card.Description>A great product</Card.Description>
   </Card.Header>
-</Card>;
+</Card>
 ```
 
 ---
@@ -50,22 +48,22 @@ pnpm add @heroui/styles @heroui/react tailwind-variants tailwindcss @tailwindcss
 
 ```css
 /* globals.css - Order matters! */
-@import "tailwindcss";      /* Must be first */
-@import "@heroui/styles";   /* Must be after Tailwind */
+@import 'tailwindcss'; /* Must be first */
+@import '@heroui/styles'; /* Must be after Tailwind */
 ```
 
 ### Layout Setup (Astro)
 
 ```tsx
 // No Provider needed in HeroUI v3!
-import "./globals.css";
+import './globals.css'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>{children}</body>
     </html>
-  );
+  )
 }
 ```
 
@@ -84,14 +82,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 HeroUI uses semantic naming to communicate functional intent:
 
-| Variant      | Purpose                           | Usage          |
-| ------------ | --------------------------------- | -------------- |
-| `primary`    | Main action to move forward       | 1 per context  |
-| `secondary`  | Alternative actions               | Multiple       |
-| `tertiary`   | Dismissive actions (cancel, skip) | Sparingly      |
-| `danger`     | Destructive actions               | When needed    |
-| `ghost`      | Low-emphasis actions              | Minimal weight |
-| `outline`    | Secondary actions                 | Bordered style |
+| Variant     | Purpose                           | Usage          |
+| ----------- | --------------------------------- | -------------- |
+| `primary`   | Main action to move forward       | 1 per context  |
+| `secondary` | Alternative actions               | Multiple       |
+| `tertiary`  | Dismissive actions (cancel, skip) | Sparingly      |
+| `danger`    | Destructive actions               | When needed    |
+| `ghost`     | Low-emphasis actions              | Minimal weight |
+| `outline`   | Secondary actions                 | Bordered style |
 
 **Don't use raw colors** - semantic variants adapt to themes and accessibility.
 
@@ -128,9 +126,8 @@ import { Button } from "@heroui/react";
 ### Card
 
 ```tsx
-import { Card } from "@heroui/react";
-
-<Card>
+import { Card } from '@heroui/react'
+;<Card>
   <Card.Header>
     <Card.Title>Card Title</Card.Title>
     <Card.Description>Card description text</Card.Description>
@@ -147,10 +144,10 @@ import { Card } from "@heroui/react";
 ### Modal
 
 ```tsx
-import { Modal } from "@heroui/react";
+import { Modal } from '@heroui/react'
 
 function ModalExample() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   return (
     <>
@@ -175,16 +172,15 @@ function ModalExample() {
         </Modal.Footer>
       </Modal>
     </>
-  );
+  )
 }
 ```
 
 ### Form
 
 ```tsx
-import { Form, TextField } from "@heroui/react";
-
-<Form onSubmit={handleSubmit}>
+import { Form, TextField } from '@heroui/react'
+;<Form onSubmit={handleSubmit}>
   <Form.Item name="email" label="Email">
     <TextField type="email" placeholder="your@email.com" />
   </Form.Item>
@@ -214,12 +210,12 @@ HeroUI v3 uses CSS variables with `oklch` color space:
 
 ### Color Naming Convention
 
-| Variable          | Purpose                    |
-| ----------------- | -------------------------- |
-| `--accent`        | Background color           |
-| `--accent-foreground` | Text color on accent   |
-| `--background`    | Page background            |
-| `--foreground`    | Primary text color         |
+| Variable              | Purpose              |
+| --------------------- | -------------------- |
+| `--accent`            | Background color     |
+| `--accent-foreground` | Text color on accent |
+| `--background`        | Page background      |
+| `--foreground`        | Primary text color   |
 
 ### Theme Switching
 
@@ -316,14 +312,31 @@ node .agents/skills/heroui-react/scripts/get_theme.mjs
 
 ## Quick Reference
 
-| Task              | Code                                                    |
-| ----------------- | ------------------------------------------------------- |
-| Primary button    | `<Button variant="primary">`                            |
-| Destructive       | `<Button variant="danger">`                             |
-| Card structure    | `<Card><Card.Header><Card.Title>`                       |
-| Modal             | `<Modal open={open} onOpenChange={setOpen}>`            |
-| Event handler     | `onPress={handler}` (not onClick)                       |
-| Theme dark        | `<html class="dark" data-theme="dark">`                 |
+| Task           | Code                                         |
+| -------------- | -------------------------------------------- |
+| Primary button | `<Button variant="primary">`                 |
+| Destructive    | `<Button variant="danger">`                  |
+| Card structure | `<Card><Card.Header><Card.Title>`            |
+| Modal          | `<Modal open={open} onOpenChange={setOpen}>` |
+| Event handler  | `onPress={handler}` (not onClick)            |
+| Theme dark     | `<html class="dark" data-theme="dark">`      |
+
+---
+
+## Code Examples
+
+All component patterns in this guide are available as copy-paste templates:
+
+| Example                 | File                                                        | Use Case                        |
+| ----------------------- | ----------------------------------------------------------- | ------------------------------- |
+| Button variants         | `examples/skills/heroui-react/button-variants.tsx.template` | Primary/secondary/ghost buttons |
+| Card compound component | `examples/skills/heroui-react/card-pattern.tsx.template`    | Product cards, content cards    |
+| Modal dialog            | `examples/skills/heroui-react/modal-pattern.tsx.template`   | Confirmation dialogs            |
+| Form with TextField     | `examples/skills/heroui-react/form-pattern.tsx.template`    | Login/signup forms              |
+
+**Usage**: Copy `.template` file → Remove `.template` suffix → Adapt to your needs
+
+**Critical**: These examples use v3 patterns (no Provider, compound components, CSS animations)
 
 ---
 

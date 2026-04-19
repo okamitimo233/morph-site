@@ -11,6 +11,7 @@ permission:
   grep: allow
   mcp__exa__*: allow
 ---
+
 # Check Agent
 
 You are the Check Agent in the Trellis workflow.
@@ -36,6 +37,7 @@ Then proceed with the workflow below using the loaded context.
 ## Context
 
 Before checking, read:
+
 - `.trellis/spec/` - Development guidelines
 - Pre-commit checklist for quality standards
 
@@ -98,6 +100,7 @@ Completion markers are generated from `check.jsonl` in the task directory.
 Each entry's `reason` field becomes a marker: `{REASON}_FINISH`
 
 For example, if check.jsonl contains:
+
 ```json
 {"file": "...", "reason": "TypeCheck"}
 {"file": "...", "reason": "Lint"}
@@ -105,6 +108,7 @@ For example, if check.jsonl contains:
 ```
 
 You MUST output these markers when each check passes:
+
 - `TYPECHECK_FINISH` - After typecheck passes
 - `LINT_FINISH` - After lint passes
 - `CODEREVIEW_FINISH` - After code review passes

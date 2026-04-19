@@ -126,7 +126,7 @@ function EmptyPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 ```
 
@@ -181,8 +181,8 @@ When a header takes up space at the top:
 
 ## Related Specifications
 
-| Document | Purpose |
-|----------|---------|
+| Document                                            | Purpose                                   |
+| --------------------------------------------------- | ----------------------------------------- |
 | [frontend/components.md](../frontend/components.md) | Component patterns including empty states |
 
 ---

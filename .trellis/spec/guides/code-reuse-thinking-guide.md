@@ -69,12 +69,12 @@ rg "traverse|Recursive|walkTree" src/ --type ts
 ```typescript
 // BAD: Redefining types
 interface User {
-  id: string;
-  name: string;
+  id: string
+  name: string
 }
 
 // GOOD: Import from source of truth
-import type { User } from '@shared/types';
+import type { User } from '@shared/types'
 ```
 
 ### 3. Is This a Repeated Pattern?
@@ -106,21 +106,21 @@ Count how many times you see similar code:
 
 ```typescript
 // shared/types/user.ts
-import { z } from 'zod';
+import { z } from 'zod'
 
 // Define schema once
 export const userSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string().email(),
-});
+})
 
 // Derive type from schema
-export type User = z.infer<typeof userSchema>;
+export type User = z.infer<typeof userSchema>
 
 // Input/output schemas for operations
-export const createUserInputSchema = userSchema.omit({ id: true });
-export type CreateUserInput = z.infer<typeof createUserInputSchema>;
+export const createUserInputSchema = userSchema.omit({ id: true })
+export type CreateUserInput = z.infer<typeof createUserInputSchema>
 ```
 
 ### Pattern 2: Shared Response Formatting
@@ -128,11 +128,11 @@ export type CreateUserInput = z.infer<typeof createUserInputSchema>;
 ```typescript
 // shared/lib/response.ts
 export function successResponse<T>(data: T) {
-  return { success: true as const, data };
+  return { success: true as const, data }
 }
 
 export function errorResponse(message: string, code?: string) {
-  return { success: false as const, error: { message, code } };
+  return { success: false as const, error: { message, code } }
 }
 ```
 
@@ -140,10 +140,10 @@ export function errorResponse(message: string, code?: string) {
 
 ```typescript
 // ALWAYS use shared date utils
-import { formatDate, toUnixMs } from '@shared/lib/date-utils';
+import { formatDate, toUnixMs } from '@shared/lib/date-utils'
 
 // Never call .toISOString() directly on unknown date values
-createdAt: toUnixMs(entity.createdAt);
+createdAt: toUnixMs(entity.createdAt)
 ```
 
 ### Pattern 4: Permission Checks
@@ -151,11 +151,11 @@ createdAt: toUnixMs(entity.createdAt);
 ```typescript
 // shared/lib/permissions.ts
 export function canUserEdit(user: User, resource: Resource): boolean {
-  return resource.ownerId === user.id || user.role === 'admin';
+  return resource.ownerId === user.id || user.role === 'admin'
 }
 
 // Reuse across codebase
-import { canUserEdit } from '@shared/lib/permissions';
+import { canUserEdit } from '@shared/lib/permissions'
 ```
 
 ### Pattern 5: Query Hooks with Standard Pattern
@@ -167,7 +167,7 @@ export function useResource(id: string) {
     queryKey: ['resource', id],
     queryFn: () => fetchResource(id),
     enabled: !!id,
-  });
+  })
 }
 ```
 
@@ -320,14 +320,14 @@ When optimizing database queries, use this decision framework:
 // Generic, reusable across domains
 
 // Share: Simple return type, generic filter
-export async function batchCheckExists(db: Database, ids: string[]): Promise<Map<string, boolean>>;
+export async function batchCheckExists(db: Database, ids: string[]): Promise<Map<string, boolean>>
 
 // Share: Could be used by any domain needing tree traversal
 export async function collectDescendants(
   db: Database,
   rootIds: string[],
   includeRoot = false
-): Promise<string[]>;
+): Promise<string[]>
 ```
 
 ### Pattern: Domain-Specific Implementation (Don't Share)
@@ -367,11 +367,11 @@ When fixing a bug in domain-specific code:
 
 ## Related Documents
 
-| Document | Purpose |
-|----------|---------|
-| [pre-implementation-checklist.md](./pre-implementation-checklist.md) | Pre-coding checklist |
+| Document                                                               | Purpose                  |
+| ---------------------------------------------------------------------- | ------------------------ |
+| [pre-implementation-checklist.md](./pre-implementation-checklist.md)   | Pre-coding checklist     |
 | [bug-root-cause-thinking-guide.md](./bug-root-cause-thinking-guide.md) | Bug analysis methodology |
-| [shared/code-quality.md](../shared/code-quality.md) | Code quality standards |
+| [shared/code-quality.md](../shared/code-quality.md)                    | Code quality standards   |
 
 ---
 

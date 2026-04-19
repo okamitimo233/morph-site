@@ -10,23 +10,23 @@
  */
 export interface Article {
   /** Unique identifier */
-  id: string;
+  id: string
   /** Article title */
-  title: string;
+  title: string
   /** Short description/excerpt */
-  excerpt: string;
+  excerpt: string
   /** Publication date */
-  date: string;
+  date: string
   /** Reading time in minutes */
-  readingTime: number;
+  readingTime: number
   /** Cover image URL */
-  coverImage: string;
+  coverImage: string
   /** Article category */
-  category: string;
+  category: string
   /** Tags for the article */
-  tags: string[];
+  tags: string[]
   /** Whether this is a featured article */
-  featured?: boolean;
+  featured?: boolean
 }
 
 /**
@@ -93,13 +93,13 @@ export const articles: Article[] = [
     tags: ['GSAP', 'Animation', 'JavaScript'],
     featured: true,
   },
-];
+]
 
 /**
  * Get featured articles for the carousel
  */
 export function getFeaturedArticles(): Article[] {
-  return articles.filter((article) => article.featured);
+  return articles.filter((article) => article.featured)
 }
 
 /**
@@ -108,21 +108,21 @@ export function getFeaturedArticles(): Article[] {
 export function getRecentArticles(limit = 6): Article[] {
   return [...articles]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, limit);
+    .slice(0, limit)
 }
 
 /**
  * Get article by ID
  */
 export function getArticleById(id: string): Article | undefined {
-  return articles.find((article) => article.id === id);
+  return articles.find((article) => article.id === id)
 }
 
 /**
  * Get articles by category
  */
 export function getArticlesByCategory(category: string): Article[] {
-  return articles.filter((article) => article.category.toLowerCase() === category.toLowerCase());
+  return articles.filter((article) => article.category.toLowerCase() === category.toLowerCase())
 }
 
 /**
@@ -130,27 +130,27 @@ export function getArticlesByCategory(category: string): Article[] {
  */
 export interface Project {
   /** Unique identifier */
-  id: string;
+  id: string
   /** Project name */
-  title: string;
+  title: string
   /** Short description */
-  description: string;
+  description: string
   /** Detailed description */
-  details?: string;
+  details?: string
   /** Project cover image */
-  coverImage: string;
+  coverImage: string
   /** Technologies used */
-  technologies: string[];
+  technologies: string[]
   /** Project URL */
-  url?: string;
+  url?: string
   /** GitHub repository URL */
-  github?: string;
+  github?: string
   /** Whether this is a featured project */
-  featured?: boolean;
+  featured?: boolean
   /** Year completed */
-  year: number;
+  year: number
   /** Project status */
-  status: 'completed' | 'in-progress' | 'archived';
+  status: 'completed' | 'in-progress' | 'archived'
 }
 
 /**
@@ -228,27 +228,27 @@ export const projects: Project[] = [
     year: 2022,
     status: 'archived',
   },
-];
+]
 
 /**
  * Get featured projects for the homepage
  */
 export function getFeaturedProjects(): Project[] {
-  return projects.filter((project) => project.featured);
+  return projects.filter((project) => project.featured)
 }
 
 /**
  * Get all projects sorted by year (newest first)
  */
 export function getAllProjects(): Project[] {
-  return [...projects].sort((a, b) => b.year - a.year);
+  return [...projects].sort((a, b) => b.year - a.year)
 }
 
 /**
  * Get projects by status
  */
 export function getProjectsByStatus(status: Project['status']): Project[] {
-  return projects.filter((project) => project.status === status);
+  return projects.filter((project) => project.status === status)
 }
 
 /**
@@ -257,5 +257,5 @@ export function getProjectsByStatus(status: Project['status']): Project[] {
 export function getArticlesByTag(tag: string): Article[] {
   return articles.filter((article) =>
     article.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
-  );
+  )
 }

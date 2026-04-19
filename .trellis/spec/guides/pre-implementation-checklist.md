@@ -103,10 +103,10 @@ Adding logic/behavior?
 ```typescript
 // DON'T: Same logic in 5 files
 // useDocuments.ts, useNotes.ts, useSettings.ts, etc.
-const DEBOUNCE_MS = 2000;
+const DEBOUNCE_MS = 2000
 const triggerSave = useCallback(() => {
   // 20 lines of identical logic
-}, []);
+}, [])
 ```
 
 ### Shared Abstraction
@@ -114,30 +114,30 @@ const triggerSave = useCallback(() => {
 ```typescript
 // DO: Single source of truth
 // hooks/useAutoSave.ts
-import { AUTO_SAVE_DELAY } from '@shared/constants';
+import { AUTO_SAVE_DELAY } from '@shared/constants'
 export function useAutoSave(options) {
   /* logic once */
 }
 
 // useDocuments.ts
-const save = useAutoSave({ data: document });
+const save = useAutoSave({ data: document })
 ```
 
 ### Local Constant Aliases
 
 ```typescript
 // DON'T: Create local aliases for imported constants
-import { CONFIG } from '@shared/constants';
-const DEBOUNCE_MS = CONFIG.DEBOUNCE_MS; // Unnecessary!
-const MAX_SIZE = CONFIG.MAX_SIZE; // Unnecessary!
+import { CONFIG } from '@shared/constants'
+const DEBOUNCE_MS = CONFIG.DEBOUNCE_MS // Unnecessary!
+const MAX_SIZE = CONFIG.MAX_SIZE // Unnecessary!
 ```
 
 ### Direct Usage
 
 ```typescript
 // DO: Use imported constants directly
-import { CONFIG } from '@shared/constants';
-setTimeout(fn, CONFIG.DEBOUNCE_MS);
+import { CONFIG } from '@shared/constants'
+setTimeout(fn, CONFIG.DEBOUNCE_MS)
 if (size > CONFIG.MAX_SIZE) {
   /* ... */
 }
@@ -186,11 +186,11 @@ if (size > CONFIG.MAX_SIZE) {
 
 ## Related Documents
 
-| Document | Purpose |
-|----------|---------|
-| [code-reuse-thinking-guide.md](./code-reuse-thinking-guide.md) | Code reuse patterns and abstractions |
-| [bug-root-cause-thinking-guide.md](./bug-root-cause-thinking-guide.md) | Bug analysis methodology |
-| [semantic-change-checklist.md](./semantic-change-checklist.md) | Changing data semantics safely |
+| Document                                                               | Purpose                              |
+| ---------------------------------------------------------------------- | ------------------------------------ |
+| [code-reuse-thinking-guide.md](./code-reuse-thinking-guide.md)         | Code reuse patterns and abstractions |
+| [bug-root-cause-thinking-guide.md](./bug-root-cause-thinking-guide.md) | Bug analysis methodology             |
+| [semantic-change-checklist.md](./semantic-change-checklist.md)         | Changing data semantics safely       |
 
 ---
 

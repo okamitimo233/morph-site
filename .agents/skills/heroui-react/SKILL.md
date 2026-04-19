@@ -1,6 +1,6 @@
 ---
 name: heroui-react
-description: "HeroUI v3 React component library (Tailwind CSS v4 + React Aria). Use when building UIs with HeroUI. Keywords: HeroUI, Hero UI, heroui, @heroui/react."
+description: 'HeroUI v3 React component library (Tailwind CSS v4 + React Aria). Use when building UIs with HeroUI. Keywords: HeroUI, Hero UI, heroui, @heroui/react.'
 ---
 
 # HeroUI v3 Quick Reference
@@ -9,22 +9,22 @@ description: "HeroUI v3 React component library (Tailwind CSS v4 + React Aria). 
 
 ## v3 vs v2
 
-| Feature   | v3 Pattern                              |
-| --------- | --------------------------------------- |
-| Provider  | **No Provider needed**                  |
-| API       | Compound: `<Card><Card.Header>`         |
-| Events    | Use `onPress`, not `onClick`            |
-| Styling   | Tailwind v4 + `@heroui/styles`          |
+| Feature  | v3 Pattern                      |
+| -------- | ------------------------------- |
+| Provider | **No Provider needed**          |
+| API      | Compound: `<Card><Card.Header>` |
+| Events   | Use `onPress`, not `onClick`    |
+| Styling  | Tailwind v4 + `@heroui/styles`  |
 
 ## Semantic Variants
 
-| Variant      | Purpose                      |
-| ------------ | ---------------------------- |
-| `primary`    | Main action (1 per context)  |
-| `secondary`  | Alternative actions          |
-| `tertiary`   | Dismissive (cancel, skip)    |
-| `danger`     | Destructive actions          |
-| `ghost`      | Low-emphasis actions         |
+| Variant     | Purpose                     |
+| ----------- | --------------------------- |
+| `primary`   | Main action (1 per context) |
+| `secondary` | Alternative actions         |
+| `tertiary`  | Dismissive (cancel, skip)   |
+| `danger`    | Destructive actions         |
+| `ghost`     | Low-emphasis actions        |
 
 ## Component Patterns
 

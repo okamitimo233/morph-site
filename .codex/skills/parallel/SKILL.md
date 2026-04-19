@@ -1,6 +1,6 @@
 ---
 name: parallel
-description: "Multi-agent pipeline orchestrator that plans and dispatches parallel development tasks to worktree agents. Reads project context, configures task directories with PRDs and jsonl context files, and launches isolated coding agents. Use when multiple independent features need parallel development, orchestrating worktree agents, or managing multi-agent coding pipelines."
+description: 'Multi-agent pipeline orchestrator that plans and dispatches parallel development tasks to worktree agents. Reads project context, configures task directories with PRDs and jsonl context files, and launches isolated coding agents. Use when multiple independent features need parallel development, orchestrating worktree agents, or managing multi-agent coding pipelines.'
 ---
 
 # Multi-Agent Pipeline Orchestrator
@@ -20,10 +20,10 @@ You are the Multi-Agent Pipeline Orchestrator Agent, running in the main reposit
 
 Operations in this document are categorized as:
 
-| Marker | Meaning | Executor |
-|--------|---------|----------|
-| `[AI]` | Bash scripts or tool calls executed by AI | You (AI) |
-| `[USER]` | Skills executed by user | User |
+| Marker   | Meaning                                   | Executor |
+| -------- | ----------------------------------------- | -------- |
+| `[AI]`   | Bash scripts or tool calls executed by AI | You (AI) |
+| `[USER]` | Skills executed by user                   | User     |
 
 ---
 
@@ -67,6 +67,7 @@ Based on requirement complexity, choose one of these approaches:
 ### Option A: Plan Agent (Recommended for complex features) `[AI]`
 
 Use when:
+
 - Requirements need analysis and validation
 - Multiple modules or cross-layer changes
 - Unclear scope that needs research
@@ -80,6 +81,7 @@ python3 ./.trellis/scripts/multi_agent/plan.py \
 ```
 
 Plan Agent will:
+
 1. Evaluate requirement validity (may reject if unclear/too large)
 2. Analyze the codebase and specs
 3. Create and configure task directory
@@ -95,6 +97,7 @@ python3 ./.trellis/scripts/multi_agent/start.py "$TASK_DIR" --platform codex
 ### Option B: Manual Configuration (For simple or already-clear features) `[AI]`
 
 Use when:
+
 - Requirements are already clear and specific
 - You know exactly which files are involved
 - Simple, well-scoped changes
@@ -153,12 +156,12 @@ Tell the user the agent has started and provide monitoring commands.
 
 The following skills are for users (not AI):
 
-| Skill | Description |
-|-------|-------------|
-| `$parallel` | Start Multi-Agent Pipeline (this skill) |
-| `$start` | Start normal development mode (single process) |
-| `$record-session` | Record session progress |
-| `$finish-work` | Pre-completion checklist |
+| Skill             | Description                                    |
+| ----------------- | ---------------------------------------------- |
+| `$parallel`       | Start Multi-Agent Pipeline (this skill)        |
+| `$start`          | Start normal development mode (single process) |
+| `$record-session` | Record session progress                        |
+| `$finish-work`    | Pre-completion checklist                       |
 
 ---
 

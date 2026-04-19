@@ -8,6 +8,7 @@ description: Create distinctive, production-grade frontend interfaces. Call with
 ## Design Direction
 
 Before implementing, define:
+
 - **Purpose**: Who uses this? What problem does it solve?
 - **Tone**: Pick an extreme (minimal, maximalist, retro-futuristic, luxury, playful, brutalist, etc.)
 - **Differentiation**: What makes this UNFORGETTABLE?
@@ -38,11 +39,11 @@ Before implementing, define:
 
 ## Absolute Bans
 
-| BAN                         | Pattern                              |
-| --------------------------- | ------------------------------------ |
-| Side-stripe borders         | `border-left: 3px solid`             |
-| Gradient text               | `background-clip: text` + gradient   |
-| Glassmorphism everywhere    | Blur/glow as default                  |
+| BAN                      | Pattern                            |
+| ------------------------ | ---------------------------------- |
+| Side-stripe borders      | `border-left: 3px solid`           |
+| Gradient text            | `background-clip: text` + gradient |
+| Glassmorphism everywhere | Blur/glow as default               |
 
 ## Motion
 
@@ -56,8 +57,8 @@ If you said "AI made this," would they believe you immediately? If yes, that's t
 
 ## Commands
 
-| Command              | Purpose                        |
-| -------------------- | ------------------------------ |
-| `/impeccable craft`  | Shape-then-build interface     |
-| `/impeccable teach`  | Setup design context           |
-| `/impeccable extract`| Pull reusable components       |
+| Command               | Purpose                    |
+| --------------------- | -------------------------- |
+| `/impeccable craft`   | Shape-then-build interface |
+| `/impeccable teach`   | Setup design context       |
+| `/impeccable extract` | Pull reusable components   |

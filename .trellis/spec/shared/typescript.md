@@ -11,17 +11,17 @@ Always use explicit return types for exported functions:
 ```typescript
 // BAD - Implicit return type
 export function getUser(id: string) {
-  return db.query.users.findFirst({ where: eq(users.id, id) });
+  return db.query.users.findFirst({ where: eq(users.id, id) })
 }
 
 // GOOD - Explicit return type
 export function getUser(id: string): User | undefined {
-  return db.query.users.findFirst({ where: eq(users.id, id) });
+  return db.query.users.findFirst({ where: eq(users.id, id) })
 }
 
 // GOOD - Async with Promise
 export async function getUser(id: string): Promise<User | undefined> {
-  return db.query.users.findFirst({ where: eq(users.id, id) });
+  return db.query.users.findFirst({ where: eq(users.id, id) })
 }
 ```
 
@@ -32,19 +32,19 @@ export async function getUser(id: string): Promise<User | undefined> {
 ```typescript
 // Use type for most cases
 type User = {
-  id: string;
-  name: string;
-  email: string;
-};
+  id: string
+  name: string
+  email: string
+}
 
 // Use interface when you expect extension
 interface Plugin {
-  name: string;
-  init(): void;
+  name: string
+  init(): void
 }
 
 interface AdvancedPlugin extends Plugin {
-  cleanup(): void;
+  cleanup(): void
 }
 ```
 
@@ -56,14 +56,14 @@ Always use `import type` for type-only imports:
 
 ```typescript
 // GOOD
-import type { User, Project } from './types';
-import { createUser } from './procedures';
+import type { User, Project } from './types'
+import { createUser } from './procedures'
 
 // Also acceptable
-import { type User, createUser } from './types';
+import { type User, createUser } from './types'
 
 // BAD - Mixed imports without type annotation
-import { User, createUser } from './types';
+import { User, createUser } from './types'
 ```
 
 ---
@@ -73,24 +73,24 @@ import { User, createUser } from './types';
 Use Zod for all external data validation:
 
 ```typescript
-import { z } from 'zod';
+import { z } from 'zod'
 
 // Define schema
 const userInputSchema = z.object({
   name: z.string().min(1).max(100),
   email: z.string().email(),
   age: z.number().int().min(0).optional(),
-});
+})
 
 // Derive type from schema
-type UserInput = z.infer<typeof userInputSchema>;
+type UserInput = z.infer<typeof userInputSchema>
 
 // Validate input
-const parseResult = userInputSchema.safeParse(rawInput);
+const parseResult = userInputSchema.safeParse(rawInput)
 if (!parseResult.success) {
-  return { success: false, error: parseResult.error.issues[0].message };
+  return { success: false, error: parseResult.error.issues[0].message }
 }
-const validInput = parseResult.data;
+const validInput = parseResult.data
 ```
 
 ---
@@ -100,22 +100,22 @@ const validInput = parseResult.data;
 Use strict equality for type narrowing:
 
 ```typescript
-type Result = { success: true; data: string } | { success: false; error: string };
+type Result = { success: true; data: string } | { success: false; error: string }
 
-const result: Result = doSomething();
+const result: Result = doSomething()
 
 // CORRECT: Use === true
 if (result.success === true) {
-  console.log(result.data); // TypeScript knows data exists
+  console.log(result.data) // TypeScript knows data exists
 } else {
-  console.log(result.error); // TypeScript knows error exists
+  console.log(result.error) // TypeScript knows error exists
 }
 
 // WRONG: Truthy check may not narrow properly
 if (result.success) {
-  console.log(result.data);
+  console.log(result.data)
 } else {
-  console.log(result.error); // May cause type error
+  console.log(result.error) // May cause type error
 }
 ```
 
@@ -135,19 +135,19 @@ function isUser(value: unknown): value is User {
     'email' in value &&
     typeof (value as User).id === 'string' &&
     typeof (value as User).email === 'string'
-  );
+  )
 }
 
 // Usage
-const data: unknown = JSON.parse(response);
+const data: unknown = JSON.parse(response)
 if (isUser(data)) {
-  console.log(data.email); // TypeScript knows it's a User
+  console.log(data.email) // TypeScript knows it's a User
 }
 
 // With Zod (simpler)
-const parseResult = userSchema.safeParse(data);
+const parseResult = userSchema.safeParse(data)
 if (parseResult.success) {
-  console.log(parseResult.data.email); // Type-safe
+  console.log(parseResult.data.email) // Type-safe
 }
 ```
 
@@ -160,19 +160,19 @@ Use generics for reusable type-safe functions:
 ```typescript
 // Generic function
 function first<T>(items: T[]): T | undefined {
-  return items[0];
+  return items[0]
 }
 
 // Generic with constraints
 function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
-  return obj[key];
+  return obj[key]
 }
 
 // Generic type
-type Result<T> = { success: true; data: T } | { success: false; error: string };
+type Result<T> = { success: true; data: T } | { success: false; error: string }
 
 function createResult<T>(data: T): Result<T> {
-  return { success: true, data };
+  return { success: true, data }
 }
 ```
 
@@ -184,22 +184,22 @@ Use built-in utility types:
 
 ```typescript
 // Partial - all properties optional
-type PartialUser = Partial<User>;
+type PartialUser = Partial<User>
 
 // Required - all properties required
-type RequiredUser = Required<User>;
+type RequiredUser = Required<User>
 
 // Pick - select specific properties
-type UserName = Pick<User, 'name' | 'email'>;
+type UserName = Pick<User, 'name' | 'email'>
 
 // Omit - exclude specific properties
-type UserWithoutId = Omit<User, 'id'>;
+type UserWithoutId = Omit<User, 'id'>
 
 // Record - key-value mapping
-type UserMap = Record<string, User>;
+type UserMap = Record<string, User>
 
 // ReturnType - extract function return type
-type CreateResult = ReturnType<typeof createUser>;
+type CreateResult = ReturnType<typeof createUser>
 ```
 
 ---
@@ -221,11 +221,11 @@ function process(data: ProcessInput) { ... }
 
 ```typescript
 // BAD
-const name = user!.name;
+const name = user!.name
 
 // GOOD
 if (user) {
-  const name = user.name;
+  const name = user.name
 }
 ```
 
@@ -234,10 +234,10 @@ if (user) {
 ```typescript
 // BAD
 // @ts-ignore
-doSomething(invalidArg);
+doSomething(invalidArg)
 
 // GOOD - Fix the type issue
-doSomething(validArg);
+doSomething(validArg)
 ```
 
 ---
@@ -264,31 +264,31 @@ Create types that depend on conditions:
 ### Basic Conditional Type
 
 ```typescript
-type IsString<T> = T extends string ? true : false;
+type IsString<T> = T extends string ? true : false
 
-type A = IsString<string>; // true
-type B = IsString<number>; // false
+type A = IsString<string> // true
+type B = IsString<number> // false
 ```
 
 ### Extracting Return Types with infer
 
 ```typescript
-type ReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : never
 
 function getUser() {
-  return { id: 1, name: "John" };
+  return { id: 1, name: 'John' }
 }
 
-type User = ReturnType<typeof getUser>;
+type User = ReturnType<typeof getUser>
 // Type: { id: number; name: string; }
 ```
 
 ### Distributive Conditional Types
 
 ```typescript
-type ToArray<T> = T extends any ? T[] : never;
+type ToArray<T> = T extends any ? T[] : never
 
-type StrOrNumArray = ToArray<string | number>;
+type StrOrNumArray = ToArray<string | number>
 // Type: string[] | number[]
 ```
 
@@ -296,16 +296,16 @@ type StrOrNumArray = ToArray<string | number>;
 
 ```typescript
 type TypeName<T> = T extends string
-  ? "string"
+  ? 'string'
   : T extends number
-    ? "number"
+    ? 'number'
     : T extends boolean
-      ? "boolean"
+      ? 'boolean'
       : T extends undefined
-        ? "undefined"
+        ? 'undefined'
         : T extends Function
-          ? "function"
-          : "object";
+          ? 'function'
+          : 'object'
 ```
 
 ---
@@ -318,15 +318,15 @@ Transform existing types by iterating over their properties.
 
 ```typescript
 type Readonly<T> = {
-  readonly [P in keyof T]: T[P];
-};
-
-interface User {
-  id: number;
-  name: string;
+  readonly [P in keyof T]: T[P]
 }
 
-type ReadonlyUser = Readonly<User>;
+interface User {
+  id: number
+  name: string
+}
+
+type ReadonlyUser = Readonly<User>
 // Type: { readonly id: number; readonly name: string; }
 ```
 
@@ -334,15 +334,15 @@ type ReadonlyUser = Readonly<User>;
 
 ```typescript
 type Getters<T> = {
-  [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K];
-};
-
-interface Person {
-  name: string;
-  age: number;
+  [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K]
 }
 
-type PersonGetters = Getters<Person>;
+interface Person {
+  name: string
+  age: number
+}
+
+type PersonGetters = Getters<Person>
 // Type: { getName: () => string; getAge: () => number; }
 ```
 
@@ -350,17 +350,17 @@ type PersonGetters = Getters<Person>;
 
 ```typescript
 type PickByType<T, U> = {
-  [K in keyof T as T[K] extends U ? K : never]: T[K];
-};
-
-interface Mixed {
-  id: number;
-  name: string;
-  age: number;
-  active: boolean;
+  [K in keyof T as T[K] extends U ? K : never]: T[K]
 }
 
-type OnlyNumbers = PickByType<Mixed, number>;
+interface Mixed {
+  id: number
+  name: string
+  age: number
+  active: boolean
+}
+
+type OnlyNumbers = PickByType<Mixed, number>
 // Type: { id: number; age: number; }
 ```
 
@@ -373,18 +373,18 @@ Create string-based types with pattern matching.
 ### Basic Template Literal
 
 ```typescript
-type EventName = "click" | "focus" | "blur";
-type EventHandler = `on${Capitalize<EventName>}`;
+type EventName = 'click' | 'focus' | 'blur'
+type EventHandler = `on${Capitalize<EventName>}`
 // Type: "onClick" | "onFocus" | "onBlur"
 ```
 
 ### String Manipulation
 
 ```typescript
-type UppercaseGreeting = Uppercase<"hello">; // "HELLO"
-type LowercaseGreeting = Lowercase<"HELLO">; // "hello"
-type CapitalizedName = Capitalize<"john">;   // "John"
-type UncapitalizedName = Uncapitalize<"John">; // "john"
+type UppercaseGreeting = Uppercase<'hello'> // "HELLO"
+type LowercaseGreeting = Lowercase<'HELLO'> // "hello"
+type CapitalizedName = Capitalize<'john'> // "John"
+type UncapitalizedName = Uncapitalize<'John'> // "john"
 ```
 
 ### Path Building
@@ -392,21 +392,21 @@ type UncapitalizedName = Uncapitalize<"John">; // "john"
 ```typescript
 type Path<T> = T extends object
   ? {
-      [K in keyof T]: K extends string ? `${K}` | `${K}.${Path<T[K]>}` : never;
+      [K in keyof T]: K extends string ? `${K}` | `${K}.${Path<T[K]>}` : never
     }[keyof T]
-  : never;
+  : never
 
 interface Config {
   server: {
-    host: string;
-    port: number;
-  };
+    host: string
+    port: number
+  }
   database: {
-    url: string;
-  };
+    url: string
+  }
 }
 
-type ConfigPath = Path<Config>;
+type ConfigPath = Path<Config>
 // Type: "server" | "database" | "server.host" | "server.port" | "database.url"
 ```
 
@@ -418,35 +418,35 @@ type ConfigPath = Path<Config>;
 
 ```typescript
 type EventMap = {
-  "user:created": { id: string; name: string };
-  "user:updated": { id: string };
-  "user:deleted": { id: string };
-};
+  'user:created': { id: string; name: string }
+  'user:updated': { id: string }
+  'user:deleted': { id: string }
+}
 
 class TypedEventEmitter<T extends Record<string, any>> {
   private listeners: {
-    [K in keyof T]?: Array<(data: T[K]) => void>;
-  } = {};
+    [K in keyof T]?: Array<(data: T[K]) => void>
+  } = {}
 
   on<K extends keyof T>(event: K, callback: (data: T[K]) => void): void {
     if (!this.listeners[event]) {
-      this.listeners[event] = [];
+      this.listeners[event] = []
     }
-    this.listeners[event]!.push(callback);
+    this.listeners[event]!.push(callback)
   }
 
   emit<K extends keyof T>(event: K, data: T[K]): void {
-    const callbacks = this.listeners[event];
+    const callbacks = this.listeners[event]
     if (callbacks) {
-      callbacks.forEach((callback) => callback(data));
+      callbacks.forEach((callback) => callback(data))
     }
   }
 }
 
-const emitter = new TypedEventEmitter<EventMap>();
-emitter.on("user:created", (data) => {
-  console.log(data.id, data.name); // Type-safe!
-});
+const emitter = new TypedEventEmitter<EventMap>()
+emitter.on('user:created', (data) => {
+  console.log(data.id, data.name) // Type-safe!
+})
 ```
 
 ### Pattern 2: Deep Readonly/Partial
@@ -457,52 +457,52 @@ type DeepReadonly<T> = {
     ? T[P] extends Function
       ? T[P]
       : DeepReadonly<T[P]>
-    : T[P];
-};
+    : T[P]
+}
 
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object
     ? T[P] extends Array<infer U>
       ? Array<DeepPartial<U>>
       : DeepPartial<T[P]>
-    : T[P];
-};
+    : T[P]
+}
 
 interface Config {
   server: {
-    host: string;
-    port: number;
+    host: string
+    port: number
     ssl: {
-      enabled: boolean;
-      cert: string;
-    };
-  };
+      enabled: boolean
+      cert: string
+    }
+  }
 }
 
-type ReadonlyConfig = DeepReadonly<Config>;
-type PartialConfig = DeepPartial<Config>;
+type ReadonlyConfig = DeepReadonly<Config>
+type PartialConfig = DeepPartial<Config>
 ```
 
 ### Pattern 3: Discriminated Unions
 
 ```typescript
-type Success<T> = { status: "success"; data: T };
-type Error = { status: "error"; error: string };
-type Loading = { status: "loading" };
+type Success<T> = { status: 'success'; data: T }
+type Error = { status: 'error'; error: string }
+type Loading = { status: 'loading' }
 
-type AsyncState<T> = Success<T> | Error | Loading;
+type AsyncState<T> = Success<T> | Error | Loading
 
 function handleState<T>(state: AsyncState<T>): void {
   switch (state.status) {
-    case "success":
-      console.log(state.data); // Type: T
-      break;
-    case "error":
-      console.log(state.error); // Type: string
-      break;
-    case "loading":
-      console.log("Loading...");
-      break;
+    case 'success':
+      console.log(state.data) // Type: T
+      break
+    case 'error':
+      console.log(state.error) // Type: string
+      break
+    case 'loading':
+      console.log('Loading...')
+      break
   }
 }
 ```
@@ -515,32 +515,32 @@ function handleState<T>(state: AsyncState<T>): void {
 
 ```typescript
 // Extract array element type
-type ElementType<T> = T extends (infer U)[] ? U : never;
-type Num = ElementType<number[]>; // number
+type ElementType<T> = T extends (infer U)[] ? U : never
+type Num = ElementType<number[]> // number
 
 // Extract promise type
-type PromiseType<T> = T extends Promise<infer U> ? U : never;
-type AsyncNum = PromiseType<Promise<number>>; // number
+type PromiseType<T> = T extends Promise<infer U> ? U : never
+type AsyncNum = PromiseType<Promise<number>> // number
 
 // Extract function parameters
-type Parameters<T> = T extends (...args: infer P) => any ? P : never;
+type Parameters<T> = T extends (...args: infer P) => any ? P : never
 function foo(a: string, b: number) {}
-type FooParams = Parameters<typeof foo>; // [string, number]
+type FooParams = Parameters<typeof foo> // [string, number]
 ```
 
 ### Assertion Functions
 
 ```typescript
 function assertIsString(value: unknown): asserts value is string {
-  if (typeof value !== "string") {
-    throw new Error("Not a string");
+  if (typeof value !== 'string') {
+    throw new Error('Not a string')
   }
 }
 
 function processValue(value: unknown) {
-  assertIsString(value);
+  assertIsString(value)
   // value is now typed as string
-  console.log(value.toUpperCase());
+  console.log(value.toUpperCase())
 }
 ```
 
@@ -550,17 +550,13 @@ function processValue(value: unknown) {
 
 ```typescript
 // Type assertion tests
-type AssertEqual<T, U> = [T] extends [U]
-  ? [U] extends [T]
-    ? true
-    : false
-  : false;
+type AssertEqual<T, U> = [T] extends [U] ? ([U] extends [T] ? true : false) : false
 
-type Test1 = AssertEqual<string, string>; // true
-type Test2 = AssertEqual<string, number>; // false
+type Test1 = AssertEqual<string, string> // true
+type Test2 = AssertEqual<string, number> // false
 
 // Expect error helper
-type ExpectError<T extends never> = T;
+type ExpectError<T extends never> = T
 ```
 
 ---
@@ -577,22 +573,22 @@ type ExpectError<T extends never> = T;
 
 ## Common Pitfalls
 
-| Pitfall                          | Solution                           |
-| -------------------------------- | ---------------------------------- |
-| Over-using `any`                 | Use `unknown` or specific types    |
-| Ignoring strict null checks      | Enable strict mode                 |
-| Too complex types                | Simplify and document              |
-| Missing discriminated unions     | Use literal types for narrowing    |
-| Forgetting readonly modifiers    | Add readonly to prevent mutations  |
-| Circular type references         | Restructure or use interfaces      |
-| Not handling edge cases          | Consider null, undefined, empty    |
+| Pitfall                       | Solution                          |
+| ----------------------------- | --------------------------------- |
+| Over-using `any`              | Use `unknown` or specific types   |
+| Ignoring strict null checks   | Enable strict mode                |
+| Too complex types             | Simplify and document             |
+| Missing discriminated unions  | Use literal types for narrowing   |
+| Forgetting readonly modifiers | Add readonly to prevent mutations |
+| Circular type references      | Restructure or use interfaces     |
+| Not handling edge cases       | Consider null, undefined, empty   |
 
 ---
 
 ## Related Documents
 
-| Document | Purpose |
-|----------|---------|
+| Document                                              | Purpose                            |
+| ----------------------------------------------------- | ---------------------------------- |
 | [frontend/type-safety.md](../frontend/type-safety.md) | Astro/React-specific type patterns |
-| [shared/code-quality.md](./code-quality.md) | Code quality standards |
-| [shared/timestamp.md](./timestamp.md) | Timestamp type specifications |
+| [shared/code-quality.md](./code-quality.md)           | Code quality standards             |
+| [shared/timestamp.md](./timestamp.md)                 | Timestamp type specifications      |

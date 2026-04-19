@@ -205,11 +205,11 @@ if (entity.type === 'folder') {
 
 ```typescript
 // DON'T: Silently handle both formats
-const isDir = entity.type === 'folder' || !hasContent;
+const isDir = entity.type === 'folder' || !hasContent
 
 // DO: Explicit migration or error on old format
 if (entity.type !== 'folder' && entity.type !== 'doc') {
-  throw new Error(`Unknown entity type: ${entity.type}`);
+  throw new Error(`Unknown entity type: ${entity.type}`)
 }
 ```
 
@@ -222,7 +222,7 @@ if (entity.type !== 'folder' && entity.type !== 'doc') {
  * A directory is a doc with no content and children.  // LIES!
  */
 function isDirectory(entity) {
-  return entity.type === 'folder'; // Comment doesn't match code
+  return entity.type === 'folder' // Comment doesn't match code
 }
 ```
 
@@ -287,10 +287,10 @@ After Change:
 
 ## Related Documents
 
-| Document | Purpose |
-|----------|---------|
-| [pre-implementation-checklist.md](./pre-implementation-checklist.md) | Pre-coding checklist |
-| [shared/timestamp.md](../shared/timestamp.md) | Timestamp format specification |
+| Document                                                                      | Purpose                           |
+| ----------------------------------------------------------------------------- | --------------------------------- |
+| [pre-implementation-checklist.md](./pre-implementation-checklist.md)          | Pre-coding checklist              |
+| [shared/timestamp.md](../shared/timestamp.md)                                 | Timestamp format specification    |
 | [big-question/timestamp-precision.md](../big-question/timestamp-precision.md) | Timestamp precision investigation |
 
 ---

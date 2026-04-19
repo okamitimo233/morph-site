@@ -42,12 +42,12 @@ Islands Architecture:
 
 ## Benefits of Islands
 
-| Benefit                 | Description                                    |
-| ----------------------- | ---------------------------------------------- |
-| **Performance**         | Smaller JS bundles, faster TTI                 |
-| **SEO**                 | Full HTML rendered on server                   |
-| **Progressive Enhancement** | Works without JS, enhanced with JS        |
-| **Cost Efficiency**     | Less client-side processing                    |
+| Benefit                     | Description                        |
+| --------------------------- | ---------------------------------- |
+| **Performance**             | Smaller JS bundles, faster TTI     |
+| **SEO**                     | Full HTML rendered on server       |
+| **Progressive Enhancement** | Works without JS, enhanced with JS |
+| **Cost Efficiency**         | Less client-side processing        |
 
 ---
 
@@ -143,8 +143,8 @@ Each island has its own isolated state. There's no shared global state by defaul
 ```tsx
 // Each Counter has its own count
 function Counter() {
-  const [count, setCount] = useState(0);
-  return <button onClick={() => setCount(c => c + 1)}>{count}</button>;
+  const [count, setCount] = useState(0)
+  return <button onClick={() => setCount((c) => c + 1)}>{count}</button>
 }
 ```
 
@@ -181,13 +181,13 @@ import Footer from './Footer';
 ```tsx
 // Both islands read/write URL params
 function useQueryParam(key: string) {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const value = searchParams.get(key);
+  const [searchParams, setSearchParams] = useSearchParams()
+  const value = searchParams.get(key)
   const setValue = (v: string) => {
-    searchParams.set(key, v);
-    setSearchParams(searchParams);
-  };
-  return [value, setValue];
+    searchParams.set(key, v)
+    setSearchParams(searchParams)
+  }
+  return [value, setValue]
 }
 ```
 
@@ -195,14 +195,14 @@ function useQueryParam(key: string) {
 
 ```tsx
 // Island 1: Dispatch
-window.dispatchEvent(new CustomEvent('theme-change', { detail: 'dark' }));
+window.dispatchEvent(new CustomEvent('theme-change', { detail: 'dark' }))
 
 // Island 2: Listen
 useEffect(() => {
-  const handler = (e) => setTheme(e.detail);
-  window.addEventListener('theme-change', handler);
-  return () => window.removeEventListener('theme-change', handler);
-}, []);
+  const handler = (e) => setTheme(e.detail)
+  window.addEventListener('theme-change', handler)
+  return () => window.removeEventListener('theme-change', handler)
+}, [])
 ```
 
 ---
@@ -236,17 +236,17 @@ import Footer from '../components/ui/Footer.astro';
 ```tsx
 // Works without JS, enhanced with JS
 function SearchForm() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState('')
 
   return (
     <form action="/search" method="GET">
       {/* Works without JS */}
-      <input name="q" value={query} onChange={e => setQuery(e.target.value)} />
+      <input name="q" value={query} onChange={(e) => setQuery(e.target.value)} />
 
       {/* Enhanced with JS */}
       {query && <SearchSuggestions query={query} />}
     </form>
-  );
+  )
 }
 ```
 
@@ -255,19 +255,21 @@ function SearchForm() {
 ```tsx
 // Fetch data on client
 function Comments({ postId }: { postId: string }) {
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState([])
 
   useEffect(() => {
     fetch(`/api/posts/${postId}/comments`)
-      .then(r => r.json())
-      .then(setComments);
-  }, [postId]);
+      .then((r) => r.json())
+      .then(setComments)
+  }, [postId])
 
   return (
     <ul>
-      {comments.map(c => <li key={c.id}>{c.body}</li>)}
+      {comments.map((c) => (
+        <li key={c.id}>{c.body}</li>
+      ))}
     </ul>
-  );
+  )
 }
 ```
 
@@ -286,14 +288,14 @@ function Comments({ postId }: { postId: string }) {
 
 ## Quick Reference
 
-| Directive        | Hydration Trigger            | Bundle Impact            |
-| ---------------- | ---------------------------- | ------------------------ |
-| `client:load`    | Page load                    | Immediately loads JS     |
-| `client:idle`    | Browser idle                 | Deferred JS load         |
-| `client:visible` | Enters viewport              | Lazy JS load             |
-| `client:media`   | Media query match            | Conditional JS load      |
-| `client:only`    | No SSR, immediate hydration  | No server rendering      |
-| (no directive)   | Never                        | Zero JS                  |
+| Directive        | Hydration Trigger           | Bundle Impact        |
+| ---------------- | --------------------------- | -------------------- |
+| `client:load`    | Page load                   | Immediately loads JS |
+| `client:idle`    | Browser idle                | Deferred JS load     |
+| `client:visible` | Enters viewport             | Lazy JS load         |
+| `client:media`   | Media query match           | Conditional JS load  |
+| `client:only`    | No SSR, immediate hydration | No server rendering  |
+| (no directive)   | Never                       | Zero JS              |
 
 > **Complete directive documentation**: [astro-integration.md](./astro-integration.md)
 
@@ -301,11 +303,11 @@ function Comments({ postId }: { postId: string }) {
 
 ## Related Documents
 
-| Document | Purpose |
-|----------|---------|
+| Document                                       | Purpose                                        |
+| ---------------------------------------------- | ---------------------------------------------- |
 | [astro-integration.md](./astro-integration.md) | Client directives reference, React integration |
-| [state-management.md](./state-management.md) | State patterns in Astro + React |
-| [quality.md](./quality.md) | Performance guidelines |
+| [state-management.md](./state-management.md)   | State patterns in Astro + React                |
+| [quality.md](./quality.md)                     | Performance guidelines                         |
 
 ---
 

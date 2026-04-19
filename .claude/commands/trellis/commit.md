@@ -10,10 +10,11 @@ Execute atomic commits after finish-work verification.
 
 ```bash
 # Verify clean state
-pnpm lint && pnpm typecheck
+pnpm format:check && pnpm lint && pnpm typecheck
 git status
 ```
 
+- [ ] Format check passes?
 - [ ] Lint passes?
 - [ ] TypeCheck passes?
 - [ ] Changes exist to commit?
@@ -31,18 +32,18 @@ git diff --name-only
 
 Categorize files by logical unit:
 
-| Category | Files | Examples |
-|----------|-------|----------|
-| **Foundation** | tokens, styles, types, constants | `tokens.css`, `types.ts` |
-| **Utils** | utilities, hooks, helpers | `utils.ts`, `useTheme.ts` |
-| **Data** | mock data, schemas, migrations | `mock.ts`, `schema.sql` |
-| **UI** | base components | `Button.astro`, `Card.astro` |
-| **Islands** | interactive React components | `Carousel.tsx`, `ThemeToggle.tsx` |
-| **Features** | feature-specific components | `Hero.astro`, `ArticleList.astro` |
-| **Shared** | shared components | `SocialLinks.astro` |
-| **Layout** | layout files | `Layout.astro` |
-| **Pages** | page files | `index.astro`, `about.astro` |
-| **Config** | config, dependencies | `package.json`, `eslint.config.js` |
+| Category       | Files                            | Examples                           |
+| -------------- | -------------------------------- | ---------------------------------- |
+| **Foundation** | tokens, styles, types, constants | `tokens.css`, `types.ts`           |
+| **Utils**      | utilities, hooks, helpers        | `utils.ts`, `useTheme.ts`          |
+| **Data**       | mock data, schemas, migrations   | `mock.ts`, `schema.sql`            |
+| **UI**         | base components                  | `Button.astro`, `Card.astro`       |
+| **Islands**    | interactive React components     | `Carousel.tsx`, `ThemeToggle.tsx`  |
+| **Features**   | feature-specific components      | `Hero.astro`, `ArticleList.astro`  |
+| **Shared**     | shared components                | `SocialLinks.astro`                |
+| **Layout**     | layout files                     | `Layout.astro`                     |
+| **Pages**      | page files                       | `index.astro`, `about.astro`       |
+| **Config**     | config, dependencies             | `package.json`, `eslint.config.js` |
 
 ---
 
@@ -113,12 +114,12 @@ Ask user:
 
 > Execute N commits? [Y/n/e=edit/s=single]
 
-| Option | Action |
-|--------|--------|
-| `Y` | Execute all commits as planned |
-| `n` | Cancel, do not commit |
-| `e` | Edit commit plan (provide guidance) |
-| `s` | Combine all into single commit |
+| Option | Action                              |
+| ------ | ----------------------------------- |
+| `Y`    | Execute all commits as planned      |
+| `n`    | Cancel, do not commit               |
+| `e`    | Edit commit plan (provide guidance) |
+| `s`    | Combine all into single commit      |
 
 ---
 
@@ -149,6 +150,7 @@ Done! N commits created.
 After commits complete:
 
 1. Show summary:
+
    ```
    git log --oneline -N
    git status

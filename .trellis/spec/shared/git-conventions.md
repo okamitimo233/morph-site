@@ -145,20 +145,20 @@ When implementing a large feature, organize commits by **logical unit**, not by 
 
 ### Example: Blog Homepage Feature (14 commits)
 
-| Order | Commit | Type | Logical Unit |
-|-------|--------|------|--------------|
-| 1 | `feat(styles): add design tokens...` | feat | Foundation - tokens |
-| 2 | `feat(styles): add global styles...` | feat | Foundation - styles |
-| 3 | `feat(lib): add utility functions...` | feat | Foundation - utils |
-| 4 | `feat(data): add mock data...` | feat | Foundation - data |
-| 5 | `feat(ui): add base UI components` | feat | Building blocks - UI |
-| 6 | `feat(islands): add interactive...` | feat | Building blocks - islands |
-| 7 | `feat(home): add homepage components` | feat | Building blocks - home |
-| 8 | `feat(shared): add SocialLinks...` | feat | Building blocks - shared |
-| 9 | `feat(layout): update Layout...` | feat | Integration - layout |
-| 10 | `feat(pages): implement homepage...` | feat | Integration - pages |
-| 11 | `feat(pages): add articles/about/projects` | feat | Integration - pages |
-| 12-14 | `chore(deps/lint/task)...` | chore | Infrastructure |
+| Order | Commit                                     | Type  | Logical Unit              |
+| ----- | ------------------------------------------ | ----- | ------------------------- |
+| 1     | `feat(styles): add design tokens...`       | feat  | Foundation - tokens       |
+| 2     | `feat(styles): add global styles...`       | feat  | Foundation - styles       |
+| 3     | `feat(lib): add utility functions...`      | feat  | Foundation - utils        |
+| 4     | `feat(data): add mock data...`             | feat  | Foundation - data         |
+| 5     | `feat(ui): add base UI components`         | feat  | Building blocks - UI      |
+| 6     | `feat(islands): add interactive...`        | feat  | Building blocks - islands |
+| 7     | `feat(home): add homepage components`      | feat  | Building blocks - home    |
+| 8     | `feat(shared): add SocialLinks...`         | feat  | Building blocks - shared  |
+| 9     | `feat(layout): update Layout...`           | feat  | Integration - layout      |
+| 10    | `feat(pages): implement homepage...`       | feat  | Integration - pages       |
+| 11    | `feat(pages): add articles/about/projects` | feat  | Integration - pages       |
+| 12-14 | `chore(deps/lint/task)...`                 | chore | Infrastructure            |
 
 ### Atomic Commit Rules
 
@@ -236,9 +236,9 @@ Brief description of changes.
 
 ## Related Documents
 
-| Document | Purpose |
-|----------|---------|
-| [shared/code-quality.md](./code-quality.md) | Code quality standards |
+| Document                                                                      | Purpose                        |
+| ----------------------------------------------------------------------------- | ------------------------------ |
+| [shared/code-quality.md](./code-quality.md)                                   | Code quality standards         |
 | [guides/semantic-change-checklist.md](../guides/semantic-change-checklist.md) | Changing data semantics safely |
 
 ---

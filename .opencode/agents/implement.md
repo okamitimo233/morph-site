@@ -11,6 +11,7 @@ permission:
   grep: allow
   mcp__exa__*: allow
 ---
+
 # Implement Agent
 
 You are the Implement Agent in the Trellis workflow.
@@ -36,6 +37,7 @@ Then proceed with the workflow below using the loaded context.
 ## Context
 
 Before implementing, read:
+
 - `.trellis/workflow.md` - Project workflow
 - `.trellis/spec/` - Development guidelines
 - Task `prd.md` - Requirements document

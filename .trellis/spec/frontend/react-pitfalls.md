@@ -12,11 +12,11 @@ React's `useState` setter interprets function arguments as "updater functions" a
 
 ```tsx
 // WRONG - React will EXECUTE handler immediately!
-const [callback, setCallback] = useState<(() => void) | null>(null);
-setCallback(myFunction); // myFunction(prevState) is called!
+const [callback, setCallback] = useState<(() => void) | null>(null)
+setCallback(myFunction) // myFunction(prevState) is called!
 
 // CORRECT - Wrap in arrow function to store as value
-setCallback(() => myFunction); // myFunction is stored, not called
+setCallback(() => myFunction) // myFunction is stored, not called
 ```
 
 > **Deep dive**: See [big-question/react-usestate-function.md](../big-question/react-usestate-function.md) for root cause analysis, symptoms, and complete solutions.
@@ -31,18 +31,18 @@ React's dependency comparison uses reference equality (`===`). Functions that cr
 
 ```tsx
 // WRONG - Creates new Date objects every render -> infinite loop
-const [timeRange, setTimeRange] = useState<TimeRangeOption>('all');
-const { dateFrom, dateTo } = getDateRangeFromOption(timeRange); // new Date() inside!
+const [timeRange, setTimeRange] = useState<TimeRangeOption>('all')
+const { dateFrom, dateTo } = getDateRangeFromOption(timeRange) // new Date() inside!
 
-useMyData({ dateFrom, dateTo }); // Dependencies change -> refetch -> re-render -> repeat
+useMyData({ dateFrom, dateTo }) // Dependencies change -> refetch -> re-render -> repeat
 
 // CORRECT - useMemo stabilizes the reference
 const { dateFrom, dateTo } = useMemo(
   () => getDateRangeFromOption(timeRange),
   [timeRange] // Only recalculate when timeRange actually changes
-);
+)
 
-useMyData({ dateFrom, dateTo }); // Stable references, no infinite loop
+useMyData({ dateFrom, dateTo }) // Stable references, no infinite loop
 ```
 
 **When to use useMemo for hook dependencies:**
@@ -66,13 +66,13 @@ useMyData({ dateFrom, dateTo }); // Stable references, no infinite loop
 ```tsx
 // Bad - TreeView's expandedIds state is lost when switching to editor
 function MyPage() {
-  const [editingItem, setEditingItem] = useState(null);
+  const [editingItem, setEditingItem] = useState(null)
 
   if (editingItem) {
-    return <ItemEditor item={editingItem} />; // TreeView unmounts here!
+    return <ItemEditor item={editingItem} /> // TreeView unmounts here!
   }
 
-  return <TreeView />; // Remounts with fresh state when returning
+  return <TreeView /> // Remounts with fresh state when returning
 }
 ```
 
@@ -81,11 +81,11 @@ function MyPage() {
 ```tsx
 // Good - expandedIds persists because MyPage never unmounts
 function MyPage() {
-  const [editingItem, setEditingItem] = useState(null);
-  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+  const [editingItem, setEditingItem] = useState(null)
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set())
 
   if (editingItem) {
-    return <ItemEditor item={editingItem} />;
+    return <ItemEditor item={editingItem} />
   }
 
   return (
@@ -93,7 +93,7 @@ function MyPage() {
       expandedIds={expandedIds} // Controlled mode
       onExpandedIdsChange={setExpandedIds}
     />
-  );
+  )
 }
 ```
 
@@ -115,27 +115,27 @@ function MyPage() {
 
 ```tsx
 // Good - Only show skeleton on initial load
-const [isLoading, setIsLoading] = useState(true); // Initial load
-const [isRefetching, setIsRefetching] = useState(false); // Background refresh
+const [isLoading, setIsLoading] = useState(true) // Initial load
+const [isRefetching, setIsRefetching] = useState(false) // Background refresh
 
 const fetchData = async (isRefetch = false) => {
   if (isRefetch) {
-    setIsRefetching(true); // Silent refresh, keep showing data
+    setIsRefetching(true) // Silent refresh, keep showing data
   } else {
-    setIsLoading(true); // Show skeleton only on initial load
+    setIsLoading(true) // Show skeleton only on initial load
   }
 
   try {
-    const data = await api.getData();
-    setData(data);
+    const data = await api.getData()
+    setData(data)
   } finally {
-    setIsLoading(false);
-    setIsRefetching(false);
+    setIsLoading(false)
+    setIsRefetching(false)
   }
-};
+}
 
 // Expose separate refetch function
-const refetch = () => fetchData(true);
+const refetch = () => fetchData(true)
 ```
 
 **When to show loading skeleton:**
@@ -160,36 +160,36 @@ This creates a race condition when loading chat history.
 // WRONG - Race condition: setMessages is called but then useChat resets
 const { messages, setMessages } = useChat({
   id: currentChat?.id, // When this changes, hook reinitializes
-});
+})
 
 const handleSelectChat = async (chat: Chat) => {
-  const result = await api.getChat(chat.id);
-  setCurrentChat(result.chat); // 1. Triggers useChat to reset
-  setMessages(result.messages); // 2. Messages set but immediately cleared by reset!
-};
+  const result = await api.getChat(chat.id)
+  setCurrentChat(result.chat) // 1. Triggers useChat to reset
+  setMessages(result.messages) // 2. Messages set but immediately cleared by reset!
+}
 ```
 
 ```tsx
 // CORRECT - Use ref + useEffect to set messages AFTER hook reinitializes
-const pendingMessagesRef = useRef<Message[] | null>(null);
+const pendingMessagesRef = useRef<Message[] | null>(null)
 
 const { messages, setMessages } = useChat({
   id: currentChat?.id,
-});
+})
 
 const handleSelectChat = async (chat: Chat) => {
-  const result = await api.getChat(chat.id);
-  pendingMessagesRef.current = result.messages; // 1. Store messages
-  setCurrentChat(result.chat); // 2. Trigger hook reset
-};
+  const result = await api.getChat(chat.id)
+  pendingMessagesRef.current = result.messages // 1. Store messages
+  setCurrentChat(result.chat) // 2. Trigger hook reset
+}
 
 // 3. Apply messages after hook reinitializes
 useEffect(() => {
   if (pendingMessagesRef.current !== null) {
-    setMessages(pendingMessagesRef.current);
-    pendingMessagesRef.current = null;
+    setMessages(pendingMessagesRef.current)
+    pendingMessagesRef.current = null
   }
-}, [currentChat?.id, setMessages]);
+}, [currentChat?.id, setMessages])
 ```
 
 **General rule for hooks with ID props:**
@@ -211,11 +211,11 @@ When a hook uses an `id` to manage state, assume the state resets on `id` change
 
 ## Related Documents
 
-| Document | Purpose |
-|----------|---------|
+| Document                                                                              | Purpose                                    |
+| ------------------------------------------------------------------------------------- | ------------------------------------------ |
 | [big-question/react-usestate-function.md](../big-question/react-usestate-function.md) | Deep dive: useState function storage issue |
-| [guides/bug-root-cause-thinking-guide.md](../guides/bug-root-cause-thinking-guide.md) | Bug analysis methodology |
-| [shared/code-quality.md](../shared/code-quality.md) | Code quality standards |
+| [guides/bug-root-cause-thinking-guide.md](../guides/bug-root-cause-thinking-guide.md) | Bug analysis methodology                   |
+| [shared/code-quality.md](../shared/code-quality.md)                                   | Code quality standards                     |
 
 ---
 

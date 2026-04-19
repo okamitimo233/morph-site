@@ -9,6 +9,7 @@ Create a new slash command in both `.cursor/commands/` (with `trellis-` prefix) 
 ```
 
 **Example**:
+
 ```
 /trellis:create-command review-pr Check PR code changes against project guidelines
 ```
@@ -18,12 +19,14 @@ Create a new slash command in both `.cursor/commands/` (with `trellis-` prefix) 
 ### 1. Parse Input
 
 Extract from user input:
+
 - **Command name**: Use kebab-case (e.g., `review-pr`)
 - **Description**: What the command should accomplish
 
 ### 2. Analyze Requirements
 
 Determine command type based on description:
+
 - **Initialization**: Read docs, establish context
 - **Pre-development**: Read guidelines, check dependencies
 - **Code check**: Validate code quality and guideline compliance
@@ -35,11 +38,13 @@ Determine command type based on description:
 Based on command type, generate appropriate content:
 
 **Simple command** (1-3 lines):
+
 ```markdown
 Concise instruction describing what to do
 ```
 
 **Complex command** (with steps):
+
 ```markdown
 # Command Title
 
@@ -48,9 +53,11 @@ Command description
 ## Steps
 
 ### 1. First Step
+
 Specific action
 
 ### 2. Second Step
+
 Specific action
 
 ## Output Format (if needed)
@@ -61,12 +68,14 @@ Template
 ### 4. Create Files
 
 Create in both directories:
+
 - `.cursor/commands/trellis-<command-name>.md`
 - `.claude/commands/trellis/<command-name>.md`
 
 ### 5. Confirm Creation
 
 Output result:
+
 ```
 [OK] Created Slash Command: /<command-name>
 
@@ -98,25 +107,27 @@ Description:
 
 ## Naming Conventions
 
-| Command Type | Prefix | Example |
-|--------------|--------|---------|
-| Session Start | `start` | `start` |
-| Pre-development | `before-` | `before-dev` |
-| Check | `check-` | `check` |
-| Record | `record-` | `record-session` |
-| Generate | `generate-` | `generate-api-doc` |
-| Update | `update-` | `update-changelog` |
-| Other | Verb-first | `review-code`, `sync-data` |
+| Command Type    | Prefix      | Example                    |
+| --------------- | ----------- | -------------------------- |
+| Session Start   | `start`     | `start`                    |
+| Pre-development | `before-`   | `before-dev`               |
+| Check           | `check-`    | `check`                    |
+| Record          | `record-`   | `record-session`           |
+| Generate        | `generate-` | `generate-api-doc`         |
+| Update          | `update-`   | `update-changelog`         |
+| Other           | Verb-first  | `review-code`, `sync-data` |
 
 ## Example
 
 ### Input
+
 ```
 /trellis:create-command review-pr Check PR code changes against project guidelines
 ```
 
 ### Generated Command Content
-```markdown
+
+````markdown
 # PR Code Review
 
 Check current PR code changes against project guidelines.
@@ -124,16 +135,20 @@ Check current PR code changes against project guidelines.
 ## Steps
 
 ### 1. Get Changed Files
+
 ```bash
 git diff main...HEAD --name-only
 ```
+````
 
 ### 2. Categorized Review
 
 **Frontend files** (`apps/web/`):
+
 - Reference `.trellis/spec/frontend/index.md`
 
 **Backend files** (`packages/api/`):
+
 - Reference `.trellis/spec/backend/index.md`
 
 ### 3. Output Review Report
@@ -143,12 +158,18 @@ Format:
 ## PR Review Report
 
 ### Changed Files
+
 - [file list]
 
 ### Check Results
+
 - [OK] Passed items
-- [X] Issues found
+- [x] Issues found
 
 ### Suggestions
+
 - [improvement suggestions]
+
+```
+
 ```

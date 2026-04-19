@@ -10,12 +10,12 @@ Astro uses file-based routing. Files in `src/pages/` become routes.
 
 ### Static Routes
 
-| File Path                   | URL                    |
-| --------------------------- | ---------------------- |
-| `src/pages/index.astro`     | `/`                    |
-| `src/pages/about.astro`     | `/about`               |
-| `src/pages/blog/index.astro`| `/blog`                |
-| `src/pages/blog/post.astro` | `/blog/post`           |
+| File Path                    | URL          |
+| ---------------------------- | ------------ |
+| `src/pages/index.astro`      | `/`          |
+| `src/pages/about.astro`      | `/about`     |
+| `src/pages/blog/index.astro` | `/blog`      |
+| `src/pages/blog/post.astro`  | `/blog/post` |
 
 ### Example Page
 
@@ -139,68 +139,68 @@ Astro can serve API endpoints:
 
 ```typescript
 // src/pages/api/users.ts
-import type { APIRoute } from 'astro';
+import type { APIRoute } from 'astro'
 
 export const GET: APIRoute = async () => {
-  const users = await fetchUsers();
+  const users = await fetchUsers()
 
   return new Response(JSON.stringify(users), {
     status: 200,
     headers: {
       'Content-Type': 'application/json',
     },
-  });
-};
+  })
+}
 ```
 
 ### POST Endpoint
 
 ```typescript
 // src/pages/api/contact.ts
-import type { APIRoute } from 'astro';
+import type { APIRoute } from 'astro'
 
 export const POST: APIRoute = async ({ request }) => {
-  const data = await request.json();
+  const data = await request.json()
 
   // Validate input
   if (!data.email || !data.message) {
     return new Response(JSON.stringify({ error: 'Missing fields' }), {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
-    });
+    })
   }
 
   // Process contact form
-  await sendEmail(data);
+  await sendEmail(data)
 
   return new Response(JSON.stringify({ success: true }), {
     status: 200,
     headers: { 'Content-Type': 'application/json' },
-  });
-};
+  })
+}
 ```
 
 ### Multiple Methods
 
 ```typescript
 // src/pages/api/posts/[id].ts
-import type { APIRoute } from 'astro';
+import type { APIRoute } from 'astro'
 
 export const GET: APIRoute = async ({ params }) => {
-  const post = await getPost(params.id);
-  return new Response(JSON.stringify(post));
-};
+  const post = await getPost(params.id)
+  return new Response(JSON.stringify(post))
+}
 
 export const PUT: APIRoute = async ({ params, request }) => {
-  const data = await request.json();
-  const post = await updatePost(params.id, data);
-  return new Response(JSON.stringify(post));
-};
+  const data = await request.json()
+  const post = await updatePost(params.id, data)
+  return new Response(JSON.stringify(post))
+}
 
 export const DELETE: APIRoute = async ({ params }) => {
-  await deletePost(params.id);
-  return new Response(null, { status: 204 });
-};
+  await deletePost(params.id)
+  return new Response(null, { status: 204 })
+}
 ```
 
 ---
@@ -216,7 +216,7 @@ export default defineConfig({
     '/old-blog': '/blog',
     '/old-blog/:slug': '/blog/:slug',
   },
-});
+})
 ```
 
 ### Dynamic Redirects
@@ -355,14 +355,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 ## Quick Reference
 
-| Feature             | Syntax                              | Example                          |
-| ------------------- | ----------------------------------- | -------------------------------- |
-| Static route        | `filename.astro`                    | `about.astro` → `/about`         |
-| Dynamic route       | `[param].astro`                     | `[slug].astro` → `/blog/hello`   |
-| Catch-all route     | `[...param].astro`                  | `[...path].astro` → `/docs/a/b`  |
-| Pagination          | `paginate(data, options)`           | `paginate(posts, { pageSize: 10 })` |
-| API endpoint        | `export const GET/POST` in `.ts`    | `api/users.ts` → `/api/users`    |
-| Redirect            | `Astro.redirect(url)`               | `return Astro.redirect('/new')`  |
+| Feature         | Syntax                           | Example                             |
+| --------------- | -------------------------------- | ----------------------------------- |
+| Static route    | `filename.astro`                 | `about.astro` → `/about`            |
+| Dynamic route   | `[param].astro`                  | `[slug].astro` → `/blog/hello`      |
+| Catch-all route | `[...param].astro`               | `[...path].astro` → `/docs/a/b`     |
+| Pagination      | `paginate(data, options)`        | `paginate(posts, { pageSize: 10 })` |
+| API endpoint    | `export const GET/POST` in `.ts` | `api/users.ts` → `/api/users`       |
+| Redirect        | `Astro.redirect(url)`            | `return Astro.redirect('/new')`     |
 
 ---
 

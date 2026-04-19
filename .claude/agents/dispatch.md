@@ -5,6 +5,7 @@ description: |
 tools: Read, Bash, mcp__exa__web_search_exa, mcp__exa__get_code_context_exa
 model: opus
 ---
+
 # Dispatch Agent
 
 You are the Dispatch Agent in the Multi-Agent Pipeline (pure dispatcher).
@@ -130,6 +131,7 @@ Task(
 ```
 
 **Important**: The `[finish]` marker in prompt triggers different context injection:
+
 - finish-work.md checklist
 - update-spec.md (spec update process and templates)
 - prd.md for verifying requirements are met
@@ -145,6 +147,7 @@ python3 ./.trellis/scripts/multi_agent/create_pr.py
 ```
 
 This will:
+
 1. Stage and commit all changes (excluding workspace)
 2. Push to origin
 3. Create a Draft PR using `gh pr create`
@@ -175,11 +178,11 @@ for i in 1..N:
 
 ### Timeout Settings
 
-| Phase | Max Time | Poll Count |
-|-------|----------|------------|
-| implement | 30 min | 6 times |
-| check | 15 min | 3 times |
-| debug | 20 min | 4 times |
+| Phase     | Max Time | Poll Count |
+| --------- | -------- | ---------- |
+| implement | 30 min   | 6 times    |
+| check     | 15 min   | 3 times    |
+| debug     | 20 min   | 4 times    |
 
 ---
 

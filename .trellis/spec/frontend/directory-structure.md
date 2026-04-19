@@ -102,14 +102,14 @@ features/
 
 ### When to use `.astro` vs `.tsx`
 
-| Type                    | Extension | Reason                                          |
-| ----------------------- | --------- | ----------------------------------------------- |
-| Static components       | `.astro`  | No client-side JavaScript needed                |
-| Layout wrappers         | `.astro`  | Server-rendered, SEO-friendly                   |
-| SEO-critical content    | `.astro`  | Fully rendered at build/request time            |
-| Interactive components  | `.tsx`    | Needs state, event handlers, or lifecycle       |
-| Forms with validation   | `.tsx`    | Client-side interactivity required              |
-| Animations (GSAP)       | `.tsx`    | Requires DOM access and JavaScript              |
+| Type                   | Extension | Reason                                    |
+| ---------------------- | --------- | ----------------------------------------- |
+| Static components      | `.astro`  | No client-side JavaScript needed          |
+| Layout wrappers        | `.astro`  | Server-rendered, SEO-friendly             |
+| SEO-critical content   | `.astro`  | Fully rendered at build/request time      |
+| Interactive components | `.tsx`    | Needs state, event handlers, or lifecycle |
+| Forms with validation  | `.tsx`    | Client-side interactivity required        |
+| Animations (GSAP)      | `.tsx`    | Requires DOM access and JavaScript        |
 
 ### Component Placement
 
@@ -142,7 +142,7 @@ src/styles/
 
 ```css
 /* src/styles/global.css */
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Custom CSS after Tailwind */
 @layer components {
@@ -165,10 +165,10 @@ import '../styles/global.css';
 
 ## Feature vs Module
 
-| Type        | Purpose                                | Examples                                   |
-| ----------- | -------------------------------------- | ------------------------------------------ |
-| **Feature** | Cross-cutting concerns, infrastructure | `auth`, `search`, `navigation`             |
-| **Module**  | Domain-specific functionality          | `products`, `blog`, `gallery`              |
+| Type        | Purpose                                | Examples                       |
+| ----------- | -------------------------------------- | ------------------------------ |
+| **Feature** | Cross-cutting concerns, infrastructure | `auth`, `search`, `navigation` |
+| **Module**  | Domain-specific functionality          | `products`, `blog`, `gallery`  |
 
 **Features** live in `features/`:
 
@@ -190,18 +190,18 @@ import '../styles/global.css';
 
 ```typescript
 // Inside features/auth/components/LoginForm.tsx
-import { useAuth } from '../hooks';
-import { AUTH_CONSTANTS } from '../constants';
-import type { User } from '../types';
+import { useAuth } from '../hooks'
+import { AUTH_CONSTANTS } from '../constants'
+import type { User } from '../types'
 ```
 
 ### From Outside a Module
 
 ```typescript
 // Inside components/islands/Header.tsx
-import { useAuth } from '../../features/auth/hooks';
+import { useAuth } from '../../features/auth/hooks'
 // Or if re-exported from module index:
-import { useAuth } from '../../features/auth';
+import { useAuth } from '../../features/auth'
 ```
 
 ### Astro Page Imports
@@ -221,17 +221,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 ## File Naming Conventions
 
-| Type       | Convention                       | Example                           |
-| ---------- | -------------------------------- | --------------------------------- |
-| Astro pages | kebab-case                      | `about.astro`, `blog-post.astro`  |
-| Astro components | PascalCase                | `Card.astro`, `NavBar.astro`      |
-| React components | PascalCase                 | `SearchForm.tsx`, `Counter.tsx`   |
-| Hooks      | camelCase with `use` prefix      | `useAuth.ts`, `useScroll.ts`      |
-| Contexts   | PascalCase with `Context` suffix | `AuthContext.tsx`                 |
-| Constants  | SCREAMING_SNAKE_CASE (values)    | `constants.ts` with `API_URL`     |
-| Types      | PascalCase                       | `types.ts` with `User`            |
-| Utilities  | camelCase                        | `formatDate.ts`, `parseQuery.ts`  |
-| CSS        | kebab-case                       | `hero.css`, `nav-bar.css`         |
+| Type             | Convention                       | Example                          |
+| ---------------- | -------------------------------- | -------------------------------- |
+| Astro pages      | kebab-case                       | `about.astro`, `blog-post.astro` |
+| Astro components | PascalCase                       | `Card.astro`, `NavBar.astro`     |
+| React components | PascalCase                       | `SearchForm.tsx`, `Counter.tsx`  |
+| Hooks            | camelCase with `use` prefix      | `useAuth.ts`, `useScroll.ts`     |
+| Contexts         | PascalCase with `Context` suffix | `AuthContext.tsx`                |
+| Constants        | SCREAMING_SNAKE_CASE (values)    | `constants.ts` with `API_URL`    |
+| Types            | PascalCase                       | `types.ts` with `User`           |
+| Utilities        | camelCase                        | `formatDate.ts`, `parseQuery.ts` |
+| CSS              | kebab-case                       | `hero.css`, `nav-bar.css`        |
 
 ---
 
@@ -254,7 +254,7 @@ src/content/
 
 ```typescript
 // src/content/config.ts
-import { defineCollection, z } from 'astro:content';
+import { defineCollection, z } from 'astro:content'
 
 const blog = defineCollection({
   type: 'content',
@@ -265,24 +265,24 @@ const blog = defineCollection({
     updatedDate: z.date().optional(),
     heroImage: z.string().optional(),
   }),
-});
+})
 
-export const collections = { blog };
+export const collections = { blog }
 ```
 
 ---
 
 ## Quick Reference
 
-| Question                      | Answer                                           |
-| ----------------------------- | ------------------------------------------------ |
-| Where do static components go? | `src/components/ui/` (Astro)                    |
-| Where do interactive components go? | `src/components/islands/` (React)         |
-| Where do page layouts go?     | `src/layouts/`                                   |
-| Where do global styles go?    | `src/styles/global.css`                          |
-| Where do hooks go?            | In `hooks/` folder of relevant feature           |
-| Where do global hooks go?     | `src/hooks/`                                     |
-| Where does content go?        | `src/content/` (use content collections)         |
+| Question                            | Answer                                   |
+| ----------------------------------- | ---------------------------------------- |
+| Where do static components go?      | `src/components/ui/` (Astro)             |
+| Where do interactive components go? | `src/components/islands/` (React)        |
+| Where do page layouts go?           | `src/layouts/`                           |
+| Where do global styles go?          | `src/styles/global.css`                  |
+| Where do hooks go?                  | In `hooks/` folder of relevant feature   |
+| Where do global hooks go?           | `src/hooks/`                             |
+| Where does content go?              | `src/content/` (use content collections) |
 
 ---
 

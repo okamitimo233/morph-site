@@ -9,14 +9,14 @@
  * @see .trellis/spec/frontend/react-pitfalls.md - React patterns
  */
 
-import { type ReactElement, useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { cn } from '@/lib/utils';
-import { useTheme } from '@/hooks/useTheme';
+import { type ReactElement, useEffect, useRef, useState } from 'react'
+import { gsap } from 'gsap'
+import { cn } from '@/lib/utils'
+import { useTheme } from '@/hooks/useTheme'
 
 interface ThemeToggleProps {
   /** Additional CSS classes */
-  className?: string;
+  className?: string
 }
 
 /**
@@ -46,7 +46,7 @@ function SunIcon(): ReactElement {
       <path d="m6.34 17.66-1.41 1.41" />
       <path d="m19.07 4.93-1.41 1.41" />
     </svg>
-  );
+  )
 }
 
 /**
@@ -68,7 +68,7 @@ function MoonIcon(): ReactElement {
     >
       <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
     </svg>
-  );
+  )
 }
 
 /**
@@ -78,55 +78,53 @@ function MoonIcon(): ReactElement {
  * Features smooth icon transition using GSAP (rotation + scale).
  */
 export default function ThemeToggle({ className }: ThemeToggleProps): ReactElement {
-  const { resolvedTheme, toggleTheme } = useTheme();
-  const containerRef = useRef<HTMLButtonElement>(null);
-  const sunIconRef = useRef<HTMLSpanElement>(null);
-  const moonIconRef = useRef<HTMLSpanElement>(null);
-  const gsapContextRef = useRef<gsap.Context | null>(null);
+  const { resolvedTheme, toggleTheme } = useTheme()
+  const containerRef = useRef<HTMLButtonElement>(null)
+  const sunIconRef = useRef<HTMLSpanElement>(null)
+  const moonIconRef = useRef<HTMLSpanElement>(null)
+  const gsapContextRef = useRef<gsap.Context | null>(null)
 
   // Track current icon state locally for immediate animation
   const [iconState, setIconState] = useState<'sun' | 'moon'>(
     resolvedTheme === 'dark' ? 'moon' : 'sun'
-  );
+  )
 
   // Sync icon state with resolved theme on mount
   useEffect(() => {
-    setIconState(resolvedTheme === 'dark' ? 'moon' : 'sun');
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    setIconState(resolvedTheme === 'dark' ? 'moon' : 'sun')
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Set initial visibility
   useEffect(() => {
     if (iconState === 'sun') {
-      gsap.set(sunIconRef.current, { opacity: 1, scale: 1, rotation: 0 });
-      gsap.set(moonIconRef.current, { opacity: 0, scale: 0.5, rotation: -90 });
+      gsap.set(sunIconRef.current, { opacity: 1, scale: 1, rotation: 0 })
+      gsap.set(moonIconRef.current, { opacity: 0, scale: 0.5, rotation: -90 })
     } else {
-      gsap.set(sunIconRef.current, { opacity: 0, scale: 0.5, rotation: 90 });
-      gsap.set(moonIconRef.current, { opacity: 1, scale: 1, rotation: 0 });
+      gsap.set(sunIconRef.current, { opacity: 0, scale: 0.5, rotation: 90 })
+      gsap.set(moonIconRef.current, { opacity: 1, scale: 1, rotation: 0 })
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Handle theme toggle with animation
   const handleToggle = (): void => {
     // Check for reduced motion preference
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    const newIconState = iconState === 'sun' ? 'moon' : 'sun';
-    setIconState(newIconState);
+    const newIconState = iconState === 'sun' ? 'moon' : 'sun'
+    setIconState(newIconState)
 
     if (prefersReducedMotion) {
       // Skip animation, set directly
       if (newIconState === 'moon') {
-        gsap.set(sunIconRef.current, { opacity: 0, scale: 0.5 });
-        gsap.set(moonIconRef.current, { opacity: 1, scale: 1 });
+        gsap.set(sunIconRef.current, { opacity: 0, scale: 0.5 })
+        gsap.set(moonIconRef.current, { opacity: 1, scale: 1 })
       } else {
-        gsap.set(sunIconRef.current, { opacity: 1, scale: 1 });
-        gsap.set(moonIconRef.current, { opacity: 0, scale: 0.5 });
+        gsap.set(sunIconRef.current, { opacity: 1, scale: 1 })
+        gsap.set(moonIconRef.current, { opacity: 0, scale: 0.5 })
       }
     } else {
       // Animate transition
-      gsapContextRef.current?.revert();
+      gsapContextRef.current?.revert()
       gsapContextRef.current = gsap.context(() => {
         if (newIconState === 'moon') {
           // Sun -> Moon
@@ -136,7 +134,7 @@ export default function ThemeToggle({ className }: ThemeToggleProps): ReactEleme
             rotation: 90,
             duration: 0.15,
             ease: 'power2.in',
-          });
+          })
           gsap.fromTo(
             moonIconRef.current,
             { opacity: 0, scale: 0.5, rotation: -90 },
@@ -148,7 +146,7 @@ export default function ThemeToggle({ className }: ThemeToggleProps): ReactEleme
               delay: 0.15,
               ease: 'power2.out',
             }
-          );
+          )
         } else {
           // Moon -> Sun
           gsap.to(moonIconRef.current, {
@@ -157,7 +155,7 @@ export default function ThemeToggle({ className }: ThemeToggleProps): ReactEleme
             rotation: -90,
             duration: 0.15,
             ease: 'power2.in',
-          });
+          })
           gsap.fromTo(
             sunIconRef.current,
             { opacity: 0, scale: 0.5, rotation: 90 },
@@ -169,14 +167,14 @@ export default function ThemeToggle({ className }: ThemeToggleProps): ReactEleme
               delay: 0.15,
               ease: 'power2.out',
             }
-          );
+          )
         }
-      }, containerRef);
+      }, containerRef)
     }
 
     // Trigger theme toggle
-    toggleTheme();
-  };
+    toggleTheme()
+  }
 
   return (
     <button
@@ -208,5 +206,5 @@ export default function ThemeToggle({ className }: ThemeToggleProps): ReactEleme
         <MoonIcon />
       </span>
     </button>
-  );
+  )
 }

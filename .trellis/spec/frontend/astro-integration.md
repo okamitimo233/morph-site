@@ -16,16 +16,16 @@ pnpm add @astrojs/react react react-dom
 
 ```javascript
 // astro.config.mjs
-import { defineConfig } from 'astro/config';
-import react from '@astrojs/react';
-import tailwindcss from '@tailwindcss/vite';
+import { defineConfig } from 'astro/config'
+import react from '@astrojs/react'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],
   },
-});
+})
 ```
 
 ---
@@ -36,13 +36,13 @@ Client directives determine when a React component becomes interactive (hydrated
 
 ### Available Directives
 
-| Directive       | When it Hydrates                                | Use Case                          |
-| --------------- | ----------------------------------------------- | --------------------------------- |
-| `client:load`   | Page load                                       | Immediately needed interactivity  |
-| `client:idle`   | Browser idle (requestIdleCallback)              | Low-priority interactivity        |
-| `client:visible`| Element enters viewport                         | Below-fold interactive content    |
-| `client:media`  | Media query matches                             | Responsive interactivity          |
-| `client:only`   | Skip server render, hydrate only                | Heavy JS, no SEO needed           |
+| Directive        | When it Hydrates                   | Use Case                         |
+| ---------------- | ---------------------------------- | -------------------------------- |
+| `client:load`    | Page load                          | Immediately needed interactivity |
+| `client:idle`    | Browser idle (requestIdleCallback) | Low-priority interactivity       |
+| `client:visible` | Element enters viewport            | Below-fold interactive content   |
+| `client:media`   | Media query matches                | Responsive interactivity         |
+| `client:only`    | Skip server render, hydrate only   | Heavy JS, no SEO needed          |
 
 ### Usage Examples
 
@@ -87,15 +87,15 @@ Is the component immediately interactive and critical?
 
 ### Guidelines
 
-| Scenario                          | Directive        | Reason                              |
-| --------------------------------- | ---------------- | ----------------------------------- |
-| Navigation, forms above fold      | `client:load`    | User expects immediate interaction  |
-| Search autocomplete               | `client:load`    | Critical for user flow              |
-| Image carousel below fold         | `client:visible` | Don't hydrate until needed          |
-| Newsletter signup in footer       | `client:visible` | Below fold, defer hydration         |
-| Analytics, chat widgets           | `client:idle`    | Low priority, load when free        |
-| Data visualization (no SEO)       | `client:only`    | Skip SSR for heavy libraries        |
-| Mobile-specific menu              | `client:media`   | Only hydrate on matching devices    |
+| Scenario                     | Directive        | Reason                             |
+| ---------------------------- | ---------------- | ---------------------------------- |
+| Navigation, forms above fold | `client:load`    | User expects immediate interaction |
+| Search autocomplete          | `client:load`    | Critical for user flow             |
+| Image carousel below fold    | `client:visible` | Don't hydrate until needed         |
+| Newsletter signup in footer  | `client:visible` | Below fold, defer hydration        |
+| Analytics, chat widgets      | `client:idle`    | Low priority, load when free       |
+| Data visualization (no SEO)  | `client:only`    | Skip SSR for heavy libraries       |
+| Mobile-specific menu         | `client:media`   | Only hydrate on matching devices   |
 
 ---
 
@@ -137,18 +137,18 @@ Server-rendered HTML must match client-rendered HTML:
 // Bad: Different output on server vs client
 function Clock() {
   // Server renders one time, client renders different time
-  return <span>{new Date().toLocaleTimeString()}</span>;
+  return <span>{new Date().toLocaleTimeString()}</span>
 }
 
 // Good: Use useEffect for client-only rendering
 function Clock() {
-  const [time, setTime] = useState('');
+  const [time, setTime] = useState('')
 
   useEffect(() => {
-    setTime(new Date().toLocaleTimeString());
-  }, []);
+    setTime(new Date().toLocaleTimeString())
+  }, [])
 
-  return <span>{time || 'Loading...'}</span>;
+  return <span>{time || 'Loading...'}</span>
 }
 ```
 
@@ -180,10 +180,10 @@ For callbacks, define them inside the React component:
 // UserProfile.tsx
 export default function UserProfile({ name }: { name: string }) {
   const handleClick = () => {
-    console.log('clicked');
-  };
+    console.log('clicked')
+  }
 
-  return <button onClick={handleClick}>{name}</button>;
+  return <button onClick={handleClick}>{name}</button>
 }
 ```
 
@@ -195,32 +195,26 @@ export default function UserProfile({ name }: { name: string }) {
 
 ```tsx
 // src/components/islands/Counter.tsx
-import { useState } from 'react';
+import { useState } from 'react'
 
 interface CounterProps {
-  initialValue?: number;
+  initialValue?: number
 }
 
 export default function Counter({ initialValue = 0 }: CounterProps) {
-  const [count, setCount] = useState(initialValue);
+  const [count, setCount] = useState(initialValue)
 
   return (
     <div className="flex items-center gap-4">
-      <button
-        onClick={() => setCount((c) => c - 1)}
-        className="px-4 py-2 bg-gray-200 rounded"
-      >
+      <button onClick={() => setCount((c) => c - 1)} className="px-4 py-2 bg-gray-200 rounded">
         -
       </button>
       <span className="text-xl font-bold">{count}</span>
-      <button
-        onClick={() => setCount((c) => c + 1)}
-        className="px-4 py-2 bg-gray-200 rounded"
-      >
+      <button onClick={() => setCount((c) => c + 1)} className="px-4 py-2 bg-gray-200 rounded">
         +
       </button>
     </div>
-  );
+  )
 }
 ```
 
@@ -267,28 +261,26 @@ import UserProfile from '../components/islands/UserProfile';
 // Island 1: Dispatch event
 function SearchInput() {
   const handleSearch = (query: string) => {
-    window.dispatchEvent(
-      new CustomEvent('search', { detail: query })
-    );
-  };
+    window.dispatchEvent(new CustomEvent('search', { detail: query }))
+  }
 
-  return <input onChange={(e) => handleSearch(e.target.value)} />;
+  return <input onChange={(e) => handleSearch(e.target.value)} />
 }
 
 // Island 2: Listen for event
 function SearchResults() {
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState([])
 
   useEffect(() => {
     const handleSearch = (e: CustomEvent) => {
       // Fetch and set results
-    };
+    }
 
-    window.addEventListener('search', handleSearch as EventListener);
-    return () => window.removeEventListener('search', handleSearch as EventListener);
-  }, []);
+    window.addEventListener('search', handleSearch as EventListener)
+    return () => window.removeEventListener('search', handleSearch as EventListener)
+  }, [])
 
-  return <div>{/* results */}</div>;
+  return <div>{/* results */}</div>
 }
 ```
 
@@ -325,7 +317,7 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: 'viewport',
   },
-});
+})
 ```
 
 ### 3. Use client:only for Heavy Libraries
@@ -344,13 +336,13 @@ import DataVisualization from '../components/islands/DataVisualization';
 
 ## Quick Reference
 
-| Directive        | Loads JS...                  | Use For                           |
-| ---------------- | ---------------------------- | --------------------------------- |
-| `client:load`    | Immediately                  | Critical interactive components   |
-| `client:idle`    | When browser is idle         | Low-priority components           |
-| `client:visible` | When scrolled into view      | Below-fold interactive content    |
-| `client:media`   | When media query matches     | Conditional interactivity         |
-| `client:only`    | Skip SSR                     | Heavy libraries, no SEO needed    |
+| Directive        | Loads JS...              | Use For                         |
+| ---------------- | ------------------------ | ------------------------------- |
+| `client:load`    | Immediately              | Critical interactive components |
+| `client:idle`    | When browser is idle     | Low-priority components         |
+| `client:visible` | When scrolled into view  | Below-fold interactive content  |
+| `client:media`   | When media query matches | Conditional interactivity       |
+| `client:only`    | Skip SSR                 | Heavy libraries, no SEO needed  |
 
 ---
 

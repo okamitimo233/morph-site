@@ -11,10 +11,10 @@
 When storing a function in React state, the function gets immediately executed instead of being stored:
 
 ```typescript
-const [callback, setCallback] = useState<(() => void) | null>(null);
+const [callback, setCallback] = useState<(() => void) | null>(null)
 
 // This EXECUTES myFunction instead of storing it!
-setCallback(myFunction);
+setCallback(myFunction)
 ```
 
 ---
@@ -41,20 +41,20 @@ React's `useState` setter has two modes:
 
 ```typescript
 // Mode 1: Direct value
-setState(newValue);
+setState(newValue)
 
 // Mode 2: Updater function
-setState((prevState) => newState);
+setState((prevState) => newState)
 ```
 
 **When the argument is a function, React assumes Mode 2** and executes it!
 
 ```typescript
 // What you wrote:
-setCallback(myFunction);
+setCallback(myFunction)
 
 // What React does:
-setCallback((prevState) => myFunction(prevState));
+setCallback((prevState) => myFunction(prevState))
 // myFunction(null) gets called immediately!
 ```
 
@@ -66,8 +66,8 @@ Both usages have the same type signature:
 // setState<T>(value: T | ((prev: T) => T)): void
 
 // When T = (() => void) | null:
-setCallback(myFunction); // T = () => void (valid)
-setCallback((prev) => myFunction); // (prev: T) => T (valid)
+setCallback(myFunction) // T = () => void (valid)
+setCallback((prev) => myFunction) // (prev: T) => T (valid)
 
 // TypeScript can't distinguish intent
 ```
@@ -80,10 +80,10 @@ setCallback((prev) => myFunction); // (prev: T) => T (valid)
 
 ```typescript
 // WRONG - function is executed
-setCallback(myFunction);
+setCallback(myFunction)
 
 // CORRECT - function is stored
-setCallback(() => myFunction);
+setCallback(() => myFunction)
 ```
 
 ### Complete Example
@@ -136,26 +136,26 @@ function NavigationProvider({ children }) {
 
 ```typescript
 // Storing a callback for later use
-const [onComplete, setOnComplete] = useState<((result: Result) => void) | null>(null);
+const [onComplete, setOnComplete] = useState<((result: Result) => void) | null>(null)
 
 // WRONG
-setOnComplete(handleComplete);
+setOnComplete(handleComplete)
 
 // CORRECT
-setOnComplete(() => handleComplete);
+setOnComplete(() => handleComplete)
 ```
 
 ### 3. Event Handlers
 
 ```typescript
 // Dynamic event handler
-const [clickHandler, setClickHandler] = useState<((e: MouseEvent) => void) | null>(null);
+const [clickHandler, setClickHandler] = useState<((e: MouseEvent) => void) | null>(null)
 
 // WRONG
-setClickHandler(handleSpecialClick);
+setClickHandler(handleSpecialClick)
 
 // CORRECT
-setClickHandler(() => handleSpecialClick);
+setClickHandler(() => handleSpecialClick)
 ```
 
 ---
@@ -167,16 +167,16 @@ setClickHandler(() => handleSpecialClick);
 If you don't need re-renders when the callback changes:
 
 ```typescript
-const callbackRef = useRef<(() => void) | null>(null);
+const callbackRef = useRef<(() => void) | null>(null)
 
 // No wrapping needed with refs
-callbackRef.current = myFunction;
+callbackRef.current = myFunction
 ```
 
 ### useCallback with Identity
 
 ```typescript
-const stableCallback = useCallback(myFunction, [dependencies]);
+const stableCallback = useCallback(myFunction, [dependencies])
 // Then use stableCallback where needed
 ```
 
@@ -204,10 +204,10 @@ When storing functions in state:
 
 ## Related Specifications
 
-| Document | Purpose |
-|----------|---------|
-| [frontend/react-pitfalls.md](../frontend/react-pitfalls.md) | Quick reference for React pitfalls |
-| [guides/bug-root-cause-thinking-guide.md](../guides/bug-root-cause-thinking-guide.md) | Bug analysis methodology |
+| Document                                                                              | Purpose                            |
+| ------------------------------------------------------------------------------------- | ---------------------------------- |
+| [frontend/react-pitfalls.md](../frontend/react-pitfalls.md)                           | Quick reference for React pitfalls |
+| [guides/bug-root-cause-thinking-guide.md](../guides/bug-root-cause-thinking-guide.md) | Bug analysis methodology           |
 
 ---
 

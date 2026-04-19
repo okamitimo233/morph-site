@@ -34,13 +34,13 @@ src/styles/
 /* src/styles/global.css */
 
 /* 1. Tailwind CSS import (required) */
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* 2. Custom CSS variables (optional) */
 @theme {
   --color-primary: #3b82f6;
   --color-secondary: #6366f1;
-  --font-display: "Inter", system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
 }
 
 /* 3. Base styles */
@@ -88,7 +88,7 @@ Tailwind CSS 4 uses `@theme` for design tokens:
 
 ```css
 /* src/styles/global.css */
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   /* Colors */
@@ -116,8 +116,8 @@ Tailwind CSS 4 uses `@theme` for design tokens:
   --radius-full: 9999px;
 
   /* Typography */
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   /* Animations */
   --animate-fade-in: fade-in 0.3s ease-out;
@@ -125,13 +125,23 @@ Tailwind CSS 4 uses `@theme` for design tokens:
 }
 
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slide-up {
-  from { transform: translateY(10px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 ```
 
@@ -140,11 +150,7 @@ Tailwind CSS 4 uses `@theme` for design tokens:
 ```tsx
 // React component using Tailwind classes
 function Card({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="rounded-lg p-md bg-white shadow-md dark:bg-gray-800">
-      {children}
-    </div>
-  );
+  return <div className="rounded-lg p-md bg-white shadow-md dark:bg-gray-800">{children}</div>
 }
 ```
 
@@ -190,10 +196,8 @@ For complex components that need custom CSS (not just Tailwind utilities), use *
 // Component with dark mode support
 function Card({ children }: { children: React.ReactNode }) {
   return (
-    <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-      {children}
-    </div>
-  );
+    <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">{children}</div>
+  )
 }
 ```
 
@@ -237,14 +241,27 @@ function Card({ children }: { children: React.ReactNode }) {
     -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-semibold leading-tight;
   }
 
-  h1 { @apply text-4xl; }
-  h2 { @apply text-3xl; }
-  h3 { @apply text-2xl; }
-  h4 { @apply text-xl; }
+  h1 {
+    @apply text-4xl;
+  }
+  h2 {
+    @apply text-3xl;
+  }
+  h3 {
+    @apply text-2xl;
+  }
+  h4 {
+    @apply text-xl;
+  }
 }
 ```
 

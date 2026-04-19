@@ -11,6 +11,7 @@ permission:
   grep: allow
   mcp__exa__*: allow
 ---
+
 # Debug Agent
 
 You are the Debug Agent in the Trellis workflow.
@@ -35,6 +36,7 @@ Then proceed with the workflow below using the loaded context.
 ## Context
 
 Before debugging, read:
+
 - `.trellis/spec/` - Development guidelines
 - Error messages or issue descriptions provided
 

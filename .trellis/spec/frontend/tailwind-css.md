@@ -18,29 +18,29 @@ Tailwind CSS 4 uses CSS-first configuration. No `tailwind.config.js` needed!
 
 ```javascript
 // astro.config.mjs
-import { defineConfig } from 'astro/config';
-import tailwindcss from '@tailwindcss/vite';
-import react from '@astrojs/react';
+import { defineConfig } from 'astro/config'
+import tailwindcss from '@tailwindcss/vite'
+import react from '@astrojs/react'
 
 export default defineConfig({
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],
   },
-});
+})
 ```
 
 ### Global CSS
 
 ```css
 /* src/styles/global.css */
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Custom theme with @theme directive */
 @theme {
   --color-primary: #3b82f6;
   --color-secondary: #6366f1;
-  --font-sans: "Inter", system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
 }
 
 /* Custom base styles */
@@ -99,8 +99,8 @@ Define design tokens using `@theme`:
   --radius-lg: 0.75rem;
 
   /* Typography */
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   /* Animations */
   --animate-fade-in: fade-in 0.3s ease-out;
@@ -108,13 +108,23 @@ Define design tokens using `@theme`:
 }
 
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slide-up {
-  from { transform: translateY(10px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 ```
 
@@ -130,7 +140,7 @@ function Card({ children }: { children: React.ReactNode }) {
     <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700">
       {children}
     </div>
-  );
+  )
 }
 ```
 
@@ -158,9 +168,7 @@ function Card({ children }: { children: React.ReactNode }) {
 
 ```tsx
 // Usage with CSS variables
-<div className="bg-background text-foreground">
-  Content adapts to theme
-</div>
+<div className="bg-background text-foreground">Content adapts to theme</div>
 ```
 
 ---
@@ -231,14 +239,17 @@ function Card({ title, description }: { title: string; description: string }) {
       <h3 className="text-lg font-semibold mb-2">{title}</h3>
       <p className="text-muted-foreground">{description}</p>
     </div>
-  );
+  )
 }
 ```
 
 ### Forms
 
 ```tsx
-function Input({ label, ...props }: { label: string } & React.InputHTMLAttributes<HTMLInputElement>) {
+function Input({
+  label,
+  ...props
+}: { label: string } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <div className="space-y-2">
       <label className="text-sm font-medium">{label}</label>
@@ -247,7 +258,7 @@ function Input({ label, ...props }: { label: string } & React.InputHTMLAttribute
         {...props}
       />
     </div>
-  );
+  )
 }
 ```
 
@@ -259,10 +270,10 @@ function Input({ label, ...props }: { label: string } & React.InputHTMLAttribute
 
 Tailwind CSS 4 uses these default breakpoints:
 
-| Prefix | Min-width | CSS               |
-| ------ | --------- | ----------------- |
-| `sm`   | 640px     | `@media (min-width: 640px)` |
-| `md`   | 768px     | `@media (min-width: 768px)` |
+| Prefix | Min-width | CSS                          |
+| ------ | --------- | ---------------------------- |
+| `sm`   | 640px     | `@media (min-width: 640px)`  |
+| `md`   | 768px     | `@media (min-width: 768px)`  |
 | `lg`   | 1024px    | `@media (min-width: 1024px)` |
 | `xl`   | 1280px    | `@media (min-width: 1280px)` |
 | `2xl`  | 1536px    | `@media (min-width: 1536px)` |
@@ -391,9 +402,7 @@ Define reusable component classes:
 
 ```tsx
 // Good: Use utilities directly for one-off styles
-<div className="p-4 bg-blue-100 rounded-lg">
-  One-time styled element
-</div>
+<div className="p-4 bg-blue-100 rounded-lg">One-time styled element</div>
 
 // Create component class only when reused 3+ times
 ```
@@ -403,11 +412,7 @@ Define reusable component classes:
 ```tsx
 // Good: Extract React component
 function Card({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="rounded-lg border border-border bg-background p-6">
-      {children}
-    </div>
-  );
+  return <div className="rounded-lg border border-border bg-background p-6">{children}</div>
 }
 
 // Avoid: Over-extracting CSS classes
@@ -449,17 +454,17 @@ function Card({ children }: { children: React.ReactNode }) {
 
 ## Quick Reference
 
-| Category        | Examples                                           |
-| --------------- | -------------------------------------------------- |
-| Layout          | `flex`, `grid`, `block`, `hidden`                  |
-| Spacing         | `p-4`, `m-2`, `gap-6`, `space-y-4`                 |
-| Size            | `w-full`, `h-screen`, `max-w-7xl`                  |
-| Typography      | `text-lg`, `font-bold`, `text-center`              |
-| Colors          | `bg-white`, `text-gray-900`, `border-gray-200`     |
-| Effects         | `shadow-md`, `rounded-lg`, `opacity-50`            |
-| Transitions     | `transition-colors`, `duration-200`, `ease-in-out` |
-| Responsive      | `md:flex`, `lg:grid-cols-3`, `sm:text-xl`          |
-| State           | `hover:`, `focus:`, `active:`, `dark:`             |
+| Category    | Examples                                           |
+| ----------- | -------------------------------------------------- |
+| Layout      | `flex`, `grid`, `block`, `hidden`                  |
+| Spacing     | `p-4`, `m-2`, `gap-6`, `space-y-4`                 |
+| Size        | `w-full`, `h-screen`, `max-w-7xl`                  |
+| Typography  | `text-lg`, `font-bold`, `text-center`              |
+| Colors      | `bg-white`, `text-gray-900`, `border-gray-200`     |
+| Effects     | `shadow-md`, `rounded-lg`, `opacity-50`            |
+| Transitions | `transition-colors`, `duration-200`, `ease-in-out` |
+| Responsive  | `md:flex`, `lg:grid-cols-3`, `sm:text-xl`          |
+| State       | `hover:`, `focus:`, `active:`, `dark:`             |
 
 ---
 

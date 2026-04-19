@@ -6,8 +6,8 @@
  * @see .trellis/spec/frontend/type-safety.md - Type safety guidelines
  */
 
-import { type ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 /**
  * Combine class names with Tailwind CSS conflict resolution.
@@ -21,7 +21,7 @@ import { twMerge } from 'tailwind-merge';
  * cn(['text-sm', 'font-medium']) // Array support
  */
 export function cn(...inputs: ClassValue[]): string {
-  return twMerge(clsx(inputs));
+  return twMerge(clsx(inputs))
 }
 
 /**
@@ -39,8 +39,8 @@ export function formatDate(
     day: 'numeric',
   }
 ): string {
-  const d = typeof date === 'string' ? new Date(date) : date;
-  return d.toLocaleDateString('zh-CN', options);
+  const d = typeof date === 'string' ? new Date(date) : date
+  return d.toLocaleDateString('zh-CN', options)
 }
 
 /**
@@ -54,12 +54,12 @@ export function debounce<T extends (...args: Parameters<T>) => ReturnType<T>>(
   fn: T,
   delay: number
 ): (...args: Parameters<T>) => void {
-  let timeoutId: ReturnType<typeof setTimeout>;
+  let timeoutId: ReturnType<typeof setTimeout>
 
   return (...args: Parameters<T>) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => fn(...args), delay);
-  };
+    clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => fn(...args), delay)
+  }
 }
 
 /**
@@ -73,17 +73,17 @@ export function throttle<T extends (...args: Parameters<T>) => ReturnType<T>>(
   fn: T,
   limit: number
 ): (...args: Parameters<T>) => void {
-  let inThrottle = false;
+  let inThrottle = false
 
   return (...args: Parameters<T>) => {
     if (!inThrottle) {
-      fn(...args);
-      inThrottle = true;
+      fn(...args)
+      inThrottle = true
       setTimeout(() => {
-        inThrottle = false;
-      }, limit);
+        inThrottle = false
+      }, limit)
     }
-  };
+  }
 }
 
 /**
@@ -93,6 +93,6 @@ export function throttle<T extends (...args: Parameters<T>) => ReturnType<T>>(
  * @returns Unique ID string
  */
 export function generateId(prefix = ''): string {
-  const randomPart = Math.random().toString(36).substring(2, 9);
-  return prefix ? `${prefix}-${randomPart}` : randomPart;
+  const randomPart = Math.random().toString(36).substring(2, 9)
+  return prefix ? `${prefix}-${randomPart}` : randomPart
 }

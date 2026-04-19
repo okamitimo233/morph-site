@@ -15,10 +15,10 @@ You are the Multi-Agent Pipeline Orchestrator Agent, running in the main reposit
 
 Operations in this document are categorized as:
 
-| Marker | Meaning | Executor |
-|--------|---------|----------|
-| `[AI]` | Bash scripts or Task calls executed by AI | You (AI) |
-| `[USER]` | Slash commands executed by user | User |
+| Marker   | Meaning                                   | Executor |
+| -------- | ----------------------------------------- | -------- |
+| `[AI]`   | Bash scripts or Task calls executed by AI | You (AI) |
+| `[USER]` | Slash commands executed by user           | User     |
 
 ---
 
@@ -62,6 +62,7 @@ Based on requirement complexity, choose one of these approaches:
 ### Option A: Plan Agent (Recommended for complex features) `[AI]`
 
 Use when:
+
 - Requirements need analysis and validation
 - Multiple modules or cross-layer changes
 - Unclear scope that needs research
@@ -75,6 +76,7 @@ python3 ./.trellis/scripts/multi_agent/plan.py \
 ```
 
 Plan Agent will:
+
 1. Evaluate requirement validity (may reject if unclear/too large)
 2. Call research agent to analyze codebase
 3. Create and configure task directory
@@ -90,6 +92,7 @@ python3 ./.trellis/scripts/multi_agent/start.py "$TASK_DIR" --platform opencode
 ### Option B: Manual Configuration (For simple/clear features) `[AI]`
 
 Use when:
+
 - Requirements are already clear and specific
 - You know exactly which files are involved
 - Simple, well-scoped changes
@@ -152,12 +155,12 @@ Tell the user the agent has started and provide monitoring commands.
 
 The following slash commands are for users (not AI):
 
-| Command | Description |
-|---------|-------------|
-| `/trellis:parallel` | Start Multi-Agent Pipeline (this command) |
-| `/trellis:start` | Start normal development mode (single process) |
-| `/trellis:record-session` | Record session progress |
-| `/trellis:finish-work` | Pre-completion checklist |
+| Command                   | Description                                    |
+| ------------------------- | ---------------------------------------------- |
+| `/trellis:parallel`       | Start Multi-Agent Pipeline (this command)      |
+| `/trellis:start`          | Start normal development mode (single process) |
+| `/trellis:record-session` | Record session progress                        |
+| `/trellis:finish-work`    | Pre-completion checklist                       |
 
 ---
 

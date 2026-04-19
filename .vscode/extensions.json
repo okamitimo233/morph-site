@@ -1,0 +1,24 @@
+{
+  "recommendations": [
+    // Essential extensions
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "editorconfig.editorconfig",
+
+    // Astro and framework extensions
+    "astro-build.astro-vscode",
+
+    // TypeScript and React
+    "ms-vscode.vscode-typescript-next",
+
+    // Tailwind CSS
+    "bradlc.vscode-tailwindcss",
+
+    // Git extensions
+    "eamodio.gitlens",
+
+    // Recommended for productivity
+    "streetsidesoftware.code-spell-checker",
+    "aaron-bond.better-comments"
+  ]
+}

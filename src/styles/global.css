@@ -6,10 +6,10 @@
  */
 
 /* Import Tailwind CSS first */
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Import design tokens */
-@import "./tokens.css";
+@import './tokens.css';
 
 /* =============================================================================
  * BASE STYLES
@@ -31,13 +31,13 @@
   }
 
   /* Dark mode color scheme */
-  :where(:root:not([data-theme="light"])) {
+  :where(:root:not([data-theme='light'])) {
     @media (prefers-color-scheme: dark) {
       color-scheme: dark;
     }
   }
 
-  [data-theme="dark"] {
+  [data-theme='dark'] {
     color-scheme: dark;
   }
 
@@ -58,8 +58,9 @@
     color: var(--color-foreground);
 
     /* Smooth background transition for theme changes */
-    transition: background-color 0.3s ease-out,
-                color 0.3s ease-out;
+    transition:
+      background-color 0.3s ease-out,
+      color 0.3s ease-out;
 
     /* Full height layout */
     min-height: 100vh;
@@ -74,7 +75,12 @@
    * ============================================================================= */
 
   /* Headings - use display font */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
     font-weight: var(--font-weight-semibold);
     line-height: var(--leading-tight);
@@ -173,7 +179,8 @@
   }
 
   /* Lists */
-  ul, ol {
+  ul,
+  ol {
     padding-left: var(--spacing-6);
     line-height: var(--leading-relaxed);
   }
@@ -261,7 +268,8 @@
    * ============================================================================= */
 
   /* Images */
-  img, video {
+  img,
+  video {
     max-width: 100%;
     height: auto;
     display: block;
@@ -289,19 +297,21 @@
   }
 
   /* Form inputs */
-  input, textarea, select {
+  input,
+  textarea,
+  select {
     font-family: inherit;
     font-size: inherit;
   }
 
   /* Remove spinner from number inputs */
-  input[type="number"]::-webkit-outer-spin-button,
-  input[type="number"]::-webkit-inner-spin-button {
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
 
-  input[type="number"] {
+  input[type='number'] {
     -moz-appearance: textfield;
   }
 
@@ -311,7 +321,8 @@
     width: 100%;
   }
 
-  th, td {
+  th,
+  td {
     text-align: left;
     padding: var(--spacing-2) var(--spacing-4);
     border-bottom: 1px solid var(--color-border);
@@ -372,12 +383,12 @@
     -webkit-backdrop-filter: blur(12px);
   }
 
-  [data-theme="dark"] .glass {
+  [data-theme='dark'] .glass {
     background-color: oklch(0.18 0.008 270 / 0.8);
   }
 
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .glass {
+    :root:not([data-theme='light']) .glass {
       background-color: oklch(0.18 0.008 270 / 0.8);
     }
   }
@@ -448,24 +459,24 @@
     transform: scale(0.5) rotate(-90deg);
   }
 
-  [data-theme="dark"] .theme-icon-sun {
+  [data-theme='dark'] .theme-icon-sun {
     opacity: 0;
     transform: scale(0.5) rotate(90deg);
   }
 
-  [data-theme="dark"] .theme-icon-moon {
+  [data-theme='dark'] .theme-icon-moon {
     opacity: 1;
     transform: scale(1) rotate(0deg);
   }
 
   /* Handle system preference when no data-theme is set */
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .theme-icon-sun {
+    :root:not([data-theme='light']) .theme-icon-sun {
       opacity: 0;
       transform: scale(0.5) rotate(90deg);
     }
 
-    :root:not([data-theme="light"]) .theme-icon-moon {
+    :root:not([data-theme='light']) .theme-icon-moon {
       opacity: 1;
       transform: scale(1) rotate(0deg);
     }

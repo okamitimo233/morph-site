@@ -36,7 +36,7 @@ When you encounter a bug, classify it into one of these categories:
 
 ```typescript
 // Documentation says:
-integer('createdAt', { mode: 'timestamp' });
+integer('createdAt', { mode: 'timestamp' })
 // Expected: Writes Unix seconds (integer)
 // Actual: Sometimes writes "YYYY-MM-DD HH:MM:SS" (text)
 ```
@@ -67,7 +67,7 @@ integer('createdAt', { mode: 'timestamp' });
 
 ```typescript
 // Implicit assumption:
-const result = await findItem(db, id);
+const result = await findItem(db, id)
 if (result) {
   /* exists */
 } else {
@@ -223,20 +223,20 @@ Start: Bug discovered
 
 ```typescript
 // Bug: First operation fails, second works
-const [currentItem, setCurrentItem] = useState(null);
+const [currentItem, setCurrentItem] = useState(null)
 
 const service = useMemo(() => {
-  if (!currentItem?.id) return undefined;
-  return createService({ itemId: currentItem.id });
-}, [currentItem?.id]);
+  if (!currentItem?.id) return undefined
+  return createService({ itemId: currentItem.id })
+}, [currentItem?.id])
 
 async function handleSubmit() {
   if (!currentItem) {
-    const newItem = await createItem(); // calls setCurrentItem(newItem)
+    const newItem = await createItem() // calls setCurrentItem(newItem)
     // BUG: currentItem is still null here! React state is async
     // service is still undefined
   }
-  await service.doSomething(); // service is undefined -> error
+  await service.doSomething() // service is undefined -> error
 }
 ```
 
@@ -248,25 +248,25 @@ async function handleSubmit() {
 **Fix**:
 
 ```typescript
-const pendingRef = useRef<string | null>(null);
+const pendingRef = useRef<string | null>(null)
 
 async function handleSubmit() {
   if (!currentItem) {
-    pendingRef.current = data; // Store in ref
-    await createItem(); // This sets state
-    return; // Don't continue yet
+    pendingRef.current = data // Store in ref
+    await createItem() // This sets state
+    return // Don't continue yet
   }
-  await service.doSomething();
+  await service.doSomething()
 }
 
 // Process when service is ready
 useEffect(() => {
   if (pendingRef.current && service) {
-    const data = pendingRef.current;
-    pendingRef.current = null;
-    service.doSomething(data);
+    const data = pendingRef.current
+    pendingRef.current = null
+    service.doSomething(data)
   }
-}, [service]);
+}, [service])
 ```
 
 **Checklist**:
@@ -287,7 +287,7 @@ useEffect(() => {
 // Library hook with optional transport
 const { doAction } = useLibraryHook({
   transport, // When undefined, silently falls back to HTTP
-});
+})
 
 // In Electron app, there's no HTTP endpoint -> error
 ```
@@ -387,11 +387,11 @@ After analyzing a bug, add lessons to the appropriate guide:
 
 ## Related Documents
 
-| Document | Purpose |
-|----------|---------|
-| [pre-implementation-checklist.md](./pre-implementation-checklist.md) | Pre-coding checklist |
-| [code-reuse-thinking-guide.md](./code-reuse-thinking-guide.md) | Code reuse patterns |
-| [shared/code-quality.md](../shared/code-quality.md) | Code quality standards |
+| Document                                                             | Purpose                |
+| -------------------------------------------------------------------- | ---------------------- |
+| [pre-implementation-checklist.md](./pre-implementation-checklist.md) | Pre-coding checklist   |
+| [code-reuse-thinking-guide.md](./code-reuse-thinking-guide.md)       | Code reuse patterns    |
+| [shared/code-quality.md](../shared/code-quality.md)                  | Code quality standards |
 
 ---
 

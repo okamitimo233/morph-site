@@ -4,32 +4,64 @@
 
 ---
 
+## Code Formatting
+
+### Prettier Configuration
+
+This project uses **Prettier** with Standard style for consistent code formatting:
+
+```json
+{
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "es5"
+}
+```
+
+### Format Before Commit
+
+```bash
+# Check formatting
+pnpm format:check
+
+# Fix formatting
+pnpm format
+```
+
+### Editor Integration
+
+- Install the Prettier extension for your editor
+- Enable "Format on Save" in editor settings
+- Use the project's `.prettierrc.json` for consistent formatting
+
+---
+
 ## No Non-Null Assertions
 
 **NEVER** use non-null assertions (`!`). They bypass TypeScript's null checking and lead to runtime errors.
 
 ```typescript
 // FORBIDDEN
-const name = user!.name;
-const value = data!.items![0]!;
+const name = user!.name
+const value = data!.items![0]!
 
 // REQUIRED - Use explicit checks
-const user = getUser();
+const user = getUser()
 if (!user) {
-  throw new Error('User not found');
+  throw new Error('User not found')
 }
-const name = user.name;
+const name = user.name
 
 // REQUIRED - Use optional chaining with fallback
-const value = data?.items?.[0] ?? defaultValue;
+const value = data?.items?.[0] ?? defaultValue
 
 // REQUIRED - Use local variable after null check
-const project = getProject(id);
+const project = getProject(id)
 if (!project) {
-  return { success: false, error: 'Project not found' };
+  return { success: false, error: 'Project not found' }
 }
 // Now project is narrowed to non-null
-const projectName = project.name;
+const projectName = project.name
 ```
 
 ---
@@ -94,14 +126,14 @@ Use `is`, `has`, `should`, `can` prefixes:
 
 ```typescript
 // GOOD
-const isLoading = true;
-const hasPermission = user.role === 'admin';
-const shouldRefresh = Date.now() > expiresAt;
-const canEdit = isOwner || hasPermission;
+const isLoading = true
+const hasPermission = user.role === 'admin'
+const shouldRefresh = Date.now() > expiresAt
+const canEdit = isOwner || hasPermission
 
 // BAD
-const loading = true;
-const permission = user.role === 'admin';
+const loading = true
+const permission = user.role === 'admin'
 ```
 
 ---
@@ -118,21 +150,21 @@ class AppError extends Error {
     public code: string,
     public statusCode: number = 500
   ) {
-    super(message);
-    this.name = 'AppError';
+    super(message)
+    this.name = 'AppError'
   }
 }
 
 // Specific error types
 class NotFoundError extends AppError {
   constructor(resource: string, id: string) {
-    super(`${resource} not found: ${id}`, 'NOT_FOUND', 404);
+    super(`${resource} not found: ${id}`, 'NOT_FOUND', 404)
   }
 }
 
 class ValidationError extends AppError {
   constructor(message: string) {
-    super(message, 'VALIDATION_ERROR', 400);
+    super(message, 'VALIDATION_ERROR', 400)
   }
 }
 ```
@@ -142,9 +174,9 @@ class ValidationError extends AppError {
 ```typescript
 // Consistent error response
 interface ErrorResponse {
-  success: false;
-  error: string;
-  code?: string;
+  success: false
+  error: string
+  code?: string
 }
 
 // Example
@@ -152,7 +184,7 @@ return {
   success: false,
   error: 'Invalid input',
   code: 'VALIDATION_ERROR',
-};
+}
 ```
 
 ### Never Swallow Errors
@@ -160,17 +192,17 @@ return {
 ```typescript
 // BAD - Swallowing error
 try {
-  await dangerousOperation();
+  await dangerousOperation()
 } catch (e) {
   // Silent failure
 }
 
 // GOOD - Log and handle
 try {
-  await dangerousOperation();
+  await dangerousOperation()
 } catch (error) {
-  logger.error('operation_failed', { error });
-  throw new AppError('Operation failed', 'OPERATION_FAILED');
+  logger.error('operation_failed', { error })
+  throw new AppError('Operation failed', 'OPERATION_FAILED')
 }
 ```
 
@@ -206,26 +238,26 @@ describe("DateUtils", () => {
 ```typescript
 it('should create a project', async () => {
   // Arrange
-  const input = { name: 'Test Project' };
+  const input = { name: 'Test Project' }
 
   // Act
-  const result = createProject(input);
+  const result = createProject(input)
 
   // Assert
-  expect(result.success).toBe(true);
-  expect(result.project.name).toBe('Test Project');
-});
+  expect(result.success).toBe(true)
+  expect(result.project.name).toBe('Test Project')
+})
 ```
 
 ---
 
 ## Related Documents
 
-| Document | Purpose |
-|----------|---------|
-| [frontend/quality.md](../frontend/quality.md) | Frontend-specific quality guidelines |
-| [shared/typescript.md](./typescript.md) | TypeScript best practices |
-| [guides/bug-root-cause-thinking-guide.md](../guides/bug-root-cause-thinking-guide.md) | Bug analysis methodology |
+| Document                                                                              | Purpose                              |
+| ------------------------------------------------------------------------------------- | ------------------------------------ |
+| [frontend/quality.md](../frontend/quality.md)                                         | Frontend-specific quality guidelines |
+| [shared/typescript.md](./typescript.md)                                               | TypeScript best practices            |
+| [guides/bug-root-cause-thinking-guide.md](../guides/bug-root-cause-thinking-guide.md) | Bug analysis methodology             |
 
 ---
 
@@ -233,6 +265,7 @@ it('should create a project', async () => {
 
 | Rule                    | Reason              |
 | ----------------------- | ------------------- |
+| Format with Prettier    | Consistent style    |
 | No `!` assertions       | Runtime errors      |
 | No `any` type           | Type safety         |
 | Lint before commit      | Consistent code     |

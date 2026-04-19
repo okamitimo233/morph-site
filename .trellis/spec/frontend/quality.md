@@ -28,21 +28,25 @@ yarn install # Don't
 Run these checks before committing:
 
 ```bash
-# 1. Type check
+# 1. Format check
+pnpm format:check
+
+# 2. Type check
 pnpm exec tsc --noEmit
 
-# 2. Lint (ESLint)
+# 3. Lint (ESLint)
 pnpm lint
 
-# 3. Build
+# 4. Build
 pnpm build
 
-# 4. Manual testing
+# 5. Manual testing
 # Test the feature you changed
 ```
 
 **Checklist**:
 
+- [ ] `pnpm format:check` - Code is properly formatted
 - [ ] `pnpm exec tsc --noEmit` - No type errors
 - [ ] `pnpm lint` - 0 errors, 0 warnings
 - [ ] `pnpm build` - Build succeeds
@@ -59,15 +63,15 @@ When declaring variables (with `const`/`let`) inside a `case` block, you MUST wr
 // Bad - Lint error: "Unexpected lexical declaration in case block"
 switch (value) {
   case 'today':
-    const date = new Date(); // Error!
-    break;
+    const date = new Date() // Error!
+    break
 }
 
 // Good - wrap in braces
 switch (value) {
   case 'today': {
-    const date = new Date(); // OK
-    break;
+    const date = new Date() // OK
+    break
   }
 }
 ```
@@ -117,16 +121,16 @@ function getIcon(status: Status) {
 
 ```tsx
 // Lazy load heavy components
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react'
 
-const HeavyComponent = lazy(() => import('./HeavyComponent'));
+const HeavyComponent = lazy(() => import('./HeavyComponent'))
 
 function App() {
   return (
     <Suspense fallback={<Loading />}>
       <HeavyComponent />
     </Suspense>
-  );
+  )
 }
 ```
 
@@ -149,22 +153,22 @@ import heroImage from '../assets/hero.png';
 
 ```tsx
 // Debounce search input
-import { useState, useEffect } from 'react';
-import { useDebouncedCallback } from 'use-debounce';
+import { useState, useEffect } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
 
 function SearchInput() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState('')
 
   const debouncedSearch = useDebouncedCallback((value: string) => {
-    performSearch(value);
-  }, 300);
+    performSearch(value)
+  }, 300)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-    debouncedSearch(e.target.value);
-  };
+    setQuery(e.target.value)
+    debouncedSearch(e.target.value)
+  }
 
-  return <input onChange={handleChange} value={query} />;
+  return <input onChange={handleChange} value={query} />
 }
 ```
 
@@ -190,11 +194,11 @@ function SearchInput() {
 ```typescript
 // Good - explains WHY, not WHAT
 // Use useMemo to prevent GSAP from re-initializing on every render
-const animatedRef = useRef<HTMLDivElement>(null);
+const animatedRef = useRef<HTMLDivElement>(null)
 
 // Bad - explains obvious WHAT
 // Create a ref
-const ref = useRef(null);
+const ref = useRef(null)
 ```
 
 ---
@@ -207,15 +211,15 @@ const ref = useRef(null);
 // Good - handle errors explicitly
 async function fetchData() {
   try {
-    const response = await fetch('/api/data');
+    const response = await fetch('/api/data')
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status}`)
     }
-    const data = await response.json();
-    return { success: true, data };
+    const data = await response.json()
+    return { success: true, data }
   } catch (error) {
-    console.error('Failed to fetch data:', error);
-    return { success: false, error: 'Failed to fetch data' };
+    console.error('Failed to fetch data:', error)
+    return { success: false, error: 'Failed to fetch data' }
   }
 }
 ```
@@ -225,16 +229,16 @@ async function fetchData() {
 ```typescript
 // Good - type guard for error handling
 function isApiError(error: unknown): error is { message: string; code: number } {
-  return typeof error === 'object' && error !== null && 'message' in error && 'code' in error;
+  return typeof error === 'object' && error !== null && 'message' in error && 'code' in error
 }
 
 try {
   // ...
 } catch (error) {
   if (isApiError(error)) {
-    console.error(`API Error ${error.code}: ${error.message}`);
+    console.error(`API Error ${error.code}: ${error.message}`)
   } else {
-    console.error('Unknown error:', error);
+    console.error('Unknown error:', error)
   }
 }
 ```
@@ -243,24 +247,25 @@ try {
 
 ## Quick Reference
 
-| Rule                                    | Why                         |
-| --------------------------------------- | --------------------------- |
-| Use `pnpm`                              | Consistent package manager  |
-| Wrap `case` with `const`/`let` in `{}`  | Linter requirement          |
-| Use `_` prefix for intentionally unused | Linter won't complain       |
-| Max 300 lines per component             | Maintainability             |
-| Run lint + build before commit          | Catch issues early          |
-| Minimize client-side hydration          | Performance                 |
+| Rule                                    | Why                        |
+| --------------------------------------- | -------------------------- |
+| Use `pnpm`                              | Consistent package manager |
+| Format with Prettier                    | Consistent code style      |
+| Wrap `case` with `const`/`let` in `{}`  | Linter requirement         |
+| Use `_` prefix for intentionally unused | Linter won't complain      |
+| Max 300 lines per component             | Maintainability            |
+| Run lint + build before commit          | Catch issues early         |
+| Minimize client-side hydration          | Performance                |
 
 ---
 
 ## Related Documents
 
-| Document | Purpose |
-|----------|---------|
-| [shared/code-quality.md](../shared/code-quality.md) | Cross-layer quality standards (authoritative) |
-| [shared/typescript.md](../shared/typescript.md) | TypeScript best practices |
-| [guides/bug-root-cause-thinking-guide.md](../guides/bug-root-cause-thinking-guide.md) | Bug analysis methodology |
+| Document                                                                              | Purpose                                       |
+| ------------------------------------------------------------------------------------- | --------------------------------------------- |
+| [shared/code-quality.md](../shared/code-quality.md)                                   | Cross-layer quality standards (authoritative) |
+| [shared/typescript.md](../shared/typescript.md)                                       | TypeScript best practices                     |
+| [guides/bug-root-cause-thinking-guide.md](../guides/bug-root-cause-thinking-guide.md) | Bug analysis methodology                      |
 
 ---
 

@@ -7,42 +7,42 @@
  * @see .trellis/spec/frontend/react-pitfalls.md - React patterns
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react'
 
 /**
  * Available theme options.
  */
-export type Theme = 'light' | 'dark' | 'system';
+export type Theme = 'light' | 'dark' | 'system'
 
 /**
  * Resolved theme (actual applied theme).
  */
-export type ResolvedTheme = 'light' | 'dark';
+export type ResolvedTheme = 'light' | 'dark'
 
 /**
  * Theme state returned by useTheme hook.
  */
 interface ThemeState {
   /** Current theme preference */
-  theme: Theme;
+  theme: Theme
   /** Resolved theme (actual applied theme) */
-  resolvedTheme: ResolvedTheme;
+  resolvedTheme: ResolvedTheme
   /** Set theme preference */
-  setTheme: (theme: Theme) => void;
+  setTheme: (theme: Theme) => void
   /** Toggle between light and dark */
-  toggleTheme: () => void;
+  toggleTheme: () => void
 }
 
-const THEME_STORAGE_KEY = 'theme';
+const THEME_STORAGE_KEY = 'theme'
 
 /**
  * Get the system color scheme preference.
  */
 function getSystemTheme(): ResolvedTheme {
   if (typeof window === 'undefined') {
-    return 'light';
+    return 'light'
   }
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
 /**
@@ -50,21 +50,21 @@ function getSystemTheme(): ResolvedTheme {
  */
 function resolveTheme(theme: Theme): ResolvedTheme {
   if (theme === 'system') {
-    return getSystemTheme();
+    return getSystemTheme()
   }
-  return theme;
+  return theme
 }
 
 /**
  * Apply theme to the document.
  */
 function applyTheme(resolvedTheme: ResolvedTheme): void {
-  const root = document.documentElement;
+  const root = document.documentElement
 
   if (resolvedTheme === 'dark') {
-    root.setAttribute('data-theme', 'dark');
+    root.setAttribute('data-theme', 'dark')
   } else {
-    root.setAttribute('data-theme', 'light');
+    root.setAttribute('data-theme', 'light')
   }
 }
 
@@ -88,65 +88,65 @@ export function useTheme(): ThemeState {
   // Initialize theme from localStorage or default to 'system'
   const [theme, setThemeState] = useState<Theme>(() => {
     if (typeof window === 'undefined') {
-      return 'system';
+      return 'system'
     }
 
-    const stored = localStorage.getItem(THEME_STORAGE_KEY);
+    const stored = localStorage.getItem(THEME_STORAGE_KEY)
     if (stored === 'light' || stored === 'dark' || stored === 'system') {
-      return stored;
+      return stored
     }
-    return 'system';
-  });
+    return 'system'
+  })
 
   // Track resolved theme
-  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() => resolveTheme(theme));
+  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() => resolveTheme(theme))
 
   // Set theme and persist to localStorage
   const setTheme = useCallback((newTheme: Theme): void => {
-    setThemeState(newTheme);
-    localStorage.setItem(THEME_STORAGE_KEY, newTheme);
+    setThemeState(newTheme)
+    localStorage.setItem(THEME_STORAGE_KEY, newTheme)
 
-    const resolved = resolveTheme(newTheme);
-    setResolvedTheme(resolved);
-    applyTheme(resolved);
-  }, []);
+    const resolved = resolveTheme(newTheme)
+    setResolvedTheme(resolved)
+    applyTheme(resolved)
+  }, [])
 
   // Toggle between light and dark
   const toggleTheme = useCallback((): void => {
-    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
-  }, [resolvedTheme, setTheme]);
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
+  }, [resolvedTheme, setTheme])
 
   // Listen for system theme changes
   useEffect(() => {
     if (theme !== 'system') {
-      return;
+      return
     }
 
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
 
     const handleChange = (): void => {
-      const resolved = getSystemTheme();
-      setResolvedTheme(resolved);
-      applyTheme(resolved);
-    };
+      const resolved = getSystemTheme()
+      setResolvedTheme(resolved)
+      applyTheme(resolved)
+    }
 
     // Modern browsers
-    mediaQuery.addEventListener('change', handleChange);
+    mediaQuery.addEventListener('change', handleChange)
 
     return () => {
-      mediaQuery.removeEventListener('change', handleChange);
-    };
-  }, [theme]);
+      mediaQuery.removeEventListener('change', handleChange)
+    }
+  }, [theme])
 
   // Apply initial theme on mount
   useEffect(() => {
-    applyTheme(resolvedTheme);
-  }, [resolvedTheme]);
+    applyTheme(resolvedTheme)
+  }, [resolvedTheme])
 
   return {
     theme,
     resolvedTheme,
     setTheme,
     toggleTheme,
-  };
+  }
 }

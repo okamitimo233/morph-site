@@ -1,6 +1,6 @@
 ---
 name: create-command
-description: "Scaffolds a new skill file with proper naming conventions and structure. Analyzes requirements to determine skill type and generates appropriate content. Use when adding a new developer workflow skill, creating a custom skill, or extending the Trellis skill set."
+description: 'Scaffolds a new skill file with proper naming conventions and structure. Analyzes requirements to determine skill type and generates appropriate content. Use when adding a new developer workflow skill, creating a custom skill, or extending the Trellis skill set.'
 ---
 
 # Create New Skill
@@ -14,6 +14,7 @@ $create-command <skill-name> <description>
 ```
 
 **Example**:
+
 ```bash
 $create-command review-pr Check PR code changes against project guidelines
 ```
@@ -23,12 +24,14 @@ $create-command review-pr Check PR code changes against project guidelines
 ### 1. Parse Input
 
 Extract from user input:
+
 - **Skill name**: Use kebab-case (e.g., `review-pr`)
 - **Description**: What the skill should accomplish
 
 ### 2. Analyze Requirements
 
 Determine skill type based on description:
+
 - **Initialization**: Read docs, establish context
 - **Pre-development**: Read guidelines, check dependencies
 - **Code check**: Validate code quality and guideline compliance
@@ -42,7 +45,7 @@ Minimum `SKILL.md` structure:
 ```markdown
 ---
 name: <skill-name>
-description: "<description>"
+description: '<description>'
 ---
 
 # <Skill Title>
@@ -53,6 +56,7 @@ description: "<description>"
 ### 4. Create Files
 
 Create:
+
 - `.agents/skills/<skill-name>/SKILL.md`
 
 ### 5. Confirm Creation
@@ -90,12 +94,12 @@ Description:
 
 ## Naming Conventions
 
-| Skill Type | Prefix | Example |
-|------------|--------|---------|
-| Session Start | `start` | `start` |
-| Pre-development | `before-` | `before-dev` |
-| Check | `check-` | `check` |
-| Record | `record-` | `record-session` |
-| Generate | `generate-` | `generate-api-doc` |
-| Update | `update-` | `update-changelog` |
-| Other | Verb-first | `review-code`, `sync-data` |
+| Skill Type      | Prefix      | Example                    |
+| --------------- | ----------- | -------------------------- |
+| Session Start   | `start`     | `start`                    |
+| Pre-development | `before-`   | `before-dev`               |
+| Check           | `check-`    | `check`                    |
+| Record          | `record-`   | `record-session`           |
+| Generate        | `generate-` | `generate-api-doc`         |
+| Update          | `update-`   | `update-changelog`         |
+| Other           | Verb-first  | `review-code`, `sync-data` |

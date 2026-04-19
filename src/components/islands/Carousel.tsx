@@ -13,35 +13,28 @@
  * @see .trellis/spec/frontend/react-pitfalls.md - React patterns
  */
 
-import {
-  type ReactElement,
-  type ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import gsap from 'gsap';
+import { type ReactElement, type ReactNode, useCallback, useEffect, useRef, useState } from 'react'
+import gsap from 'gsap'
 
 interface CarouselProps {
   /** Number of slides */
-  slideCount: number;
+  slideCount: number
   /** Auto-play interval in milliseconds (0 to disable) */
-  autoPlayInterval?: number;
+  autoPlayInterval?: number
   /** Enable infinite loop */
-  loop?: boolean;
+  loop?: boolean
   /** Show navigation arrows */
-  showArrows?: boolean;
+  showArrows?: boolean
   /** Show dot indicators */
-  showDots?: boolean;
+  showDots?: boolean
   /** Additional CSS class */
-  className?: string;
+  className?: string
   /** Gap between slides in pixels */
-  gap?: number;
+  gap?: number
   /** Animation duration in seconds */
-  animationDuration?: number;
+  animationDuration?: number
   /** Children (slides) */
-  children: ReactNode;
+  children: ReactNode
 }
 
 /**
@@ -53,10 +46,10 @@ function NavButton({
   disabled,
   label,
 }: {
-  direction: 'prev' | 'next';
-  onClick: () => void;
-  disabled?: boolean;
-  label: string;
+  direction: 'prev' | 'next'
+  onClick: () => void
+  disabled?: boolean
+  label: string
 }): ReactElement {
   return (
     <button
@@ -113,7 +106,7 @@ function NavButton({
         </svg>
       )}
     </button>
-  );
+  )
 }
 
 /**
@@ -124,9 +117,9 @@ function DotIndicator({
   isActive,
   onClick,
 }: {
-  index: number;
-  isActive: boolean;
-  onClick: () => void;
+  index: number
+  isActive: boolean
+  onClick: () => void
 }): ReactElement {
   return (
     <button
@@ -138,14 +131,10 @@ function DotIndicator({
         w-2.5 h-2.5 rounded-full
         transition-all duration-300
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
-        ${
-          isActive
-            ? 'bg-primary w-8'
-            : 'bg-foreground-muted/40 hover:bg-foreground-muted/60'
-        }
+        ${isActive ? 'bg-primary w-8' : 'bg-foreground-muted/40 hover:bg-foreground-muted/60'}
       `}
     />
-  );
+  )
 }
 
 /**
@@ -165,171 +154,171 @@ export default function Carousel({
   gap = 16,
   animationDuration = 0.5,
 }: CarouselProps): ReactElement {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const slidesRef = useRef<HTMLDivElement>(null);
-  const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
-  const isDraggingRef = useRef(false);
-  const gsapContextRef = useRef<gsap.Context | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const slidesRef = useRef<HTMLDivElement>(null)
+  const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null)
+  const isDraggingRef = useRef(false)
+  const gsapContextRef = useRef<gsap.Context | null>(null)
 
   // Check for reduced motion preference
   const prefersReducedMotion =
-    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   // Initialize GSAP context for cleanup
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current) return
 
     gsapContextRef.current = gsap.context(() => {
       // All GSAP animations will be tracked here
-    }, containerRef);
+    }, containerRef)
 
     return () => {
-      gsapContextRef.current?.revert();
-    };
-  }, []);
+      gsapContextRef.current?.revert()
+    }
+  }, [])
 
   // Navigate to specific slide
   const goToSlide = useCallback(
     (index: number) => {
-      if (!slidesRef.current || slideCount === 0) return;
+      if (!slidesRef.current || slideCount === 0) return
 
-      let targetIndex = index;
+      let targetIndex = index
 
       // Handle loop
       if (loop) {
         if (index < 0) {
-          targetIndex = slideCount - 1;
+          targetIndex = slideCount - 1
         } else if (index >= slideCount) {
-          targetIndex = 0;
+          targetIndex = 0
         }
       } else {
-        targetIndex = Math.max(0, Math.min(index, slideCount - 1));
+        targetIndex = Math.max(0, Math.min(index, slideCount - 1))
       }
 
       // Animate slide transition
-      const slideWidth = slidesRef.current.offsetWidth + gap;
-      const offset = -targetIndex * slideWidth;
+      const slideWidth = slidesRef.current.offsetWidth + gap
+      const offset = -targetIndex * slideWidth
 
       // Kill any existing animation on the slides element
-      gsap.killTweensOf(slidesRef.current);
+      gsap.killTweensOf(slidesRef.current)
 
       if (prefersReducedMotion) {
-        gsap.set(slidesRef.current, { x: offset });
+        gsap.set(slidesRef.current, { x: offset })
       } else {
         gsap.to(slidesRef.current, {
           x: offset,
           duration: animationDuration,
           ease: 'power3.out',
-        });
+        })
       }
 
-      setCurrentIndex(targetIndex);
+      setCurrentIndex(targetIndex)
     },
     [slideCount, loop, gap, animationDuration, prefersReducedMotion]
-  );
+  )
 
   // Next slide
   const nextSlide = useCallback(() => {
-    goToSlide(currentIndex + 1);
-  }, [currentIndex, goToSlide]);
+    goToSlide(currentIndex + 1)
+  }, [currentIndex, goToSlide])
 
   // Previous slide
   const prevSlide = useCallback(() => {
-    goToSlide(currentIndex - 1);
-  }, [currentIndex, goToSlide]);
+    goToSlide(currentIndex - 1)
+  }, [currentIndex, goToSlide])
 
   // Auto-play functionality
   useEffect(() => {
     if (autoPlayInterval <= 0 || slideCount <= 1 || isPaused) {
-      return;
+      return
     }
 
     autoPlayRef.current = setInterval(() => {
-      nextSlide();
-    }, autoPlayInterval);
+      nextSlide()
+    }, autoPlayInterval)
 
     return () => {
       if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
+        clearInterval(autoPlayRef.current)
       }
-    };
-  }, [autoPlayInterval, slideCount, isPaused, nextSlide]);
+    }
+  }, [autoPlayInterval, slideCount, isPaused, nextSlide])
 
   // Pause auto-play on hover
   const handleMouseEnter = useCallback(() => {
-    setIsPaused(true);
-  }, []);
+    setIsPaused(true)
+  }, [])
 
   const handleMouseLeave = useCallback(() => {
-    setIsPaused(false);
-  }, []);
+    setIsPaused(false)
+  }, [])
 
   // Touch handlers for swipe support
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     touchStartRef.current = {
       x: e.touches[0].clientX,
       y: e.touches[0].clientY,
-    };
-    isDraggingRef.current = true;
-    setIsPaused(true);
-  }, []);
+    }
+    isDraggingRef.current = true
+    setIsPaused(true)
+  }, [])
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!touchStartRef.current || !isDraggingRef.current) return;
+    if (!touchStartRef.current || !isDraggingRef.current) return
 
-    const deltaX = touchStartRef.current.x - e.touches[0].clientX;
-    const deltaY = touchStartRef.current.y - e.touches[0].clientY;
+    const deltaX = touchStartRef.current.x - e.touches[0].clientX
+    const deltaY = touchStartRef.current.y - e.touches[0].clientY
 
     // If vertical scroll is more dominant, don't interfere
     if (Math.abs(deltaY) > Math.abs(deltaX)) {
-      return;
+      return
     }
 
     // Prevent page scroll while swiping horizontally
-    e.preventDefault();
-  }, []);
+    e.preventDefault()
+  }, [])
 
   const handleTouchEnd = useCallback(
     (e: React.TouchEvent) => {
-      if (!touchStartRef.current || !isDraggingRef.current) return;
+      if (!touchStartRef.current || !isDraggingRef.current) return
 
-      const deltaX = touchStartRef.current.x - e.changedTouches[0].clientX;
-      const threshold = 50; // Minimum swipe distance
+      const deltaX = touchStartRef.current.x - e.changedTouches[0].clientX
+      const threshold = 50 // Minimum swipe distance
 
       if (Math.abs(deltaX) > threshold) {
         if (deltaX > 0) {
-          nextSlide();
+          nextSlide()
         } else {
-          prevSlide();
+          prevSlide()
         }
       }
 
-      touchStartRef.current = null;
-      isDraggingRef.current = false;
-      setIsPaused(false);
+      touchStartRef.current = null
+      isDraggingRef.current = false
+      setIsPaused(false)
     },
     [nextSlide, prevSlide]
-  );
+  )
 
   // Keyboard navigation
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       switch (e.key) {
         case 'ArrowLeft':
-          e.preventDefault();
-          prevSlide();
-          break;
+          e.preventDefault()
+          prevSlide()
+          break
         case 'ArrowRight':
-          e.preventDefault();
-          nextSlide();
-          break;
+          e.preventDefault()
+          nextSlide()
+          break
       }
     },
     [prevSlide, nextSlide]
-  );
+  )
 
   // Empty state
   if (slideCount === 0) {
@@ -337,7 +326,7 @@ export default function Carousel({
       <div className={`text-center py-12 text-foreground-tertiary ${className}`}>
         No items to display
       </div>
-    );
+    )
   }
 
   return (
@@ -360,11 +349,7 @@ export default function Carousel({
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <div
-          ref={slidesRef}
-          className="flex"
-          style={{ gap: `${gap}px` }}
-        >
+        <div ref={slidesRef} className="flex" style={{ gap: `${gap}px` }}>
           {children}
         </div>
       </div>
@@ -410,5 +395,5 @@ export default function Carousel({
         Slide {currentIndex + 1} of {slideCount}
       </div>
     </div>
-  );
+  )
 }

@@ -1,10 +1,10 @@
-import js from '@eslint/js';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
-import reactPlugin from 'eslint-plugin-react';
-import reactHooksPlugin from 'eslint-plugin-react-hooks';
-import astroPlugin from 'eslint-plugin-astro';
-import astroParser from 'astro-eslint-parser';
+import js from '@eslint/js'
+import globals from 'globals'
+import tseslint from 'typescript-eslint'
+import reactPlugin from 'eslint-plugin-react'
+import reactHooksPlugin from 'eslint-plugin-react-hooks'
+import astroPlugin from 'eslint-plugin-astro'
+import astroParser from 'astro-eslint-parser'
 
 export default [
   // Global ignores
@@ -100,7 +100,10 @@ export default [
 
       // Relax TypeScript rules for Astro frontmatter
       '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
     },
   },
-];
+]

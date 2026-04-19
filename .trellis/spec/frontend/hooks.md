@@ -9,22 +9,22 @@
 Use this pattern for data fetching hooks:
 
 ```typescript
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query'
 
 interface UseExampleOptions {
-  workspaceId: string;
-  enabled?: boolean;
+  workspaceId: string
+  enabled?: boolean
 }
 
 export function useExample({ workspaceId, enabled = true }: UseExampleOptions) {
   return useQuery({
     queryKey: ['example', workspaceId],
     queryFn: async () => {
-      const result = await window.api.example.list({ workspaceId });
-      return result;
+      const result = await window.api.example.list({ workspaceId })
+      return result
     },
     enabled,
-  });
+  })
 }
 ```
 
@@ -43,28 +43,28 @@ export function useExample({ workspaceId, enabled = true }: UseExampleOptions) {
 Use this pattern for data modification hooks:
 
 ```typescript
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 interface CreateExampleInput {
-  workspaceId: string;
-  title: string;
+  workspaceId: string
+  title: string
 }
 
 export function useCreateExample() {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (data: CreateExampleInput) => {
-      const result = await window.api.example.create(data);
-      return result;
+      const result = await window.api.example.create(data)
+      return result
     },
     onSuccess: (_, variables) => {
       // Invalidate related queries to refetch
       queryClient.invalidateQueries({
         queryKey: ['example', variables.workspaceId],
-      });
+      })
     },
-  });
+  })
 }
 ```
 
@@ -81,29 +81,29 @@ export function useCreateExample() {
 ## Update Mutation Pattern
 
 ```typescript
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 interface UpdateExampleInput {
-  id: string;
-  title?: string;
-  description?: string;
+  id: string
+  title?: string
+  description?: string
 }
 
 export function useUpdateExample() {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (data: UpdateExampleInput) => {
-      const result = await window.api.example.update(data);
-      return result;
+      const result = await window.api.example.update(data)
+      return result
     },
     onSuccess: () => {
       // Invalidate all example queries
       queryClient.invalidateQueries({
         queryKey: ['example'],
-      });
+      })
     },
-  });
+  })
 }
 ```
 
@@ -112,27 +112,27 @@ export function useUpdateExample() {
 ## Delete Mutation Pattern
 
 ```typescript
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 interface DeleteExampleInput {
-  id: string;
-  workspaceId: string;
+  id: string
+  workspaceId: string
 }
 
 export function useDeleteExample() {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (data: DeleteExampleInput) => {
-      const result = await window.api.example.delete({ id: data.id });
-      return result;
+      const result = await window.api.example.delete({ id: data.id })
+      return result
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: ['example', variables.workspaceId],
-      });
+      })
     },
-  });
+  })
 }
 ```
 
@@ -143,46 +143,46 @@ export function useDeleteExample() {
 For simpler cases or when React Query is not used:
 
 ```typescript
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react'
 
 interface UseDataOptions {
-  workspaceId: string;
+  workspaceId: string
 }
 
 interface DataItem {
-  id: string;
-  title: string;
+  id: string
+  title: string
 }
 
 export function useData({ workspaceId }: UseDataOptions) {
-  const [data, setData] = useState<DataItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [data, setData] = useState<DataItem[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
 
   const fetchData = useCallback(async () => {
     try {
-      setIsLoading(true);
-      setError(null);
-      const result = await window.api.data.list({ workspaceId });
-      setData(result.items);
+      setIsLoading(true)
+      setError(null)
+      const result = await window.api.data.list({ workspaceId })
+      setData(result.items)
     } catch (err) {
-      setError(err instanceof Error ? err : new Error('Unknown error'));
+      setError(err instanceof Error ? err : new Error('Unknown error'))
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  }, [workspaceId]);
+  }, [workspaceId])
 
   // Initial fetch
   useEffect(() => {
-    void fetchData();
-  }, [fetchData]);
+    void fetchData()
+  }, [fetchData])
 
   return {
     data,
     isLoading,
     error,
     refetch: fetchData,
-  };
+  }
 }
 ```
 
@@ -194,22 +194,22 @@ See [ipc-electron.md](./ipc-electron.md) for the complete pattern:
 export function useData({ workspaceId }: UseDataOptions) {
   // ... state and fetchData ...
 
-  const { onDataRefresh } = useDataRefresh();
+  const { onDataRefresh } = useDataRefresh()
 
   // Initial fetch
   useEffect(() => {
-    void fetchData();
-  }, [fetchData]);
+    void fetchData()
+  }, [fetchData])
 
   // CRITICAL: Subscribe to data refresh events
   useEffect(() => {
     const unsubscribe = onDataRefresh(() => {
-      void fetchData();
-    });
-    return unsubscribe;
-  }, [onDataRefresh, fetchData]);
+      void fetchData()
+    })
+    return unsubscribe
+  }, [onDataRefresh, fetchData])
 
-  return { data, isLoading, error, refetch: fetchData };
+  return { data, isLoading, error, refetch: fetchData }
 }
 ```
 
@@ -233,10 +233,10 @@ modules/
 
 ```typescript
 // modules/example/hooks/index.ts
-export { useExample } from './useExample';
-export { useCreateExample } from './useCreateExample';
-export { useUpdateExample } from './useUpdateExample';
-export { useDeleteExample } from './useDeleteExample';
+export { useExample } from './useExample'
+export { useCreateExample } from './useCreateExample'
+export { useUpdateExample } from './useUpdateExample'
+export { useDeleteExample } from './useDeleteExample'
 ```
 
 ---
@@ -246,41 +246,41 @@ export { useDeleteExample } from './useDeleteExample';
 For better UX, update the UI immediately before the server responds:
 
 ```typescript
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export function useUpdateExample() {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (data: UpdateExampleInput) => {
-      return await window.api.example.update(data);
+      return await window.api.example.update(data)
     },
     onMutate: async (newData) => {
       // Cancel outgoing refetches
-      await queryClient.cancelQueries({ queryKey: ['example'] });
+      await queryClient.cancelQueries({ queryKey: ['example'] })
 
       // Snapshot previous value
-      const previousData = queryClient.getQueryData(['example']);
+      const previousData = queryClient.getQueryData(['example'])
 
       // Optimistically update
       queryClient.setQueryData(['example'], (old: DataItem[]) =>
         old.map((item) => (item.id === newData.id ? { ...item, ...newData } : item))
-      );
+      )
 
       // Return context with previous data
-      return { previousData };
+      return { previousData }
     },
     onError: (err, newData, context) => {
       // Rollback on error
       if (context?.previousData) {
-        queryClient.setQueryData(['example'], context.previousData);
+        queryClient.setQueryData(['example'], context.previousData)
       }
     },
     onSettled: () => {
       // Refetch to ensure consistency
-      queryClient.invalidateQueries({ queryKey: ['example'] });
+      queryClient.invalidateQueries({ queryKey: ['example'] })
     },
-  });
+  })
 }
 ```
 

@@ -32,7 +32,7 @@ Claude Code 通过 Node.js 检测运行平台：
 
 ```javascript
 // Node.js 在 Termux 下的检测结果
-process.platform === 'android'  // 而非 'linux'
+process.platform === 'android' // 而非 'linux'
 process.arch === 'arm64'
 ```
 
@@ -81,6 +81,7 @@ Claude Code 在某些场景下尝试读取 `~/.claude/agents/` 和 `~/.claude/co
 ### 原因分析
 
 Claude Code 支持**项目级**和**全局级**两种配置：
+
 - 项目级: `<project>/.claude/agents/`, `<project>/.claude/commands/`
 - 全局级: `~/.claude/agents/`, `~/.claude/commands/`
 
@@ -114,14 +115,14 @@ pkg install jq file
 
 ### 工具用途说明
 
-| 工具 | 用途 |
-|------|------|
-| `jq` | JSON 处理，部分 hooks 和脚本依赖 |
-| `file` | 文件类型检测，调试时有用 |
-| `rg` | ripgrep，系统版本可作为备选 |
-| `fd` | 文件查找，`find` 的现代替代 |
-| `fzf` | 模糊搜索，交互式选择 |
-| `bat` | 带语法高亮的 cat |
+| 工具   | 用途                             |
+| ------ | -------------------------------- |
+| `jq`   | JSON 处理，部分 hooks 和脚本依赖 |
+| `file` | 文件类型检测，调试时有用         |
+| `rg`   | ripgrep，系统版本可作为备选      |
+| `fd`   | 文件查找，`find` 的现代替代      |
+| `fzf`  | 模糊搜索，交互式选择             |
+| `bat`  | 带语法高亮的 cat                 |
 
 ---
 
@@ -211,12 +212,12 @@ ls -la ~/.claude/agents ~/.claude/commands
 
 ### 文件系统路径
 
-| 标准 Linux | Termux | 说明 |
-|------------|--------|------|
-| `/home` | `/data/data/com.termux/files/home` | 用户家目录 |
-| `/usr` | `/data/data/com.termux/files/usr` | 系统目录 (PREFIX) |
-| `/tmp` | `$TMPDIR` (通常为 `$PREFIX/tmp`) | 临时目录 |
-| `/bin` | `$PREFIX/bin` | 可执行文件 |
+| 标准 Linux | Termux                             | 说明              |
+| ---------- | ---------------------------------- | ----------------- |
+| `/home`    | `/data/data/com.termux/files/home` | 用户家目录        |
+| `/usr`     | `/data/data/com.termux/files/usr`  | 系统目录 (PREFIX) |
+| `/tmp`     | `$TMPDIR` (通常为 `$PREFIX/tmp`)   | 临时目录          |
+| `/bin`     | `$PREFIX/bin`                      | 可执行文件        |
 
 ### 环境变量
 

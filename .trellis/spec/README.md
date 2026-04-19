@@ -8,12 +8,12 @@ Universal development guidelines for Astro-based web applications.
 
 Based on Trellis spec system design:
 
-| Layer | Responsibility | Content |
-|-------|---------------|---------|
-| **shared/** | Cross-layer standards | Authoritative standards for TypeScript, code quality, timestamps, git |
-| **frontend/** | Frontend-specific | Astro + React patterns, extending shared standards |
-| **big-question/** | Deep-dive investigations | Complex issues with thorough analysis |
-| **guides/** | Thinking guides | Methodologies for problem-solving and decision-making |
+| Layer             | Responsibility           | Content                                                               |
+| ----------------- | ------------------------ | --------------------------------------------------------------------- |
+| **shared/**       | Cross-layer standards    | Authoritative standards for TypeScript, code quality, timestamps, git |
+| **frontend/**     | Frontend-specific        | Astro + React patterns, extending shared standards                    |
+| **big-question/** | Deep-dive investigations | Complex issues with thorough analysis                                 |
+| **guides/**       | Thinking guides          | Methodologies for problem-solving and decision-making                 |
 
 ---
 
@@ -116,10 +116,10 @@ All layers ← guides/ (Thinking tools apply across all)
 
 ## Quick Reference
 
-| Question | Where to Look |
-|----------|---------------|
-| How to format commits? | [shared/git-conventions.md](./shared/git-conventions.md) |
-| How to handle timestamps? | [shared/timestamp.md](./shared/timestamp.md) |
-| How to use client directives? | [frontend/astro-integration.md](./frontend/astro-integration.md) |
+| Question                         | Where to Look                                                                        |
+| -------------------------------- | ------------------------------------------------------------------------------------ |
+| How to format commits?           | [shared/git-conventions.md](./shared/git-conventions.md)                             |
+| How to handle timestamps?        | [shared/timestamp.md](./shared/timestamp.md)                                         |
+| How to use client directives?    | [frontend/astro-integration.md](./frontend/astro-integration.md)                     |
 | Why is my React state resetting? | [big-question/react-usestate-function.md](./big-question/react-usestate-function.md) |
-| What to check before coding? | [guides/pre-implementation-checklist.md](./guides/pre-implementation-checklist.md) |
+| What to check before coding?     | [guides/pre-implementation-checklist.md](./guides/pre-implementation-checklist.md)   |

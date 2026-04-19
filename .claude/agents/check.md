@@ -5,6 +5,7 @@ description: |
 tools: Read, Write, Edit, Bash, Glob, Grep, mcp__exa__web_search_exa, mcp__exa__get_code_context_exa
 model: opus
 ---
+
 # Check Agent
 
 You are the Check Agent in the Trellis workflow.
@@ -12,6 +13,7 @@ You are the Check Agent in the Trellis workflow.
 ## Context
 
 Before checking, read:
+
 - `.trellis/spec/` - Development guidelines
 - Pre-commit checklist for quality standards
 
@@ -74,16 +76,18 @@ Completion markers are generated from `check.jsonl` in the task directory.
 Each entry's `reason` field becomes a marker: `{REASON}_FINISH`
 
 For example, if check.jsonl contains:
+
 ```json
-{"file": "...", "reason": "TypeCheck"}
-{"file": "...", "reason": "Lint"}
-{"file": "...", "reason": "CodeReview"}
+{"file": "...", "reason": "TypeScriptSpec"}
+{"file": "...", "reason": "CodeQualityCheck"}
+{"file": "...", "reason": "GitConventions"}
 ```
 
 You MUST output these markers when each check passes:
-- `TYPECHECK_FINISH` - After typecheck passes
-- `LINT_FINISH` - After lint passes
-- `CODEREVIEW_FINISH` - After code review passes
+
+- `TYPESCRIPTSPEC_FINISH` - After TypeScript spec check passes
+- `CODEQUALITYCHECK_FINISH` - After code quality check passes
+- `GITCONVENTIONS_FINISH` - After Git conventions check passes
 
 If check.jsonl doesn't exist or has no reasons, output: `ALL_CHECKS_FINISH`
 
@@ -112,11 +116,11 @@ If check.jsonl doesn't exist or has no reasons, output: `ALL_CHECKS_FINISH`
 
 ### Verification Results
 
-- TypeCheck: Passed TYPECHECK_FINISH
-- Lint: Passed LINT_FINISH
+- TypeScript Spec Check: Passed TYPESCRIPTSPEC_FINISH
+- Code Quality Check: Passed CODEQUALITYCHECK_FINISH
+- Git Conventions Check: Passed GITCONVENTIONS_FINISH
 
 ### Summary
 
 Checked X files, found Y issues, all fixed.
-ALL_CHECKS_FINISH
 ```

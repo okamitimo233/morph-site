@@ -31,6 +31,7 @@
 
 | Rule                                 | File                                       |
 | ------------------------------------ | ------------------------------------------ |
+| Format code with Prettier            | [code-quality.md](./code-quality.md)       |
 | No non-null assertions (`!`)         | [code-quality.md](./code-quality.md)       |
 | Use explicit type annotations        | [typescript.md](./typescript.md)           |
 | Follow commit message format         | [git-conventions.md](./git-conventions.md) |
@@ -40,6 +41,7 @@
 
 ## Before Every Commit
 
+- [ ] `pnpm format:check` - Code is properly formatted
 - [ ] `pnpm lint` - 0 errors
 - [ ] `pnpm typecheck` - 0 errors
 - [ ] No non-null assertions (`!`)
@@ -59,11 +61,11 @@
 
 ## Relationship to Other Layers
 
-| Layer | Purpose | Relationship |
-|-------|---------|--------------|
-| `frontend/` | Frontend-specific guidelines | **References** shared/ for base standards |
-| `big-question/` | Deep-dive investigations | May **reference** shared/ as the "correct" way |
-| `guides/` | Thinking guides | May **inform** new thinking patterns |
+| Layer           | Purpose                      | Relationship                                   |
+| --------------- | ---------------------------- | ---------------------------------------------- |
+| `frontend/`     | Frontend-specific guidelines | **References** shared/ for base standards      |
+| `big-question/` | Deep-dive investigations     | May **reference** shared/ as the "correct" way |
+| `guides/`       | Thinking guides              | May **inform** new thinking patterns           |
 
 **Key principle**: Shared specs are **authoritative** for cross-layer concerns. Other layers should reference, not duplicate, these standards.
 

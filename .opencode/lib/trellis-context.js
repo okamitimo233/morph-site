@@ -5,18 +5,18 @@
  * JSONL parsing, and context building capabilities.
  */
 
-import { existsSync, readFileSync, appendFileSync, readdirSync } from "fs"
-import { isAbsolute, join } from "path"
-import { platform } from "os"
-import { execSync } from "child_process"
+import { existsSync, readFileSync, appendFileSync, readdirSync } from 'fs'
+import { isAbsolute, join } from 'path'
+import { platform } from 'os'
+import { execSync } from 'child_process'
 
-const PYTHON_CMD = platform() === "win32" ? "python" : "python3"
+const PYTHON_CMD = platform() === 'win32' ? 'python' : 'python3'
 // Debug logging
-const DEBUG_LOG = "/tmp/trellis-plugin-debug.log"
+const DEBUG_LOG = '/tmp/trellis-plugin-debug.log'
 
 function debugLog(prefix, ...args) {
   const timestamp = new Date().toISOString()
-  const msg = `[${timestamp}] [${prefix}] ${args.map(a => typeof a === "object" ? JSON.stringify(a) : a).join(" ")}\n`
+  const msg = `[${timestamp}] [${prefix}] ${args.map((a) => (typeof a === 'object' ? JSON.stringify(a) : a)).join(' ')}\n`
   try {
     appendFileSync(DEBUG_LOG, msg)
   } catch {
@@ -30,7 +30,7 @@ function debugLog(prefix, ...args) {
 export class TrellisContext {
   constructor(directory) {
     this.directory = directory
-    debugLog("context", "TrellisContext initialized", { directory })
+    debugLog('context', 'TrellisContext initialized', { directory })
   }
 
   // ============================================================
@@ -38,7 +38,7 @@ export class TrellisContext {
   // ============================================================
 
   isTrellisProject() {
-    return existsSync(join(this.directory, ".trellis"))
+    return existsSync(join(this.directory, '.trellis'))
   }
 
   /**
@@ -46,11 +46,11 @@ export class TrellisContext {
    */
   getCurrentTask() {
     try {
-      const currentTaskPath = join(this.directory, ".trellis", ".current-task")
+      const currentTaskPath = join(this.directory, '.trellis', '.current-task')
       if (!existsSync(currentTaskPath)) {
         return null
       }
-      const taskRef = readFileSync(currentTaskPath, "utf-8").trim()
+      const taskRef = readFileSync(currentTaskPath, 'utf-8').trim()
       const normalized = this.normalizeTaskRef(taskRef)
       return normalized || null
     } catch {
@@ -60,19 +60,19 @@ export class TrellisContext {
 
   normalizeTaskRef(taskRef) {
     if (!taskRef) {
-      return ""
+      return ''
     }
 
     if (isAbsolute(taskRef)) {
       return taskRef.trim()
     }
 
-    let normalized = taskRef.trim().replace(/\\/g, "/")
-    while (normalized.startsWith("./")) {
+    let normalized = taskRef.trim().replace(/\\/g, '/')
+    while (normalized.startsWith('./')) {
       normalized = normalized.slice(2)
     }
 
-    if (normalized.startsWith("tasks/")) {
+    if (normalized.startsWith('tasks/')) {
       return `.trellis/${normalized}`
     }
 
@@ -89,11 +89,11 @@ export class TrellisContext {
       return normalized
     }
 
-    if (normalized.startsWith(".trellis/")) {
+    if (normalized.startsWith('.trellis/')) {
       return join(this.directory, normalized)
     }
 
-    return join(this.directory, ".trellis", "tasks", normalized)
+    return join(this.directory, '.trellis', 'tasks', normalized)
   }
 
   // ============================================================
@@ -103,7 +103,7 @@ export class TrellisContext {
   readFile(filePath) {
     try {
       if (existsSync(filePath)) {
-        return readFileSync(filePath, "utf-8")
+        return readFileSync(filePath, 'utf-8')
       }
     } catch {
       // Ignore read errors
@@ -120,12 +120,12 @@ export class TrellisContext {
       const result = execSync(`${PYTHON_CMD} "${scriptPath}"`, {
         cwd: cwd || this.directory,
         timeout: 10000,
-        encoding: "utf-8",
-        stdio: ["pipe", "pipe", "pipe"]
+        encoding: 'utf-8',
+        stdio: ['pipe', 'pipe', 'pipe'],
       })
-      return result || ""
+      return result || ''
     } catch {
-      return ""
+      return ''
     }
   }
 
@@ -143,7 +143,7 @@ export class TrellisContext {
 
     try {
       const files = readdirSync(fullPath)
-        .filter(f => f.endsWith(".md"))
+        .filter((f) => f.endsWith('.md'))
         .sort()
         .slice(0, maxFiles)
 
@@ -172,16 +172,16 @@ export class TrellisContext {
     const content = this.readFile(jsonlPath)
     if (!content) return results
 
-    for (const line of content.split("\n")) {
+    for (const line of content.split('\n')) {
       if (!line.trim()) continue
       try {
         const item = JSON.parse(line)
         const file = item.file || item.path
-        const entryType = item.type || "file"
+        const entryType = item.type || 'file'
 
         if (!file) continue
 
-        if (entryType === "directory") {
+        if (entryType === 'directory') {
           const dirEntries = this.readDirectoryMdFiles(file)
           results.push(...dirEntries)
         } else {
@@ -199,7 +199,7 @@ export class TrellisContext {
   }
 
   buildContextFromEntries(entries) {
-    return entries.map(e => `=== ${e.path} ===\n${e.content}`).join("\n\n")
+    return entries.map((e) => `=== ${e.path} ===\n${e.content}`).join('\n\n')
   }
 }
 

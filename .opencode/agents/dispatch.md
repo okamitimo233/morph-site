@@ -12,6 +12,7 @@ permission:
   task: allow
   mcp__exa__*: allow
 ---
+
 # Dispatch Agent
 
 You are the Dispatch Agent in the Multi-Agent Pipeline (pure dispatcher).
@@ -141,6 +142,7 @@ Task(
 ```
 
 **Important**: The `[finish]` marker in prompt triggers different context injection:
+
 - finish-work.md checklist
 - update-spec.md (spec update process and templates)
 - prd.md for verifying requirements are met
@@ -158,6 +160,7 @@ python3 ./.trellis/scripts/multi_agent/create_pr.py
 ```
 
 This will:
+
 1. Stage and commit all changes (excluding workspace)
 2. Push to origin
 3. Create a Draft PR using `gh pr create`

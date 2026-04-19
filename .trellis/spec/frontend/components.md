@@ -69,7 +69,7 @@ When displaying empty states in flex-column layouts with headers, use negative m
         <EmptyState />
       </div>
     </div>
-  );
+  )
 }
 
 // Bad - Mathematical centering looks "off" visually
@@ -78,7 +78,7 @@ When displaying empty states in flex-column layouts with headers, use negative m
     <div className="flex-1 flex items-center justify-center">
       <EmptyState />
     </div>
-  );
+  )
 }
 ```
 
@@ -179,42 +179,42 @@ Scrollbars should be invisible by default and fade in/out smoothly on hover. Thi
 **Scroll Detection Hook** (for showing scrollbar during active scroll):
 
 ```tsx
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react'
 
 function useScrolling<T extends HTMLElement>() {
-  const ref = useRef<T>(null);
-  const [isScrolling, setIsScrolling] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const ref = useRef<T>(null)
+  const [isScrolling, setIsScrolling] = useState(false)
+  const timeoutRef = useRef<NodeJS.Timeout>()
 
   useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
+    const element = ref.current
+    if (!element) return
 
     const handleScroll = () => {
-      setIsScrolling(true);
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = setTimeout(() => setIsScrolling(false), 1000);
-    };
+      setIsScrolling(true)
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = setTimeout(() => setIsScrolling(false), 1000)
+    }
 
-    element.addEventListener('scroll', handleScroll, { passive: true });
+    element.addEventListener('scroll', handleScroll, { passive: true })
     return () => {
-      element.removeEventListener('scroll', handleScroll);
-      clearTimeout(timeoutRef.current);
-    };
-  }, []);
+      element.removeEventListener('scroll', handleScroll)
+      clearTimeout(timeoutRef.current)
+    }
+  }, [])
 
-  return { ref, isScrolling };
+  return { ref, isScrolling }
 }
 
 // Usage
 function MyScrollableList() {
-  const { ref, isScrolling } = useScrolling<HTMLDivElement>();
+  const { ref, isScrolling } = useScrolling<HTMLDivElement>()
 
   return (
     <div ref={ref} className={`overflow-y-auto scrollable ${isScrolling ? 'is-scrolling' : ''}`}>
       {/* content */}
     </div>
-  );
+  )
 }
 ```
 
@@ -227,22 +227,22 @@ Implement a toast notification system for user feedback:
 ### Basic Usage
 
 ```tsx
-import { useToast } from '../hooks/useToast';
+import { useToast } from '../hooks/useToast'
 
 function MyComponent() {
-  const { toast } = useToast();
+  const { toast } = useToast()
 
   const handleAction = async () => {
     try {
-      await someAsyncOperation();
-      toast.success('Operation completed!');
+      await someAsyncOperation()
+      toast.success('Operation completed!')
     } catch (error) {
-      toast.error('Something went wrong');
+      toast.error('Something went wrong')
     }
-  };
+  }
 
   // Info toast for neutral messages
-  toast.info('Processing...');
+  toast.info('Processing...')
 }
 ```
 
@@ -266,10 +266,10 @@ function MyComponent() {
 
 ```tsx
 // Custom duration (5 seconds)
-toast.success('Saved!', 5000);
+toast.success('Saved!', 5000)
 
 // Shorter duration (1.5 seconds)
-toast.info('Copied', 1500);
+toast.info('Copied', 1500)
 ```
 
 ---
@@ -306,11 +306,11 @@ dnd-kit's `SortableContext` works best with flat lists. Flatten the tree while p
 
 ```tsx
 interface FlattenedTreeItem {
-  node: TreeNode;
-  depth: number;
-  ancestorIds: string[]; // For circular reference prevention
-  parentId: string | null;
-  index: number;
+  node: TreeNode
+  depth: number
+  ancestorIds: string[] // For circular reference prevention
+  parentId: string | null
+  index: number
 }
 ```
 
@@ -334,20 +334,19 @@ For items (non-containers), it's simply top/bottom 50%.
 ### Basic Usage
 
 ```tsx
-import { SortableTree } from './components/dnd';
-
-<SortableTree
+import { SortableTree } from './components/dnd'
+;<SortableTree
   nodes={treeNodes}
   expandedIds={expandedIds}
   onToggle={handleToggle}
   onNodeClick={handleNodeClick}
   onMoveNode={async (nodeId, nodeType, newParentId, newParentPath) => {
     // Call API to update parent
-    await api.updateNode({ nodeId, parentId: newParentId });
+    await api.updateNode({ nodeId, parentId: newParentId })
   }}
   rootPath="/root"
   rootEntityId={rootId}
-/>;
+/>
 ```
 
 ---
@@ -376,45 +375,45 @@ Use consistent focus styles:
 For modals and dialogs, trap focus within the container:
 
 ```tsx
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react'
 
 function useFocusTrap<T extends HTMLElement>() {
-  const ref = useRef<T>(null);
+  const ref = useRef<T>(null)
 
   useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
+    const element = ref.current
+    if (!element) return
 
     const focusableElements = element.querySelectorAll(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
+    )
 
-    const firstElement = focusableElements[0] as HTMLElement;
-    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+    const firstElement = focusableElements[0] as HTMLElement
+    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== 'Tab') return;
+      if (e.key !== 'Tab') return
 
       if (e.shiftKey) {
         if (document.activeElement === firstElement) {
-          e.preventDefault();
-          lastElement.focus();
+          e.preventDefault()
+          lastElement.focus()
         }
       } else {
         if (document.activeElement === lastElement) {
-          e.preventDefault();
-          firstElement.focus();
+          e.preventDefault()
+          firstElement.focus()
         }
       }
-    };
+    }
 
-    element.addEventListener('keydown', handleKeyDown);
-    firstElement?.focus();
+    element.addEventListener('keydown', handleKeyDown)
+    firstElement?.focus()
 
-    return () => element.removeEventListener('keydown', handleKeyDown);
-  }, []);
+    return () => element.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
-  return ref;
+  return ref
 }
 ```
 
@@ -426,7 +425,7 @@ function useFocusTrap<T extends HTMLElement>() {
 
 ```tsx
 function Skeleton({ className }: { className?: string }) {
-  return <div className={`animate-pulse bg-muted rounded ${className}`} />;
+  return <div className={`animate-pulse bg-muted rounded ${className}`} />
 }
 
 // Usage
@@ -437,7 +436,7 @@ function ListSkeleton() {
       <Skeleton className="h-10 w-full" />
       <Skeleton className="h-10 w-3/4" />
     </div>
-  );
+  )
 }
 ```
 
@@ -456,7 +455,7 @@ function Button({ isLoading, children, ...props }: ButtonProps) {
         children
       )}
     </button>
-  );
+  )
 }
 ```
 

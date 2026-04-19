@@ -50,17 +50,17 @@ updatedAt: integer("updatedAt", { mode: "timestamp_ms" })
 
 /** Current time in milliseconds */
 export function nowMillis(): number {
-  return Date.now();
+  return Date.now()
 }
 
 /** Convert Date to Unix milliseconds */
 export function toUnixMillis(date: Date): number {
-  return date.getTime();
+  return date.getTime()
 }
 
 /** Convert Unix milliseconds to Date */
 export function fromUnixMillis(millis: number): Date {
-  return new Date(millis);
+  return new Date(millis)
 }
 ```
 
@@ -74,13 +74,13 @@ export const itemSchema = z.object({
   // Use z.number() for timestamps
   createdAt: z.number(), // Unix milliseconds
   updatedAt: z.number(), // Unix milliseconds
-});
+})
 
 // Nullable timestamps
 export const scheduleSchema = z.object({
   scheduledAt: z.number().nullable(), // Unix milliseconds or null
   createdAt: z.number(),
-});
+})
 ```
 
 ### 4. Response Formatting
@@ -97,14 +97,14 @@ return {
     createdAt: result.createdAt.getTime(), // number
     updatedAt: result.updatedAt.getTime(), // number
   },
-};
+}
 
 // WRONG - Never use .toISOString() in data responses
 return {
   item: {
     createdAt: result.createdAt.toISOString(), // string - FORBIDDEN
   },
-};
+}
 ```
 
 ---
@@ -115,14 +115,14 @@ return {
 
 ```typescript
 // FORBIDDEN
-createdAt: item.createdAt.toISOString();
+createdAt: item.createdAt.toISOString()
 ```
 
 ### Using z.string().datetime() in Schemas
 
 ```typescript
 // FORBIDDEN
-createdAt: z.string().datetime();
+createdAt: z.string().datetime()
 ```
 
 ### Mixing Seconds and Milliseconds
@@ -182,11 +182,11 @@ Using milliseconds prevents this class of bugs.
 
 ## Related Documents
 
-| Document | Purpose |
-|----------|---------|
+| Document                                                                      | Purpose                                               |
+| ----------------------------------------------------------------------------- | ----------------------------------------------------- |
 | [big-question/timestamp-precision.md](../big-question/timestamp-precision.md) | Deep dive: timestamp precision mismatch investigation |
-| [guides/semantic-change-checklist.md](../guides/semantic-change-checklist.md) | Changing data semantics safely |
-| [shared/typescript.md](./typescript.md) | TypeScript best practices |
+| [guides/semantic-change-checklist.md](../guides/semantic-change-checklist.md) | Changing data semantics safely                        |
+| [shared/typescript.md](./typescript.md)                                       | TypeScript best practices                             |
 
 ---
 

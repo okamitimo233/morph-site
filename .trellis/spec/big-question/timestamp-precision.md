@@ -26,10 +26,10 @@ Drizzle ORM's SQLite integer columns have two timestamp modes:
 
 ```typescript
 // Stores as SECONDS
-createdAt: integer('createdAt', { mode: 'timestamp' });
+createdAt: integer('createdAt', { mode: 'timestamp' })
 
 // Stores as MILLISECONDS
-createdAt: integer('createdAt', { mode: 'timestamp_ms' });
+createdAt: integer('createdAt', { mode: 'timestamp_ms' })
 ```
 
 The default behavior and JavaScript's expectations don't match:
@@ -53,14 +53,14 @@ export const myTable = sqliteTable('myTable', {
   id: text('id').primaryKey(),
   createdAt: integer('createdAt', { mode: 'timestamp' }),
   updatedAt: integer('updatedAt', { mode: 'timestamp' }),
-});
+})
 
 // After (milliseconds)
 export const myTable = sqliteTable('myTable', {
   id: text('id').primaryKey(),
   createdAt: integer('createdAt', { mode: 'timestamp_ms' }),
   updatedAt: integer('updatedAt', { mode: 'timestamp_ms' }),
-});
+})
 ```
 
 ### 2. Create Data Migration
@@ -116,10 +116,10 @@ The documentation doesn't prominently warn about this difference. Always check:
 
 ```typescript
 {
-  mode: 'timestamp';
+  mode: 'timestamp'
 } // Seconds - probably not what you want
 {
-  mode: 'timestamp_ms';
+  mode: 'timestamp_ms'
 } // Milliseconds - matches JavaScript
 ```
 
@@ -135,17 +135,17 @@ Because the SQLite column type doesn't change (`INTEGER` in both cases), Drizzle
 ```typescript
 // Test helper
 function testTimestamp(table: string) {
-  const now = new Date();
-  const nowMs = now.getTime();
+  const now = new Date()
+  const nowMs = now.getTime()
 
   // Insert
-  db.insert(myTable).values({ createdAt: now }).run();
+  db.insert(myTable).values({ createdAt: now }).run()
 
   // Read back
-  const row = db.select().from(myTable).get();
+  const row = db.select().from(myTable).get()
 
   // Verify precision preserved
-  expect(row.createdAt.getTime()).toBe(nowMs);
+  expect(row.createdAt.getTime()).toBe(nowMs)
 }
 ```
 
@@ -164,10 +164,10 @@ When defining new schemas with timestamps:
 
 ## Related Specifications
 
-| Document | Purpose |
-|----------|---------|
-| [shared/timestamp.md](../shared/timestamp.md) | Timestamp format specification (authoritative) |
-| [guides/semantic-change-checklist.md](../guides/semantic-change-checklist.md) | Changing data semantics safely |
+| Document                                                                      | Purpose                                        |
+| ----------------------------------------------------------------------------- | ---------------------------------------------- |
+| [shared/timestamp.md](../shared/timestamp.md)                                 | Timestamp format specification (authoritative) |
+| [guides/semantic-change-checklist.md](../guides/semantic-change-checklist.md) | Changing data semantics safely                 |
 
 ---
 
