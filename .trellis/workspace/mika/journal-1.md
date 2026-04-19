@@ -426,3 +426,37 @@ GSAP 于 2024 年被 Webflow 收购后，所有插件（包括 MorphSVG）现已
 ### Next Steps
 
 - None - task complete
+
+
+## Session 7: Theme Toggle GSAP Animation
+
+**Date**: 2026-04-19
+**Task**: Theme Toggle GSAP Animation
+**Branch**: `main`
+
+### Summary
+
+Refactor ThemeToggle to single button with GSAP rotation/scale animation. Add smooth Canvas color interpolation for theme transitions. Document MorphSVG caveats in spec.
+
+### Main Changes
+
+(Add details)
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `38be1cb` | (see git log) |
+| `ce71a04` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
