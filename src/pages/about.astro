@@ -9,11 +9,15 @@
  * @see .trellis/spec/frontend/design-system.md - Design principles
  */
 
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Container from '../components/ui/Container.astro';
 import Tag from '../components/ui/Tag.astro';
 import Button from '../components/ui/Button.astro';
 import SocialLinks from '../components/shared/SocialLinks.astro';
+
+// Avatar image URL (can be local or remote)
+const avatarUrl = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop';
 
 // Skills and technologies
 const skills = {
@@ -58,11 +62,13 @@ const experience = [
               <div class="absolute inset-0 rounded-2xl bg-primary/10 blur-2xl scale-110"></div>
               <!-- Avatar container -->
               <div class="relative w-48 h-48 md:w-64 md:h-64 rounded-2xl overflow-hidden ring-4 ring-background shadow-2xl">
-                <img
-                  src="/avatar.jpg"
+                <Image
+                  src={avatarUrl}
                   alt="Profile photo"
                   class="w-full h-full object-cover"
                   loading="eager"
+                  width={256}
+                  height={256}
                 />
               </div>
             </div>
