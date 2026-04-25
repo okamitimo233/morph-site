@@ -6,11 +6,11 @@
 
 ## Core Principles
 
-| Principle | Description |
-|-----------|-------------|
-| **Always use gsap.context()** | Ensures proper cleanup and prevents memory leaks |
+| Principle                       | Description                                                         |
+| ------------------------------- | ------------------------------------------------------------------- |
+| **Always use gsap.context()**   | Ensures proper cleanup and prevents memory leaks                    |
 | **Prefer transform properties** | Use `x`, `y`, `scale`, `rotation`, `opacity` over layout properties |
-| **Client-side only** | GSAP requires `client:*` directive in Astro |
+| **Client-side only**            | GSAP requires `client:*` directive in Astro                         |
 
 ---
 
@@ -65,23 +65,23 @@ GSAP only works in hydrated components:
 
 ## Key GSAP Properties
 
-| Property | Description |
-|----------|-------------|
-| `duration` | Seconds (default 0.5) |
-| `ease` | Easing function (`power2.out`, `back.out`, etc.) |
-| `stagger` | Delay between each target (`0.1` or object) |
-| `repeat` | Number or `-1` for infinite |
-| `yoyo` | Alternates direction with repeat |
+| Property   | Description                                      |
+| ---------- | ------------------------------------------------ |
+| `duration` | Seconds (default 0.5)                            |
+| `ease`     | Easing function (`power2.out`, `back.out`, etc.) |
+| `stagger`  | Delay between each target (`0.1` or object)      |
+| `repeat`   | Number or `-1` for infinite                      |
+| `yoyo`     | Alternates direction with repeat                 |
 
 ### Transform Aliases
 
-| GSAP Property | CSS Equivalent |
-|---------------|----------------|
-| `x`, `y`, `z` | translateX/Y/Z (px) |
-| `xPercent`, `yPercent` | translateX/Y (%) |
-| `scale`, `scaleX`, `scaleY` | scale |
-| `rotation` | rotate (deg) |
-| `autoAlpha` | opacity + visibility |
+| GSAP Property               | CSS Equivalent       |
+| --------------------------- | -------------------- |
+| `x`, `y`, `z`               | translateX/Y/Z (px)  |
+| `xPercent`, `yPercent`      | translateX/Y (%)     |
+| `scale`, `scaleX`, `scaleY` | scale                |
+| `rotation`                  | rotate (deg)         |
+| `autoAlpha`                 | opacity + visibility |
 
 ---
 
@@ -136,12 +136,12 @@ gsap.from(ref.current, {
 
 ## Performance Rules
 
-| DO | DON'T |
-|----|-------|
-| Use `autoAlpha` over `opacity` | Animate `width`/`height` |
-| Add labels for readable sequencing | Skip cleanup |
-| Use `gsap.quickTo()` for mouse tracking | Create new tweens on every event |
-| Pass `defaults` into timeline constructor | Overuse `will-change` |
+| DO                                        | DON'T                            |
+| ----------------------------------------- | -------------------------------- |
+| Use `autoAlpha` over `opacity`            | Animate `width`/`height`         |
+| Add labels for readable sequencing        | Skip cleanup                     |
+| Use `gsap.quickTo()` for mouse tracking   | Create new tweens on every event |
+| Pass `defaults` into timeline constructor | Overuse `will-change`            |
 
 ---
 

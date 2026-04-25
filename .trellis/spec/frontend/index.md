@@ -17,7 +17,7 @@
 ## Documentation Files
 
 | File                                                 | Description                                     | Priority      |
-| ---------------------------------------------------- | ----------------------------------------------- | ------------- | ----------------------------------------- |
+| ---------------------------------------------------- | ----------------------------------------------- | ------------- |
 | [astro-integration.md](./astro-integration.md)       | Astro + React integration, client directives    | **Must Read** |
 | [islands-architecture.md](./islands-architecture.md) | Islands architecture, hydration patterns        | **Must Read** |
 | [astro-routing.md](./astro-routing.md)               | File-based routing, dynamic routes, endpoints   | **Must Read** |

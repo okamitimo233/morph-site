@@ -112,20 +112,6 @@ export function getRecentArticles(limit = 6): Article[] {
 }
 
 /**
- * Get article by ID
- */
-export function getArticleById(id: string): Article | undefined {
-  return articles.find((article) => article.id === id)
-}
-
-/**
- * Get articles by category
- */
-export function getArticlesByCategory(category: string): Article[] {
-  return articles.filter((article) => article.category.toLowerCase() === category.toLowerCase())
-}
-
-/**
  * Project interface for personal projects
  */
 export interface Project {
@@ -249,13 +235,4 @@ export function getAllProjects(): Project[] {
  */
 export function getProjectsByStatus(status: Project['status']): Project[] {
   return projects.filter((project) => project.status === status)
-}
-
-/**
- * Get articles by tag
- */
-export function getArticlesByTag(tag: string): Article[] {
-  return articles.filter((article) =>
-    article.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
-  )
 }

@@ -6,24 +6,24 @@
 
 ## Core Principles
 
-| Principle | Description |
-|-----------|-------------|
-| **No Provider needed** | v3 does not require `HeroUIProvider` |
-| **Compound components** | Use `<Card><Card.Header><Card.Title>` structure |
-| **Semantic variants** | Use `primary`, `secondary`, `danger` over visual descriptions |
-| **Use `onPress`** | Prefer `onPress` over `onClick` for accessibility |
+| Principle               | Description                                                   |
+| ----------------------- | ------------------------------------------------------------- |
+| **No Provider needed**  | v3 does not require `HeroUIProvider`                          |
+| **Compound components** | Use `<Card><Card.Header><Card.Title>` structure               |
+| **Semantic variants**   | Use `primary`, `secondary`, `danger` over visual descriptions |
+| **Use `onPress`**       | Prefer `onPress` over `onClick` for accessibility             |
 
 ---
 
 ## Semantic Variants
 
-| Variant | Purpose | Usage |
-|---------|---------|-------|
-| `primary` | Main action to move forward | 1 per context |
-| `secondary` | Alternative actions | Multiple |
-| `tertiary` | Dismissive actions (cancel, skip) | Sparingly |
-| `danger` | Destructive actions | When needed |
-| `ghost` | Low-emphasis actions | Minimal weight |
+| Variant     | Purpose                           | Usage          |
+| ----------- | --------------------------------- | -------------- |
+| `primary`   | Main action to move forward       | 1 per context  |
+| `secondary` | Alternative actions               | Multiple       |
+| `tertiary`  | Dismissive actions (cancel, skip) | Sparingly      |
+| `danger`    | Destructive actions               | When needed    |
+| `ghost`     | Low-emphasis actions              | Minimal weight |
 
 ---
 
@@ -44,7 +44,7 @@ import { Button } from '@heroui/react'
 ```tsx
 import { Card, Button } from '@heroui/react'
 
-<Card>
+;<Card>
   <Card.Header>
     <Card.Title>Title</Card.Title>
     <Card.Description>Description</Card.Description>
@@ -63,7 +63,7 @@ import { Card, Button } from '@heroui/react'
 ```tsx
 import { Modal, Button } from '@heroui/react'
 
-<Modal open={open} onOpenChange={setOpen}>
+;<Modal open={open} onOpenChange={setOpen}>
   <Modal.Header>
     <Modal.Title>Confirm</Modal.Title>
   </Modal.Header>
@@ -71,8 +71,12 @@ import { Modal, Button } from '@heroui/react'
     <p>Are you sure?</p>
   </Modal.Content>
   <Modal.Footer>
-    <Button variant="tertiary" onPress={() => setOpen(false)}>Cancel</Button>
-    <Button variant="primary" onPress={handleConfirm}>Confirm</Button>
+    <Button variant="tertiary" onPress={() => setOpen(false)}>
+      Cancel
+    </Button>
+    <Button variant="primary" onPress={handleConfirm}>
+      Confirm
+    </Button>
   </Modal.Footer>
 </Modal>
 ```
