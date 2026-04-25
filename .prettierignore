@@ -38,5 +38,8 @@ logs/
 # Test coverage
 coverage/
 
-# Trellis workspace journals (auto-generated)
+# Trellis
 .trellis/workspace/*/journal-*.md
+.trellis/workspace/*/index.md
+.trellis/.backup*/
+.trellis/.ralph-state.json
