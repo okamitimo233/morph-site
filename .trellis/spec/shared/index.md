@@ -71,4 +71,24 @@
 
 ---
 
+## Pre-Development Checklist
+
+Before any coding, ensure:
+
+- [ ] Read [code-quality.md](./code-quality.md) for mandatory rules
+- [ ] Check [typescript.md](./typescript.md) for type annotations
+- [ ] Review [git-conventions.md](./git-conventions.md) for commit format
+
+## Quality Check
+
+Before every commit:
+
+- [ ] `pnpm format:check` passes
+- [ ] `pnpm lint` - 0 errors
+- [ ] `pnpm typecheck` - 0 errors
+- [ ] No non-null assertions (`!`)
+- [ ] Commit message follows format
+
+---
+
 **Language**: All documentation must be written in **English**.

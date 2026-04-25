@@ -68,30 +68,31 @@ import { User, createUser } from './types'
 
 ---
 
-## Zod Schema for Runtime Validation
+## Runtime Validation
 
-Use Zod for all external data validation:
+For runtime validation of external data, consider using a validation library:
 
 ```typescript
-import { z } from 'zod'
-
-// Define schema
-const userInputSchema = z.object({
-  name: z.string().min(1).max(100),
-  email: z.string().email(),
-  age: z.number().int().min(0).optional(),
-})
-
-// Derive type from schema
-type UserInput = z.infer<typeof userInputSchema>
-
-// Validate input
-const parseResult = userInputSchema.safeParse(rawInput)
-if (!parseResult.success) {
-  return { success: false, error: parseResult.error.issues[0].message }
+// Manual validation with type guards
+function isUser(value: unknown): value is User {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'id' in value &&
+    'email' in value &&
+    typeof (value as User).id === 'string' &&
+    typeof (value as User).email === 'string'
+  )
 }
-const validInput = parseResult.data
+
+// Usage
+const data: unknown = JSON.parse(response)
+if (isUser(data)) {
+  console.log(data.email) // Type-safe
+}
 ```
+
+> **Note**: If you need schema-based validation, install a library like Zod (`pnpm add zod`).
 
 ---
 
@@ -142,12 +143,6 @@ function isUser(value: unknown): value is User {
 const data: unknown = JSON.parse(response)
 if (isUser(data)) {
   console.log(data.email) // TypeScript knows it's a User
-}
-
-// With Zod (simpler)
-const parseResult = userSchema.safeParse(data)
-if (parseResult.success) {
-  console.log(parseResult.data.email) // Type-safe
 }
 ```
 
@@ -248,9 +243,8 @@ doSomething(validArg)
 | --------------------- | --------------------------- |
 | Explicit return types | Documentation, catch errors |
 | `import type`         | Clear separation            |
-| Zod for validation    | Runtime type safety         |
-| `=== true` for unions | Proper narrowing            |
 | Type guards           | Runtime checks              |
+| `=== true` for unions | Proper narrowing            |
 | Generics              | Reusability                 |
 | Utility types         | DRY types                   |
 | Avoid `any`           | Type safety                 |

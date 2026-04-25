@@ -31,8 +31,8 @@ Run these checks before committing:
 # 1. Format check
 pnpm format:check
 
-# 2. Type check
-pnpm exec tsc --noEmit
+# 2. Type check (Astro + TypeScript)
+pnpm typecheck
 
 # 3. Lint (ESLint)
 pnpm lint
@@ -47,7 +47,7 @@ pnpm build
 **Checklist**:
 
 - [ ] `pnpm format:check` - Code is properly formatted
-- [ ] `pnpm exec tsc --noEmit` - No type errors
+- [ ] `pnpm typecheck` - No type errors
 - [ ] `pnpm lint` - 0 errors, 0 warnings
 - [ ] `pnpm build` - Build succeeds
 - [ ] Manual testing passes

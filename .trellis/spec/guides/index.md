@@ -148,4 +148,21 @@ Found a new "didn't think of that" moment? Add it:
 
 ---
 
+## Pre-Development Checklist
+
+Before starting any non-trivial implementation:
+
+- [ ] Read [pre-implementation-checklist.md](./pre-implementation-checklist.md)
+- [ ] Search for existing patterns before creating new ones
+- [ ] Identify potential cross-layer impacts
+
+## Quality Check
+
+After completing a feature:
+
+- [ ] Apply [semantic-change-checklist.md](./semantic-change-checklist.md) if data semantics changed
+- [ ] Run [bug-root-cause-thinking-guide.md](./bug-root-cause-thinking-guide.md) for any bugs fixed
+
+---
+
 **Language**: All documentation should be written in **English**.

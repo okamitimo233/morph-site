@@ -23,7 +23,7 @@
 | [astro-routing.md](./astro-routing.md)               | File-based routing, dynamic routes, endpoints   | **Must Read** |
 | [react-pitfalls.md](./react-pitfalls.md)             | Critical React patterns and common mistakes     | **Must Read** |
 | [tailwind-css.md](./tailwind-css.md)                 | Tailwind CSS 4 configuration and patterns       | **Must Read** |
-| [design-system.md](./design-system.md)               | High-quality UI design principles               | Reference     | [Examples](./examples/skills/impeccable/) |
+| [design-system.md](./design-system.md)               | High-quality UI design principles               | Reference     |
 | [gsap-animation.md](./gsap-animation.md)             | GSAP integration and animation patterns         | Reference     |
 | [heroui-components.md](./heroui-components.md)       | HeroUI v3 component library patterns            | Reference     |
 | [state-management.md](./state-management.md)         | Context, state patterns, data fetching          | Reference     |
@@ -49,14 +49,14 @@
 
 ### During Development
 
-| Task                  | Document                                       | Examples                                                    |
-| --------------------- | ---------------------------------------------- | ----------------------------------------------------------- |
-| Style with Tailwind   | [tailwind-css.md](./tailwind-css.md)           | -                                                           |
-| Add animations        | [gsap-animation.md](./gsap-animation.md)       | [GSAP Examples](./examples/skills/gsap/)                    |
-| Use HeroUI components | [heroui-components.md](./heroui-components.md) | [HeroUI Examples](./examples/skills/heroui-react/)          |
-| Manage state          | [state-management.md](./state-management.md)   | -                                                           |
-| Build UI components   | [components.md](./components.md)               | -                                                           |
-| Ensure type safety    | [type-safety.md](./type-safety.md)             | [TS Examples](./examples/skills/typescript-advanced-types/) |
+| Task                  | Document                                       |
+| --------------------- | ---------------------------------------------- |
+| Style with Tailwind   | [tailwind-css.md](./tailwind-css.md)           |
+| Add animations        | [gsap-animation.md](./gsap-animation.md)       |
+| Use HeroUI components | [heroui-components.md](./heroui-components.md) |
+| Manage state          | [state-management.md](./state-management.md)   |
+| Build UI components   | [components.md](./components.md)               |
+| Ensure type safety    | [type-safety.md](./type-safety.md)             |
 
 ### Before Committing
 
@@ -132,6 +132,26 @@
 | `guides/`       | Thinking guides          | Apply thinking patterns when implementing frontend    |
 
 **Key principle**: Frontend specs extend shared standards with frontend-specific content. Always check `shared/` for base standards first.
+
+---
+
+## Pre-Development Checklist
+
+Before writing frontend code, read:
+
+- [ ] [astro-integration.md](./astro-integration.md) - Understand client directives
+- [ ] [islands-architecture.md](./islands-architecture.md) - Know when to hydrate
+- [ ] [react-pitfalls.md](./react-pitfalls.md) - Avoid common React mistakes
+- [ ] [tailwind-css.md](./tailwind-css.md) - Tailwind 4 patterns
+
+## Quality Check
+
+After writing code:
+
+1. Run `pnpm lint && pnpm typecheck`
+2. Check relevant guidelines above
+3. Verify no non-null assertions (`!`)
+4. Confirm correct `client:*` directive
 
 ---
 

@@ -19,7 +19,6 @@
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],
-      "@features/*": ["src/features/*"],
       "@lib/*": ["src/lib/*"],
       "@styles/*": ["src/styles/*"]
     },
@@ -146,7 +145,6 @@ import { formatDate } from '@lib/utils';
 
 ```tsx
 // Using path aliases in React components
-import { useAuth } from '@features/auth/hooks'
 import { Button } from '@components/ui/Button'
 import { API_URL } from '@lib/constants'
 import type { User } from '@lib/types/user'
@@ -309,16 +307,12 @@ const { data: users, isLoading } = useFetch<User[]>('/api/users')
 
 ## Advanced Type Patterns
 
-For complex type-safe patterns (conditional types, mapped types, template literal types, discriminated unions), see the TypeScript Advanced Types examples:
+For complex type-safe patterns (conditional types, mapped types, template literal types, discriminated unions), use the `@typescript-advanced-types` skill:
 
-| Example                           | File                                                                        | Use Case                 |
-| --------------------------------- | --------------------------------------------------------------------------- | ------------------------ |
-| Typed event emitter               | `examples/skills/typescript-advanced-types/typed-event-emitter.ts.template` | Type-safe pub/sub system |
-| Deep utility types                | `examples/skills/typescript-advanced-types/deep-utils.ts.template`          | Deep Readonly/Partial    |
-| Type-safe API client              | `examples/skills/typescript-advanced-types/api-client.ts.template`          | Endpoints with types     |
-| Discriminated union state machine | `examples/skills/typescript-advanced-types/discriminated-union.ts.template` | State machines           |
-
-**Usage**: Copy `.template` file → Remove `.template` suffix → Adapt to your domain
+- **Conditional types** - `T extends U ? X : Y`
+- **Mapped types** - `{ [K in keyof T]: V }`
+- **Template literal types** - `` `prefix-${T}` ``
+- **Discriminated unions** - Type-safe state machines
 
 **Key concepts**: Conditional types, mapped types, template literal types, `infer` keyword
 

@@ -208,49 +208,6 @@ try {
 
 ---
 
-## Testing Guidelines
-
-### Test File Location
-
-```
-src/
-├── utils/
-│   ├── date-utils.ts
-│   └── date-utils.test.ts    # Co-located test
-└── __tests__/                 # Integration tests
-    └── api.test.ts
-```
-
-### Test Naming
-
-```typescript
-describe("DateUtils", () => {
-  describe("formatDate", () => {
-    it("should format date in ISO format", () => { ... });
-    it("should handle null input", () => { ... });
-    it("should throw on invalid date", () => { ... });
-  });
-});
-```
-
-### Test Structure (AAA Pattern)
-
-```typescript
-it('should create a project', async () => {
-  // Arrange
-  const input = { name: 'Test Project' }
-
-  // Act
-  const result = createProject(input)
-
-  // Assert
-  expect(result.success).toBe(true)
-  expect(result.project.name).toBe('Test Project')
-})
-```
-
----
-
 ## Related Documents
 
 | Document                                                                              | Purpose                              |

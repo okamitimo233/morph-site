@@ -131,4 +131,25 @@ Most issues apply to similar stacks.
 
 ---
 
+## Pre-Development Checklist
+
+Before investigating a complex issue:
+
+- [ ] Is this a non-obvious root cause (not a simple bug)?
+- [ ] Does it involve multiple contributing factors?
+- [ ] Will the lesson be valuable for future development?
+
+If all yes → Document here. Otherwise, use standard debugging.
+
+## Quality Check
+
+After documenting an investigation:
+
+- [ ] Problem statement is clear
+- [ ] Root cause analysis is thorough
+- [ ] Solution is documented with code examples
+- [ ] Prevention checklist is included
+
+---
+
 **Language**: All documentation must be written in **English**.

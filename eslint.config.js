@@ -16,6 +16,7 @@ export default [
       '*.config.js',
       '*.config.mjs',
       '.agents/', // Agent skill scripts
+      '.trellis/.backup*/', // Trellis backup directories
     ],
   },
 

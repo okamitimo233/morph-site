@@ -219,17 +219,13 @@ Review the DON'T guidelines above. They are the fingerprints of AI-generated wor
 
 ---
 
-## Code Examples
+## Design Tokens
 
-Design token templates following these principles:
+For design token templates (typography scale, color tokens, spacing scale), use the `@impeccable` skill:
 
-| Example          | File                                                       | Use Case                 |
-| ---------------- | ---------------------------------------------------------- | ------------------------ |
-| Typography scale | `examples/skills/impeccable/typography-scale.css.template` | Fluid modular type scale |
-| Color tokens     | `examples/skills/impeccable/color-tokens.css.template`     | OKLCH theme tokens       |
-| Spacing scale    | `examples/skills/impeccable/spacing-scale.css.template`    | 4pt spacing system       |
-
-**Usage**: Copy `.template` file → Remove `.template` suffix → Adapt to your design tokens
+- **Typography scale** - Fluid modular type scale
+- **Color tokens** - OKLCH theme tokens
+- **Spacing scale** - 4pt spacing system
 
 **Key principles**: Modular typography, OKLCH colors, 4pt spacing, absolute bans on side-stripes and gradient text
 
