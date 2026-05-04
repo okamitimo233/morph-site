@@ -38,8 +38,13 @@ logs/
 # Test coverage
 coverage/
 
-# Trellis
-.trellis/workspace/*/journal-*.md
-.trellis/workspace/*/index.md
-.trellis/.backup*/
-.trellis/.ralph-state.json
+# AI workflow and tooling (non-code)
+.trellis/
+.agents/
+.codex/
+.cursor/
+.opencode/
+.claude/
+
+# Documentation (optional - uncomment if needed)
+# docs/

@@ -59,9 +59,8 @@ This ensures that updates to the base Trellis framework can be merged without lo
 | Script                                   | Purpose                                   |
 | ---------------------------------------- | ----------------------------------------- |
 | `.trellis/scripts/sync_agents.py`        | Synchronize agent prompts and jsonl files |
-| `.trellis/scripts/verify_ralph_loop.py`  | Verify Ralph Loop configuration           |
-| `.trellis/scripts/AGENT_SYNC_GUIDE.md`   | Agent synchronization guide               |
-| `.trellis/scripts/AGENT_SYNC_SUMMARY.md` | Summary of synchronization changes        |
+
+> Note: `verify_ralph_loop.py`, `AGENT_SYNC_GUIDE.md`, and `AGENT_SYNC_SUMMARY.md` were removed in the v0.5.0 migration (Multi-Agent Pipeline retired).
 
 ---
 
@@ -88,9 +87,9 @@ This ensures that updates to the base Trellis framework can be merged without lo
 - `typescript-language-server` moved from dependencies to devDependencies
 - Trellis spec files to include formatting requirements
 - **Agent Prompts** - Unified English identifiers for completion markers:
-  - `.claude/agents/check.md` - Updated completion marker examples
-  - `.claude/agents/implement.md` - Added explicit verification requirements
-  - `.claude/agents/debug.md` - Added explicit verification requirements
+  - `.claude/agents/trellis-check.md` - Updated completion marker examples
+  - `.claude/agents/trellis-implement.md` - Added explicit verification requirements
+  - Note: `debug.md` and `dispatch.md` agents were retired in v0.5.0 migration
 - **Task Context Files** - Normalized reason fields to English:
   - All `check.jsonl`, `implement.jsonl`, `debug.jsonl` files now use consistent English identifiers
   - Examples: `CodeQualityCheck`, `FrontendQualityCheck`, `GitConventionsCheck`
@@ -107,8 +106,8 @@ When updating the base Trellis framework:
 4. Review `shared/index.md` checklist - preserve format check item
 5. **Check agent prompts** - Ensure completion markers use English identifiers:
    - Run `.trellis/scripts/sync_agents.py` to sync jsonl files
-   - Verify `.claude/agents/check.md` completion marker examples match
-   - Ensure implement and debug agents have verification requirements
+   - Verify `.claude/agents/trellis-check.md` completion marker examples match
+   - Ensure trellis-implement and trellis-check agents have verification requirements
 
 ---
 

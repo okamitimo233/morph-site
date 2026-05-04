@@ -36,10 +36,10 @@ Use these instead of relative imports:
 
 **This project uses Trellis workflow** - see `.trellis/workflow.md` for the complete process.
 
-1. **Before starting**: Run `/trellis:start`
+1. **Before starting**: Run `/trellis:brainstorm` or `/trellis:continue`
 2. **Read guidelines**: `.trellis/spec/frontend/index.md` and `.trellis/spec/shared/index.md`
 3. **Before commit**: Run `pnpm lint && pnpm typecheck` (or use `/trellis:finish-work`)
-4. **After commit**: Run `/trellis:record-session`
+4. **After commit**: Session recording is part of `/trellis:finish-work`
 
 ## Project-Specific Details
 

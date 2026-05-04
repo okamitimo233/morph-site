@@ -5,23 +5,62 @@
  * JSONL parsing, and context building capabilities.
  */
 
-import { existsSync, readFileSync, appendFileSync, readdirSync } from 'fs'
-import { isAbsolute, join } from 'path'
-import { platform } from 'os'
-import { execSync } from 'child_process'
+import { existsSync, readFileSync, appendFileSync, readdirSync } from "fs"
+import { isAbsolute, join } from "path"
+import { platform } from "os"
+import { execSync } from "child_process"
+import { createHash } from "crypto"
+import process from "process"
 
-const PYTHON_CMD = platform() === 'win32' ? 'python' : 'python3'
+const PYTHON_CMD = platform() === "win32" ? "python" : "python3"
 // Debug logging
-const DEBUG_LOG = '/tmp/trellis-plugin-debug.log'
+const DEBUG_LOG = "/tmp/trellis-plugin-debug.log"
 
 function debugLog(prefix, ...args) {
   const timestamp = new Date().toISOString()
-  const msg = `[${timestamp}] [${prefix}] ${args.map((a) => (typeof a === 'object' ? JSON.stringify(a) : a)).join(' ')}\n`
+  const msg = `[${timestamp}] [${prefix}] ${args.map(a => typeof a === "object" ? JSON.stringify(a) : a).join(" ")}\n`
   try {
     appendFileSync(DEBUG_LOG, msg)
   } catch {
     // ignore
   }
+}
+
+function stringValue(value) {
+  return typeof value === "string" && value.trim() ? value.trim() : null
+}
+
+function sanitizeKey(raw) {
+  const safe = raw.trim().replace(/[^A-Za-z0-9._-]+/g, "_").replace(/^[._-]+|[._-]+$/g, "")
+  return safe ? safe.slice(0, 160) : ""
+}
+
+function hashValue(raw) {
+  return createHash("sha256").update(raw).digest("hex").slice(0, 24)
+}
+
+function lookupString(data, keys) {
+  if (!data || typeof data !== "object") return null
+  for (const key of keys) {
+    const value = stringValue(data[key])
+    if (value) return value
+  }
+  for (const nestedKey of ["input", "properties", "event", "hook_input", "hookInput"]) {
+    const nested = data[nestedKey]
+    if (nested && typeof nested === "object") {
+      const value = lookupString(nested, keys)
+      if (value) return value
+    }
+  }
+  return null
+}
+
+function buildContextKey(platformName, kind, value) {
+  if (kind === "transcript") {
+    return `${platformName}_transcript_${hashValue(value)}`
+  }
+  const safeValue = sanitizeKey(value)
+  return safeValue ? `${platformName}_${safeValue}` : `${platformName}_${hashValue(value)}`
 }
 
 /**
@@ -30,7 +69,7 @@ function debugLog(prefix, ...args) {
 export class TrellisContext {
   constructor(directory) {
     this.directory = directory
-    debugLog('context', 'TrellisContext initialized', { directory })
+    debugLog("context", "TrellisContext initialized", { directory })
   }
 
   // ============================================================
@@ -38,41 +77,85 @@ export class TrellisContext {
   // ============================================================
 
   isTrellisProject() {
-    return existsSync(join(this.directory, '.trellis'))
+    return existsSync(join(this.directory, ".trellis"))
   }
 
-  /**
-   * Get current task directory from .trellis/.current-task
-   */
-  getCurrentTask() {
+  getContextKey(platformInput = null) {
+    const override = stringValue(process.env.TRELLIS_CONTEXT_ID)
+    if (override) {
+      return sanitizeKey(override) || hashValue(override)
+    }
+
+    const runID = stringValue(process.env.OPENCODE_RUN_ID)
+    if (runID) return buildContextKey("opencode", "session", runID)
+
+    const input = platformInput && typeof platformInput === "object" ? platformInput : null
+    if (!input) return null
+
+    const sessionID = lookupString(input, ["session_id", "sessionId", "sessionID"])
+    if (sessionID) return buildContextKey("opencode", "session", sessionID)
+
+    const conversationID = lookupString(input, ["conversation_id", "conversationId", "conversationID"])
+    if (conversationID) return buildContextKey("opencode", "conversation", conversationID)
+
+    const transcriptPath = lookupString(input, ["transcript_path", "transcriptPath", "transcript"])
+    if (transcriptPath) return buildContextKey("opencode", "transcript", transcriptPath)
+
+    return null
+  }
+
+  readContext(contextKey) {
     try {
-      const currentTaskPath = join(this.directory, '.trellis', '.current-task')
-      if (!existsSync(currentTaskPath)) {
-        return null
-      }
-      const taskRef = readFileSync(currentTaskPath, 'utf-8').trim()
-      const normalized = this.normalizeTaskRef(taskRef)
-      return normalized || null
+      const contextPath = join(this.directory, ".trellis", ".runtime", "sessions", `${contextKey}.json`)
+      if (!existsSync(contextPath)) return null
+      return JSON.parse(readFileSync(contextPath, "utf-8"))
     } catch {
       return null
     }
   }
 
+  /**
+   * Get active task from session runtime context.
+   */
+  getActiveTask(platformInput = null) {
+    const contextKey = this.getContextKey(platformInput)
+    if (!contextKey) {
+      return { taskPath: null, source: "none", stale: false }
+    }
+
+    const context = this.readContext(contextKey)
+    const taskRef = this.normalizeTaskRef(context?.current_task || "")
+    if (taskRef) {
+      const taskDir = this.resolveTaskDir(taskRef)
+      return {
+        taskPath: taskRef,
+        source: `session:${contextKey}`,
+        stale: !taskDir || !existsSync(taskDir),
+      }
+    }
+
+    return { taskPath: null, source: "none", stale: false }
+  }
+
+  getCurrentTask(platformInput = null) {
+    return this.getActiveTask(platformInput).taskPath
+  }
+
   normalizeTaskRef(taskRef) {
     if (!taskRef) {
-      return ''
+      return ""
     }
 
     if (isAbsolute(taskRef)) {
       return taskRef.trim()
     }
 
-    let normalized = taskRef.trim().replace(/\\/g, '/')
-    while (normalized.startsWith('./')) {
+    let normalized = taskRef.trim().replace(/\\/g, "/")
+    while (normalized.startsWith("./")) {
       normalized = normalized.slice(2)
     }
 
-    if (normalized.startsWith('tasks/')) {
+    if (normalized.startsWith("tasks/")) {
       return `.trellis/${normalized}`
     }
 
@@ -89,11 +172,11 @@ export class TrellisContext {
       return normalized
     }
 
-    if (normalized.startsWith('.trellis/')) {
+    if (normalized.startsWith(".trellis/")) {
       return join(this.directory, normalized)
     }
 
-    return join(this.directory, '.trellis', 'tasks', normalized)
+    return join(this.directory, ".trellis", "tasks", normalized)
   }
 
   // ============================================================
@@ -103,7 +186,7 @@ export class TrellisContext {
   readFile(filePath) {
     try {
       if (existsSync(filePath)) {
-        return readFileSync(filePath, 'utf-8')
+        return readFileSync(filePath, "utf-8")
       }
     } catch {
       // Ignore read errors
@@ -115,17 +198,21 @@ export class TrellisContext {
     return this.readFile(join(this.directory, relativePath))
   }
 
-  runScript(scriptPath, cwd = null) {
+  runScript(scriptPath, cwd = null, contextKey = null) {
     try {
       const result = execSync(`${PYTHON_CMD} "${scriptPath}"`, {
         cwd: cwd || this.directory,
         timeout: 10000,
-        encoding: 'utf-8',
-        stdio: ['pipe', 'pipe', 'pipe'],
+        encoding: "utf-8",
+        stdio: ["pipe", "pipe", "pipe"],
+        env: {
+          ...process.env,
+          ...(contextKey ? { TRELLIS_CONTEXT_ID: contextKey } : {}),
+        },
       })
-      return result || ''
+      return result || ""
     } catch {
-      return ''
+      return ""
     }
   }
 
@@ -143,7 +230,7 @@ export class TrellisContext {
 
     try {
       const files = readdirSync(fullPath)
-        .filter((f) => f.endsWith('.md'))
+        .filter(f => f.endsWith(".md"))
         .sort()
         .slice(0, maxFiles)
 
@@ -172,16 +259,16 @@ export class TrellisContext {
     const content = this.readFile(jsonlPath)
     if (!content) return results
 
-    for (const line of content.split('\n')) {
+    for (const line of content.split("\n")) {
       if (!line.trim()) continue
       try {
         const item = JSON.parse(line)
         const file = item.file || item.path
-        const entryType = item.type || 'file'
+        const entryType = item.type || "file"
 
         if (!file) continue
 
-        if (entryType === 'directory') {
+        if (entryType === "directory") {
           const dirEntries = this.readDirectoryMdFiles(file)
           results.push(...dirEntries)
         } else {
@@ -199,7 +286,7 @@ export class TrellisContext {
   }
 
   buildContextFromEntries(entries) {
-    return entries.map((e) => `=== ${e.path} ===\n${e.content}`).join('\n\n')
+    return entries.map(e => `=== ${e.path} ===\n${e.content}`).join("\n\n")
   }
 }
 

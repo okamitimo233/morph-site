@@ -1,0 +1,5 @@
+{"file": ".trellis/tasks/05-04-migrate-to-0.5.0-rc.0/prd.md", "reason": "MigrationGuide"}
+{"file": ".trellis/workflow.md", "reason": "WorkflowGuide"}
+{"file": ".trellis/spec/shared/git-conventions.md", "reason": "GitConventions"}
+{"file": ".claude/settings.json", "reason": "ClaudeHookConfig"}
+{"file": ".codex/hooks.json", "reason": "CodexHookConfig"}
