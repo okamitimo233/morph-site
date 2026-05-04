@@ -627,3 +627,36 @@ Fixed theme toggle icon loading after navbar icons by using CSS-based initial vi
 ### Next Steps
 
 - None - task complete
+
+
+## Session 13: Migrate Trellis from v0.4.0 to v0.5.0-rc.0
+
+**Date**: 2026-05-04
+**Task**: Migrate Trellis from v0.4.0 to v0.5.0-rc.0
+**Branch**: `main`
+
+### Summary
+
+Completed v0.5.0-rc.0 migration: renamed agents/skills/commands with trellis- prefix, deleted retired commands (onboard, create-command, integrate-skill, check-cross-layer, record-session, parallel, start), deleted retired sub-agents (debug, dispatch, plan), removed Multi-Agent Pipeline/Ralph Loop remnants, removed .backup files, updated workflow.md and CLAUDE.md references, added Cursor platform support, added UserPromptSubmit workflow breadcrumb hook.
+
+### Main Changes
+
+(Add details)
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `854506a` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete

@@ -8,8 +8,8 @@
 
 <!-- @@@auto:current-status -->
 - **Active File**: `journal-1.md`
-- **Total Sessions**: 12
-- **Last Active**: 2026-04-19
+- **Total Sessions**: 13
+- **Last Active**: 2026-05-04
 <!-- @@@/auto:current-status -->
 
 ---
@@ -19,7 +19,7 @@
 <!-- @@@auto:active-documents -->
 | File | Lines | Status |
 |------|-------|--------|
-| `journal-1.md` | ~629 | Active |
+| `journal-1.md` | ~662 | Active |
 <!-- @@@/auto:active-documents -->
 
 ---
@@ -30,6 +30,7 @@
 
 | # | Date | Title | Commits | Branch |
 |---|------|-------|---------|--------|
+| 13 | 2026-05-04 | Migrate Trellis from v0.4.0 to v0.5.0-rc.0 | `854506a` | `main` |
 | 12 | 2026-04-19 | 项目配置现代化和清理 | `63c19c4` | `main` |
 | 11  | 2026-04-19 | Fix theme icon delayed loading                | `b1d987c`                                                                                                                                                                                 | `main`   |
 | 10  | 2026-04-19 | Fix theme toggle icon overlap on initial load | `42b0450`, `9a62bb4`                                                                                                                                                                      | `main`   |
